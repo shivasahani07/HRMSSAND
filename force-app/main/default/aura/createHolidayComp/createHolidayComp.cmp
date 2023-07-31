@@ -1,0 +1,58 @@
+<aura:component controller="FullCalendarController" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="newHoliday" type="Resource_Holiday_Mapping__c"
+                    default="{ 'sobjectType': 'Resource_Holiday_Mapping__c',
+                             'Holiday_Start_Date__c': '',
+                             'Holiday_End_Date__c': '',
+                             'Holiday_Reason__c': '',
+                             'Holiday_Type__c': '',
+                             'Half_Day__c': '' }" />
+    <aura:attribute name="message" type="String" default=""/>
+    
+    <lightning:card iconName="standard:contact" title="Add a Holiday">
+        <div class="slds-p-around_medium">
+            <lightning:layout>
+                
+                <lightning:layoutItem size="6" padding="around-small">
+                    <lightning:input type="date" required="true" label="Holiday Start Date" value="{!v.newHoliday.Holiday_Start_Date__c}"/>
+                    
+                    <lightning:select aura:id="select" name="select" label="Select a Type" value="{!v.newHoliday.Holiday_Type__c}">
+                        <option value="">choose one...</option>
+                        <option value="apple">Earned leave</option>
+                        <option value="pumpkin">National Holidays</option>
+                        <option value="cherry">Sick leave</option>
+                        <option value="blueberry">Casual leave</option>
+                        <option value="pickle">Leave without pay</option>
+                        <option value="blueberry">Maternity leave</option>
+                        <option value="pickle">Paternity leave</option>
+                    </lightning:select>
+                    
+                    <lightning:textarea aura:id="contact" label="Reason" value="{!v.newHoliday.Holiday_Reason__c}"/>
+                    
+                    
+                </lightning:layoutItem> 
+                <lightning:layoutItem size="6" padding="around-small">
+                    <lightning:input type="date" required="true" label="Holiday End Date" value="{!v.newHoliday.Holiday_End_Date__c}"/>
+                    
+                    <div class="slds-form-element">
+                        <br/>
+                        <div class="slds-form-element__control">
+                            <div class="slds-checkbox">
+                                <input type="checkbox" name="options" id="checkbox-unique-id-81" value="{!v.newHoliday.Half_Day__c}" />
+                                <label class="slds-checkbox__label" for="checkbox-unique-id-81">
+                                    <span class="slds-checkbox_faux"></span>
+                                    <span class="slds-form-element__label">Half Day ..?</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                
+            </lightning:layout>
+            <lightning:button label="Create Holiday" onclick="{!c.handleCreateHoliday}" variant="brand" class="slds-m-top_medium"/>
+            
+            <p>{!v.message}</p>
+        </div>
+    </lightning:card>
+    
+    
+</aura:component>

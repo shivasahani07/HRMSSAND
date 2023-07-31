@@ -1,0 +1,83 @@
+.container {
+        display: flex;
+        justify-content: center;
+        margin-right: 2rem;
+        height: 10vh;
+    }
+
+    .custom-icon {
+        color: #bc152a;
+        margin-right: 0.5rem;
+        font-size: 1.5rem;
+    }
+
+    .custom-heading {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background-color: #e1f3fc;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 30px;
+    cursor: pointer;
+}
+
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.summary-table th,
+.summary-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.header lightning-icon {
+    margin-right: 5px;
+}
+
+.pdf-button,
+.meeting-button {
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.pdf-button:hover,
+.meeting-button:hover {
+    background-color: whitesmoke;
+}
+
+.pdf-button lightning-icon,
+.meeting-button lightning-icon {
+    margin-right: 5px;
+}
+ .custom-button {
+        background-color: #bc152a;
+    }
+
+.slds-line-height_reset th,
+    .slds-line-height_reset td {
+        padding: 0.5rem 0.75rem;
+    }

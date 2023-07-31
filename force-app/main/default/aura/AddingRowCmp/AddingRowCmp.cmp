@@ -1,0 +1,39 @@
+<aura:component >
+    
+    <aura:attribute name="PRMInstance" type="Project_Resource_Mapping__c"/>
+    <aura:attribute name="rowIndex" type="String"/>
+ 
+    <aura:registerEvent name="DeleteRowEvent" type="c:DeleteRowEvent"/> 
+    <aura:registerEvent name="AddRowEvent" type="c:AddNewRowEvent"/> 
+    
+    <tr class="slds-text-title_caps">
+        <td> 
+            {!v.rowIndex + 1}
+        </td>
+        <td>
+            <ui:inputText class="slds-input" value="{!v.PRMInstance.Project}"/>
+        </td>
+        <td>
+            <ui:inputText class="slds-input" value="{!v.PRMInstance.Resource}"/>
+        </td>
+        <td>
+            <ui:inputPhone class="slds-input" value="{!v.PRMInstance.Type}"/>
+        </td>
+        <td>
+            <aura:if isTrue="{!v.rowIndex == 0}">
+                <a onclick="{!c.addNewRow}">
+                  <lightning:icon iconName="utility:add" class="slds-icon slds-icon_small" size="small" alternativeText="add"/>
+                  <span class="slds-assistive-text">Add Icon</span>
+                </a>    
+              <aura:set attribute="else">
+                  <a onclick="{!c.removeRow}">
+                   <lightning:icon variant="error" iconName="utility:delete" class="slds-icon slds-icon_small" size="small" alternativeText="icon"/>
+                   <span class="slds-assistive-text">Delete Icon</span> 
+                   <span class="slds-assistive-text">Add Icon</span>
+                  </a>
+              </aura:set> 
+            </aura:if>
+        </td> 
+    </tr>
+    
+</aura:component>

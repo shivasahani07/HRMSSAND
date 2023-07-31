@@ -1,0 +1,96 @@
+<aura:component controller="PE_UserDashboardController"  implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:searchInterface">
+        <ltng:require styles="{! $Resource.select2 + '/select2-4.0.3/dist/css/select2.min.css'}" scripts="{!join(',', 
+                           $Resource.PE_Jquery ,  
+                           $Resource.select2 + '/select2-4.0.3/dist/js/select2.js')
+                           }" afterScriptsLoaded="{!c.scriptsLoaded}" />
+        <!-- Attributes Declaration -->
+        <aura:attribute name="isOpen" type="boolean" default="false" />
+        <aura:attribute name="roles" type="String[]" />
+        <aura:attribute name="users" type="String[]" />
+        <aura:attribute name="selectedList" type="List" default="[]" />
+        <aura:attribute name="currentUsersList" type="List" default="[]" />
+        <aura:attribute name="allUsersData" type="List" default="[]" />
+        <aura:attribute name="listOptions" type="List" default="[]" />
+        <aura:attribute name="selectedOptions" type="List" default="[]" />
+        <aura:attribute name="errorMessage" type="String" default="" />
+        <aura:attribute name="onCreationOfFeedback" type="boolean" default="false" />
+         <aura:attribute name="SelectedUserNames" type="list" />
+        <!-- Event Declaration -->
+        <aura:registerEvent name="peInitialized" type="c:PE_InitiateEvent" />
+        <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> <br/><br/>
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}" />
+		<aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}" />
+		<!--create a component attributs -->
+		<aura:attribute name="Spinner" type="boolean" default="false" />
+		<aura:if isTrue="{!v.Spinner}">
+				<div aura:id="spinnerId" class="slds-spinner_container">
+						<div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert"> <span class="slds-assistive-text">Loading</span>
+								<div class="slds-spinner__dot-a"></div>
+								<div class="slds-spinner__dot-b"></div>
+						</div>
+				</div>
+		</aura:if>
+        <div>
+                <div style="float:left;width:55%"> <br/> <select style="width:68%" id="picklist" class="select2Class" multiple="multiple">
+                <aura:iteration items="{!v.users}" var="ur">
+                    <option value="{!ur.Id}" text="{!ur.Name}"></option>
+                </aura:iteration>     
+                    </select> <button class="slds-button slds-button--brand" onclick="{!c.addUsersToList}" style="position:relative;left:3%;">Add users</button> </div>
+        </div>
+        <div style="left: 15%;width:68%;float:left;"> <br/><br/>
+                <lightning:dualListbox aura:id="selectOptions" name="Select Options" label="" sourceLabel="Available Options" selectedLabel="Selected Options" options="{! v.listOptions }" value="{!v.selectedOptions}" /> <br/><br/> <button class="slds-button slds-button--brand" onclick="{!c.createFeedback}">Request Feedback</button>
+      <button class="slds-button slds-button--brand" onclick="{!c.RemindUsers}" style="position:relative;left:3%;">Remind Users</button>
+    </div>
+  <label Style="width: 25%; float: right; margin-top: 2.9em; border-radius: 5px; padding-bottom: 1px;color:rgb(107, 109, 112);">Email sent to :</label>
+  
+                <div  style="border:1px solid #ccc; width: 25%; float: right;padding: 14px; border-radius: 5px;">
+                    <div style=  "height: 212px;overflow: auto;">
+             <aura:iteration items="{!v.SelectedUserNames}" var="us">
+            <!--  <lightning:textarea name="myTextArea" value="{!us.Name}" /> -->
+
+            <span>{!us.Name}</span><br/>
+
+            </aura:iteration>
+          </div>
+    </div>
+
+        <div>
+
+                <aura:if isTrue="{!v.isOpen}">
+                        <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                                <div class="slds-modal__container">
+                                        <div class="slds-modal__header slds-theme--error slds-theme--alert-texture"> <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close">
+                           
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                                                <h2 class="slds-text-heading--medium" id="prompt-heading-id">Alert Message</h2>
+                                        </div>
+                                        <div class="slds-modal__content slds-p-around--medium">
+                                                <div>
+                                                        <ui:outputText value="{!v.errorMessage}" /> </div>
+                                        </div>
+                                        <div class="slds-modal__footer slds-theme--default"> <button class="slds-button slds-button--neutral" onclick="{!c.closeModel}">Ok</button> </div>
+                                </div>
+                        </div>
+                        <div class="slds-backdrop slds-backdrop--open"></div>
+                </aura:if>
+                <aura:if isTrue="{!v.onCreationOfFeedback}">
+                        <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                                <div class="slds-modal__container">
+                                        <div class="slds-modal__header slds-theme--success slds-theme--alert-texture"> <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close">
+                           
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                                                <h2 class="slds-text-heading--medium" id="prompt-heading-id">Alert Message</h2>
+                                        </div>
+                                        <div class="slds-modal__content slds-p-around--medium">
+                                                <div>
+                                                        <ui:outputText value="{!v.errorMessage}" /> </div>
+                                        </div>
+                                        <div class="slds-modal__footer slds-theme--default"> <button class="slds-button slds-button--neutral" onclick="{!c.closeCreationModal}">Ok</button> </div>
+                                </div>
+                        </div>
+                        <div class="slds-backdrop slds-backdrop--open"></div>
+                </aura:if>
+        </div>
+</aura:component>

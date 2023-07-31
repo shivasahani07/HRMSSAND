@@ -1,0 +1,198 @@
+<apex:page sidebar="false" showHeader="false" standardStylesheets="false" controller="ReimbursementConfigController">
+    <html>
+        <head>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js" integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js" integrity="sha512-sH8JPhKJUeA9PWk3eOcOl8U+lfZTgtBXD41q6cO/slwxGHCxKcW45K4oPCUhHG7NMB4mbKEddVmPuTXtpbCbFA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet" crossorigin="anonymous"/>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>  
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        </head>
+        <body ng-app="ReimbApp" ng-controller="Reimb_Ctrl">
+            <div class="container">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h4>
+                            Apply Reimburement
+                        </h4>
+                     </div>
+  			<div class="card-body">
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Claim Type</label>
+                        <select class="form-control" ng-model="currObjClaim.Reimbursement_Config__c">
+                            <option ng-repeat="x in objRemb" value="{{x.Id}}">{{x.Name}}</option>
+                        </select>
+                    </div>  
+                    <div class="col-md-4">
+                        <label class="form-label">Claim Date</label>
+                         <input class="form-control w-75" ng-model="claimDate" type="date"/>
+                    </div>  
+                </div>  
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Bill No.</label>
+                        <input type="text" ng-model="currObjClaim.Bill_No__c" class="form-control"/>
+                    </div>  
+                    <div class="col-md-4">
+                        <label class="form-label">Bill Amount</label>
+                        <input type="number" ng-model="currObjClaim.Bill_Amount__c" class="form-control w-75"/>
+                    </div>  
+                </div>  
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label class="form-label">Description</label>
+                        <textarea rows="3" ng-model="currObjClaim.Description__c" class="form-control"></textarea>
+                    </div>
+                 </div>
+                 <div class="row mt-3">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary float-right me-2" ng-click="saveClaimRequest()" type="button"><i class="fa-solid fa-circle-check pe-2"></i>Apply</button>                            
+                    </div>
+                </div>                        
+                </div>  
+            </div>
+                        <div class="row mt-5">
+                    <div class="col-md-12">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            	<tr>
+                            		<th>Name</th>
+                                    <th>Expense Type</th>
+                                    <th>Claim Date</th>
+                                    <th>Description</th>
+                                    <th>Bill No.</th>
+                                    <th>Bill Amount</th>
+                                    <th>Status</th>
+                                    <th>
+                                        Action                                        
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in objClaimRequest">
+                                    <td>{{x.Candidate__r.Name}}</td>
+                                    <td>{{x.Reimbursement_Config__r.Name}}</td>
+                                    <td>{{x.Bill_Date__c|date:'dd/MM/yyyy'}}</td>
+                                    <td>{{x.Description__c}}</td>
+                                    <td>{{x.Bill_No__c}}</td>
+                                    <td>{{x.Bill_Amount__c}}</td>
+                                    <td>
+                                        <span class="badge bg-primary" ng-show="x.Status__c=='Pending'">{{x.Status__c}}</span>
+                                        <span class="badge bg-success" ng-show="x.Status__c=='Approved'">{{x.Status__c}}</span>
+                                        <span class="badge bg-danger" ng-show="x.Status__c=='Rejected'">{{x.Status__c}}</span>
+                                    </td>
+                                    <td ng-show="x.Status__c=='Pending'">                                       
+                                        <button class="btn btn-primary" ng-click="DeleteRequest(x.Id)"><i class="fa-solid fa-trash-can pe-2"></i>Delete</button>
+                                    </td>
+                                        <td ng-show="x.Status__c=='Approved'">                                       
+                                        <button class="btn btn-primary" ng-disabled="true"><i class="fa-solid fa-trash-can pe-2"></i>Delete</button>
+                                    </td>
+                                        <td ng-show="x.Status__c=='Rejected'">                                       
+                                        <button class="btn btn-primary" ng-disabled="true"><i class="fa-solid fa-trash-can pe-2"></i>Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+          </div>
+        </body>
+        <script>
+        var app = angular.module('ReimbApp', []);
+        app.controller('Reimb_Ctrl', function ($scope) {
+            //0030k00001QucimAAB
+            var siteURL=window.location.href;             
+            $scope.contactId=siteURL.split("&cid=")[1];            
+			if($scope.contactId==undefined || $scope.contactId==''){                
+                $scope.contactId=null;
+            }  
+            $scope.contactId='0030k00001QvcJIAAZ';
+            $scope.objRemb={};
+            $scope.claimDate;
+            $scope.objClaimRequest={};
+            $scope.currObjClaim={
+                Bill_No__c:'',Description__c:'',Reimbursement_Config__c:'',Status__c:'Pending',Bill_Amount__c:0
+            };
+            $scope.getReimbDet = function () {				
+                ReimbursementConfigController.getReimbDet(function (result, event) {
+                    //debugger;
+                    console.log(result);
+                    console.log(event);
+                    if (event.status) {
+                        $scope.objRemb = result;                        
+                        debugger;
+                        $scope.$apply();
+                    }
+                })
+            }
+            $scope.getReimbDet();
+            $scope.getClaimRequests = function () {
+                ReimbursementConfigController.getClaimRequestsById($scope.contactId,function (result, event) {
+                    //debugger;
+                    console.log(result);
+                    console.log(event);
+                    if (event.status) {
+                        $scope.objClaimRequest = result;                        
+                        debugger;
+                        $scope.$apply();
+                    }
+                })
+            }
+            $scope.getClaimRequests();
+            $scope.saveClaimRequest=function(){
+                console.log('save request');
+                console.log($scope.currObjClaim);
+                var year=0;
+                var month=0;
+                var day=0;  
+                if($scope.contactId==undefined || $scope.contactId=='' || $scope.contactId==null){
+                    swal('info','Employee id is null, please select employee first','info');
+                    return;
+                }
+                if($scope.currObjClaim.Reimbursement_Config__c==undefined || $scope.currObjClaim.Reimbursement_Config__c==''){
+                	swal('info','Please select claim type','info');
+                    return;
+                }
+                if($scope.currObjClaim.Bill_Amount__c==undefined || $scope.currObjClaim.Bill_Amount__c==''){
+                	swal('info','Please enter bill amount','info');
+                    return;
+                }
+                if($scope.claimDate==undefined || $scope.claimDate==''){
+                    swal('info','Please select bill date','info');
+                       return;
+                }
+                $scope.currObjClaim.Candidate__c=$scope.contactId;
+                if($scope.claimDate!=undefined || $scope.claimDate!=''){
+                    year = $scope.claimDate.getUTCFullYear();
+                    month = $scope.claimDate.getUTCMonth()+1;
+                    day = $scope.claimDate.getDate();
+                }
+                ReimbursementConfigController.saveClaimRequest($scope.currObjClaim,year,month,day, function (result, event) {
+                    console.log(result);
+                    console.log(event);
+                    if(result=='success'){
+                        swal('success','Claim request has been sent for approval!','success');
+                        $scope.getClaimRequests(); 
+                    }else{
+                        swal('error','Unable to apply!','error');
+                    }
+                });
+            }
+            $scope.DeleteRequest=function(Id){                
+                ReimbursementConfigController.DeleteClaimRequest(Id,function (result, event) {
+                console.log(result);
+                    console.log(event);
+                    if(result=='success'){
+                        swal('success','Claim request has been deleted successfully!','success');
+                        $scope.getClaimRequests(); 
+                    }else{
+                        swal('error','Unable to delete!','error');
+                    }
+                });
+            }
+        });
+        </script>
+    </html>
+</apex:page>

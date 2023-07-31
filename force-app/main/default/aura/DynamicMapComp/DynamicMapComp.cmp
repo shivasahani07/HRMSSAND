@@ -1,0 +1,26 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" 
+                access="global" >
+    
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_2-of-3">
+            <span> <c:dynamicMap></c:dynamicMap> </span>
+        </div>
+        <div class="slds-col slds-size_1-of-3">
+            <span> <c:activeDynamicMap></c:activeDynamicMap> </span>
+             <span> <c:inactiveDynamicMap></c:inactiveDynamicMap> </span>
+        </div>
+    </div>
+    
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col">
+            <span> <c:newDynamicMap></c:newDynamicMap> </span>
+        </div>
+        <div class="slds-col">
+           <span> <c:underDisDynamicMap></c:underDisDynamicMap> </span>
+        </div>
+        <div class="slds-col">
+           <span> <c:propDynamicMap></c:propDynamicMap> </span>
+        </div>
+    </div>
+    
+</aura:component>

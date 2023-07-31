@@ -1,0 +1,274 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:searchInterface" access="global" controller="PE_UserDashboardController">
+    <!-- Attributes Declaration -->
+    <aura:attribute name="UserName" type="String" />
+    <aura:attribute name="showCurrentStatus" type="boolean" default="true" />
+    <aura:attribute name="showInitiateButton" type="boolean" default="false" />
+    <aura:attribute name="showFROMPeerButton" type="boolean" default="true" />
+    <aura:attribute name="showTOPeerButton" type="boolean" default="true" />
+    <aura:attribute name="showAddPeersButton" type="boolean" default="false" />
+    <aura:attribute name="renderInitiateFeedback" type="boolean" default="false" />
+    <aura:attribute name="gotoHome" type="boolean" default="false" />
+    <aura:attribute name="renderProvideFeedback" type="boolean" default="false" />
+    <aura:attribute name="errMsg" type="boolean" default="false" />
+    <aura:attribute name="isOpen" type="boolean" default="false" />
+    <aura:attribute name="fromPeersFeedback" type="boolean" default="false" />
+    <aura:attribute name="toOthersFeedback" type="boolean" default="false" />
+    <aura:attribute name="selfAssessment" type="boolean" default="false" />
+    <aura:attribute name="sendData" type="object"/>
+    <aura:attribute name="userSummary" type="String" />
+    <aura:attribute name="lastArray" type="Object" />
+    <aura:attribute name="ListofIntervals" type="List[]" description="List of Intervals" />
+    <aura:attribute name="lastElement" type="integer" default="0" />
+    <aura:attribute name="showExistingScreen" type="boolean" default="false" />
+    <aura:attribute name="disable" type="boolean" default="true" />
+    <aura:attribute name="intervalSelected" type="boolean" default="false" />
+    <aura:attribute name="intervalId" type="String" default="" />
+    
+    <!-- Events -->
+    <aura:handler event="c:PE_InitiateEvent" action="{!c.showHomePage}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInitAPP}" />
+    <div class="slds-box slds-theme_default " style=" background-color:#bc152a; color:white">
+        <div class="headerCSS "><a href = "/home/home.jsp"> <img src="{!$Resource.HRMS_Logo}" class="etlogo" /></a></div>
+        <div class="headerCSS">
+            <p align="right" style="font-size:18px">Welcome <b>{!v.UserName}</b></p>
+        </div>
+    </div>  
+    
+    <aura:if isTrue="{!NOT(v.intervalSelected)}">
+        <div class="slds-align_absolute-center slds-m-top_xx-large">
+            <lightning:icon iconName="utility:clock" size="medium" alternativeText="" />&nbsp;&nbsp;
+            <h1 class="slds-text-heading_large custom-heading">
+                <span class="slds-text-title_bold" style="font-size:25px;">PE Intervals</span>
+            </h1>
+        </div>
+        <lightning:layout multipleRows="true" class="slds-align_absolute-center slds-m-top_x-large">         
+            <aura:iteration items="{!v.ListofIntervals}" var="Q" indexVar="index">
+                <aura:if isTrue="{!not(empty(v.lastArray))}">
+                    <lightning:layoutItem padding="around-small" size="3"> 
+                        <div id="Tilu" class="slds-box slds-align_absolute-center" style="background-color: #6dd97f;" data-value="{!Q.Id}" onclick="{!c.handleIntervalSelection}">
+                            <ul class="slds-list_horizontal slds-has-dividers_right slds-has-block-links_space">
+                                <lightning:tile>                                     
+                                    <dl class="slds-dl_horizontal">
+                                        <dt class="slds-dl_horizontal_label" >
+                                            <div data-value="{!Q.Id}" class="slds-wrap" onclick="{!c.handleIntervalSelection}" style="font-size:15px;">{!Q.Name}</div>
+                                        </dt>                    
+                                    </dl>
+                                </lightning:tile> 
+                            </ul>
+                        </div>
+                    </lightning:layoutItem>  
+                </aura:if>
+            </aura:iteration>
+        </lightning:layout> 
+    </aura:if>
+    
+    
+    <aura:if isTrue="{!v.intervalSelected}">
+        <aura:if isTrue="{!v.showExistingScreen}">
+            <aura:if isTrue="{!v.disable}">
+                <div style="width:100%; pointer-events: none; opacity: 0.6;" >
+                    <div style="width:100%;">
+                        <div>
+                            <div style="width:25%;float: left;height: 36rem;" class="verticalLine"> <br/><br/>
+                                <aura:if isTrue="{!v.showCurrentStatus}">
+                                    <div class="slds-box sideBarNavigation">
+                                        <p style="text-align: center;"> CURRENT PE STATUS : {!v.userSummary} &nbsp;
+                                            <aura:if isTrue="{!v.userSummary=='Requested'}">
+                                                <lightning:icon iconName="custom:custom83" size="small" alternativeText="Indicates approval" /> </aura:if>
+                                            <aura:if isTrue="{!v.userSummary=='Submitted for Approval'}">
+                                                <lightning:icon iconName="standard:approval" size="small" alternativeText="Indicates approval" /> </aura:if>
+                                            <aura:if isTrue="{!v.userSummary=='Under Self Evaluation'}">
+                                                <lightning:icon iconName="standard:individual" size="small" alternativeText="Indicates approval" /> </aura:if>
+                                            <aura:if isTrue="{!v.userSummary=='Under Peer Evaluation'}">
+                                                <lightning:icon iconName="standard:business_hours" size="small" alternativeText="Indicates approval" /> </aura:if>
+                                            <aura:if isTrue="{!v.userSummary=='Management Connect'}">
+                                                <lightning:icon iconName="standard:business_hours" size="small" alternativeText="Indicates approval" /> </aura:if>
+                                            <aura:if isTrue="{!v.userSummary=='Closed'}">
+                                                <lightning:icon iconName="custom:custom77" size="small" alternativeText="Indicates approval" /> </aura:if>
+                                        </p>
+                                    </div>
+                                </aura:if> <br/>
+                                <aura:if isTrue="{!v.showInitiateButton}">
+                                    <lightning:button aura:id="button2" name="buttonname2" label="Initiate PE " class="slds-button sideBarNavigation" onclick="{!c.initiatePE}" /> <br/> </aura:if>
+                                <aura:if isTrue="{!v.showAddPeersButton}">
+                                    <lightning:button aura:id="button2" name="buttonname2" label="Request PE Feedback" class="slds-button sideBarNavigation" onclick="{!c.initiatePE}" /> <br/> </aura:if>
+                            </div>
+                            <div style="width:75%;float: left;">
+                                <div class="slds-tabs_default ">
+                                    <ul class="slds-tabs_default__nav topBarNavigation lineCss" role="tablist">
+                                        <li class="slds-tabs_default__item slds-is-active slds-has-focus " title="Home" role="presentation" aura:id="list-default-1__item" onclick="{!c.showHomePage}"><a class="slds-tabs_default__link">HOME</a></li>
+                                        <li class="slds-tabs_default__item" title="From Others" role="presentation" onclick="{!c.showFromPeers}" aura:id="list-default-3__item"><a class="slds-tabs_default__link">FROM OTHERS</a></li>
+                                        <li class="slds-tabs_default__item" title="To Others" role="presentation" aura:id="list-default-4__item" onclick="{!c.showFeedbackToOthers}"><a class="slds-tabs_default__link">TO OTHERS</a></li>
+                                        <li class="slds-tabs_default__item" title="Self Assessment" role="presentation" aura:id="list-default-4__item" onclick="{!c.selfAssessment}"><a class="slds-tabs_default__link">SELF ASSESSMENT</a></li>
+                                    </ul>
+                                </div>
+                                <aura:if isTrue="{!v.gotoHome}">
+                                    <div style="position: inherit;left: 10%; float: left;width:90%">
+                                        <c:PE_GotoHome /> 
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.renderInitiateFeedback}">
+                                    <div style="position: relative;left: 10%; float: left;/*width:75%*/">
+                                        <c:PE_InitiateFeedbackComponent /> 
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.renderProvideFeedback}">
+                                    <div style="position: relative;left: 10%; float: left;width:100%">
+                                        <c:PE_ProvideFeedbackComponent /> 
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.fromPeersFeedback}">
+                                    <div style="position: relative;left: 10%; float: left;width:90%">
+                                        <c:PE_Feedback_From_Others sendData="{!v.sendData}" /> 
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.toOthersFeedback}">
+                                    <div style="position: relative;/*left: 10%; */float: left;width:100%;padding-left: 52px;padding-right: 52px;">
+                                        <c:PE_FeedbackToOthersComponent /> 
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.selfAssessment}">
+                                    <div style="position: relative;/*left: 10%; */float: left;width:100%;padding-left: 52px;padding-right: 52px;">
+                                        <c:PE_SelfAssessment />
+                                    </div>
+                                </aura:if>
+                            </div>
+                            <div>
+                                <aura:if isTrue="{!v.isOpen}">
+                                    <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                                        <div class="slds-modal__container">
+                                            <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                                                <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close">
+                                                    <span class="slds-assistive-text">Close</span>
+                                                </button>
+                                                <h2 class="slds-text-heading--medium" id="prompt-heading-id">Error</h2>
+                                            </div>
+                                            <div class="slds-modal__content slds-p-around--medium">
+                                                <div>
+                                                    <ui:outputText value="{!v.errMsg}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-modal__footer slds-theme--default"> <button class="slds-button slds-button--neutral" onclick="{!c.closeModel}">Okay</button> </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-backdrop slds-backdrop--open"></div>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aura:set attribute="else">
+                    <div style="width:100%;">
+                        <div>
+                            <div style="width:25%;float: left;height: 36rem;" class="verticalLine"> <br/><br/>
+                                <aura:if isTrue="{!v.showCurrentStatus}">
+                                    <div class="slds-box sideBarNavigation">
+                                        <p style="text-align: center;"> CURRENT PE STATUS : {!v.userSummary} &nbsp;
+                                            <aura:if isTrue="{!v.userSummary=='Requested'}">
+                                                <lightning:icon iconName="custom:custom83" size="small" alternativeText="Indicates approval" /> </aura:if>
+                                            <aura:if isTrue="{!v.userSummary=='Submitted for Approval'}">
+                                                <lightning:icon iconName="standard:approval" size="small" alternativeText="Indicates approval" /> </aura:if>
+                                            <aura:if isTrue="{!v.userSummary=='Under Self Evaluation'}">
+                                                <lightning:icon iconName="standard:individual" size="small" alternativeText="Indicates approval" /> </aura:if>
+                                            <aura:if isTrue="{!v.userSummary=='Under Peer Evaluation'}">
+                                                <lightning:icon iconName="standard:business_hours" size="small" alternativeText="Indicates approval" /> </aura:if>
+                                            <aura:if isTrue="{!v.userSummary=='Management Connect'}">
+                                                <lightning:icon iconName="standard:business_hours" size="small" alternativeText="Indicates approval" /> </aura:if>
+                                            <aura:if isTrue="{!v.userSummary=='Closed'}">
+                                                <lightning:icon iconName="custom:custom77" size="small" alternativeText="Indicates approval" /> </aura:if>
+                                        </p>
+                                    </div>
+                                </aura:if> <br/>
+                                <aura:if isTrue="{!v.showInitiateButton}">
+                                    <lightning:button aura:id="button2" name="buttonname2" label="Initiate PE " class="slds-button sideBarNavigation" onclick="{!c.initiatePE}" /> <br/> </aura:if>
+                                <aura:if isTrue="{!v.showAddPeersButton}">
+                                    <lightning:button aura:id="button2" name="buttonname2" label="Request PE Feedback" class="slds-button sideBarNavigation" onclick="{!c.initiatePE}" /> <br/> </aura:if>
+                            </div>
+                            <div style="width:75%;float: left;">
+                                <div class="slds-tabs_default ">
+                                    <ul class="slds-tabs_default__nav topBarNavigation lineCss" role="tablist">
+                                        <li class="slds-tabs_default__item slds-is-active slds-has-focus " title="Home" role="presentation" aura:id="list-default-1__item" onclick="{!c.showHomePage}"><a class="slds-tabs_default__link">HOME</a></li>
+                                        <li class="slds-tabs_default__item" title="From Others" role="presentation" onclick="{!c.showFromPeers}" aura:id="list-default-3__item"><a class="slds-tabs_default__link">FROM OTHERS</a></li>
+                                        <li class="slds-tabs_default__item" title="To Others" role="presentation" aura:id="list-default-4__item" onclick="{!c.showFeedbackToOthers}"><a class="slds-tabs_default__link">TO OTHERS</a></li>
+                                        <li class="slds-tabs_default__item" title="Self Assessment" role="presentation" aura:id="list-default-4__item" onclick="{!c.selfAssessment}"><a class="slds-tabs_default__link">SELF ASSESSMENT</a></li>
+                                    </ul>
+                                </div>
+                                <aura:if isTrue="{!v.gotoHome}">
+                                    <div style="position: inherit;left: 10%; float: left;width:90%">
+                                        <c:PE_GotoHome intervalId ="{!v.intervalId}"/> 
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.renderInitiateFeedback}">
+                                    <div style="position: relative;left: 10%; float: left;/*width:75%*/">
+                                        <c:PE_InitiateFeedbackComponent /> 
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.renderProvideFeedback}">
+                                    <div style="position: relative;left: 10%; float: left;width:100%">
+                                        <c:PE_ProvideFeedbackComponent /> 
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.fromPeersFeedback}">
+                                    <div style="position: relative;left: 10%; float: left;width:90%">
+                                        <c:PE_Feedback_From_Others sendData="{!v.sendData}" /> 
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.toOthersFeedback}">
+                                    <div style="position: relative;/*left: 10%; */float: left;width:100%;padding-left: 52px;padding-right: 52px;">
+                                        <c:PE_FeedbackToOthersComponent /> 
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.selfAssessment}">
+                                    <div style="position: relative;/*left: 10%; */float: left;width:100%;padding-left: 52px;padding-right: 52px;">
+                                        <c:PE_SelfAssessment />
+                                    </div>
+                                </aura:if>
+                            </div>
+                            <div>
+                                <aura:if isTrue="{!v.isOpen}">
+                                    <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                                        <div class="slds-modal__container">
+                                            <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                                                <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close">
+                                                    <span class="slds-assistive-text">Close</span>
+                                                </button>
+                                                <h2 class="slds-text-heading--medium" id="prompt-heading-id">Error</h2>
+                                            </div>
+                                            <div class="slds-modal__content slds-p-around--medium">
+                                                <div>
+                                                    <ui:outputText value="{!v.errMsg}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-modal__footer slds-theme--default"> <button class="slds-button slds-button--neutral" onclick="{!c.closeModel}">Okay</button> </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-backdrop slds-backdrop--open"></div>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                </aura:set>
+            </aura:if>
+            
+            <aura:set attribute="else">
+                <div class="slds-align_absolute-center slds-m-top_xx-large">
+                    <lightning:icon iconName="utility:summary" size="small" alternativeText="" />&nbsp;&nbsp;
+                    <h1 class="slds-text-heading_large custom-heading">
+                        <span class="slds-text-title_bold" style="font-size:20px;">Create Summary</span>
+                    </h1>
+                </div>
+                
+                <div class="slds-align_absolute-center" style="margin-top:3%;">
+                    <lightning:tile>                                     
+                        <dl class="slds-box">
+                            <dt class="slds-dl_horizontal_label">
+                                <lightning:button name="initiatePE" label="Initiate PE" onclick="{!c.handleInitiatePE}" variant="brand"/><br/>
+                            </dt>
+                        </dl>
+                    </lightning:tile>
+                </div>            
+            </aura:set>           
+        </aura:if>
+    </aura:if>
+    
+</aura:component>

@@ -1,0 +1,109 @@
+<template>
+<lightning-card title="Candidate Details" icon-name="custom:custom101" size="small"> 
+    <template lwc:if={isDetailsdone}>
+        <h2 class="slds-align_absolute-center slds-m-around--medium" style="font-weight:600;font-size:20px;">Personal Information</h2>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+               <lightning-Input type="text" label="First Name" value={firstName} name="firstName" class="firstName" onchange={handleChangeValidation}   disabled={isDisabledinput}></lightning-input>
+            </div>
+ 
+            <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+               <lightning-Input type="text"  label="Last Name" value={lastName} name="lastName" class="lastName" onchange={handleChangeValidation} disabled={isDisabledinput}></lightning-input>
+            </div>
+ 
+            <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+               <lightning-Input type="text" label="Email" value={userEmail} name="userEmail" class="userEmail" onchange={handleChangeValidation} disabled={isDisabledinput}></lightning-input>
+            </div>
+ 
+            <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+               <lightning-Input type="text" label="Phone" value={userPhone} name="userPhone" class="userPhone" onchange={handleChangeValidation} disabled={isDisabledinput}></lightning-input>
+            </div>
+            
+            <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+               <lightning-Input type="text" label="Department" value={department} name="department" class="department" onchange={handleChangeValidation} disabled={isDisabledinput}></lightning-input>
+            </div>
+ 
+            <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+               <lightning-Input type="text"  label="Higher Education" value={higherEducation} name="higherEducation" class="higherEducation" onchange={handleChangeValidation} disabled={isDisabledinput}></lightning-input>
+            </div>
+ 
+            <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+               <lightning-Input type="text" label="LinkedIn Profile" value={LinkedInURL} name="LinkedInURL" class="LinkedInURL" onchange={handleChangeValidation} disabled={isDisabledinput}></lightning-input>
+            </div>
+            <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+               <lightning-Input type="date" label="Date of Birth" value={birthdate} name="birthdate" class="birthdate" onchange={handleChangeValidation} disabled={isDisabledinput}></lightning-input>
+            </div>
+         </div>
+
+         <div class="slds-col slds-size_12-of-12 slds-p-horizontal--medium slds-align_absolute-center">
+            <!-- <lightning-button-group> -->
+                <lightning-button label="Edit" icon-name="utility:record_update" variant="destructive-text" onclick={editCandidate} class="slds-m-around_x-small"></lightning-button>
+                <lightning-button label="Next" icon-name="utility:save" variant="brand" onclick={nestToAddress} class="slds-m-around_x-small"></lightning-button>
+            <!-- </lightning-button-group> -->
+    </div>
+    </template>
+
+     <template lwc:if={isWorkExperinceSection}>
+      <h2 class="slds-align_absolute-center slds-m-around--medium" style="font-weight:600;font-size:20px;">Address Information</h2>
+
+      <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+         <lightning-Input type="date" label="Anniversary Date" value={anniVerserydate} name="anniVerserydate" class="anniVerserydate" onchange={handleChangeValidation} required></lightning-input>
+     </div>
+     <div class="slds-col slds-size_12-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+         <lightning-input-address
+                 class="permanentAddress"
+                 address-label="Permanent Address"
+                 street-label="Street"
+                 city-label="City"
+                 country-label="Country"
+                 province-label="Province"
+                 postal-code-label="PostalCode"
+                 street={address.street}
+                 city={address.city}
+                 country={address.country}
+                 province={address.province}
+                 postal-code={address.postalCode}
+                 field-level-help="Help Text for inputAddress field" 
+                 country-options={getCountryOptions}
+                 province-options={getProvinceOptions}
+                 onchange={handleChangeValidation} 
+                 disabled={isDisabledinput}>
+         </lightning-input-address>
+     </div>
+
+     <div class="slds-col slds-size_12-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+         <lightning-input-address
+                 class="temporaryAddress"
+                 address-label="Temporary Address"
+                 street-label="Street"
+                 city-label="City"
+                 country-label="Country"
+                 province-label="Province"
+                 postal-code-label="PostalCode"
+                 street={address.street}
+                 city={address.city}
+                 country={address.country}
+                 province={address.province}
+                 postal-code={address.postalCode}
+                 field-level-help="Help Text for inputAddress field" 
+                 country-options={getCountryOptions}
+                 province-options={getProvinceOptions}
+                 onchange={handleChangeValidation} 
+                 disabled={isDisabledinput}>
+         </lightning-input-address>
+     </div>
+    </template>
+<br/><br/>
+   <!--Start RelatedTopics Section-->
+    <div style="border:1px #ddd solid; padding:10px; background:#fff;">
+        <div class="slds-col slds-size_12-of-12 slds-p-horizontal--medium slds-align_absolute-center">
+                        <!-- <lightning-button-group> -->
+                            <lightning-button label="Back" onclick={backTo} class="slds-m-around_x-small"></lightning-button>
+                            <lightning-button label="Edit" icon-name="utility:record_update" variant="destructive-text" onclick={editCandidate} class="slds-m-around_x-small"></lightning-button>
+                            <lightning-button label="Next" icon-name="utility:save" variant="brand" onclick={saveNext} class="slds-m-around_x-small"></lightning-button>
+                        <!-- </lightning-button-group> -->
+                </div>
+            
+    </div>
+    </lightning-card>
+</template>

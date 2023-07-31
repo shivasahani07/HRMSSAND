@@ -1,0 +1,36 @@
+<aura:component controller="PE_FeedbackToOthersTableController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="fblineitemList" type="List[]"/>
+    <aura:attribute name="fblistWithSection" type="List[]"/>
+    <aura:attribute name="sectionWiseWrapper" type="List[]"/>
+    
+    <div class="slds-size_12-of-12">
+        <table class="slds-table slds-table--bordered  slds-no-row-hover" >
+            <thead border="1">
+                <tr>
+                    <th scope="col"><span class="slds-truncate slds-text-heading_small" style="font-weight:bold;">Question</span></th>
+                    <th scope="col"><span class="slds-truncate slds-text-heading_small" style="font-weight:bold;">Answer</span></th>
+                </tr>
+            </thead>
+            <tbody >
+           <aura:iteration items="{!v.sectionWiseWrapper}" var="wrapperItem">
+            
+             <tr style="background:#b3ffb3;!important" class="">
+                <td style="font-weight:bold;" class="slds-text-heading_small ">{!wrapperItem.sectionType}</td>
+                <td></td>
+            </tr>
+                <aura:iteration items="{!wrapperItem.feedBackItemList}" var="value">
+                    <tr class="width:100px;" >
+                        <td><p class="slds-rich-text-area__content slds-grow slds-cell-wrap">{!value.PE_Question_Item__r.Question__c}</p></td>
+                        <td><p class="slds-rich-text-area__content slds-grow slds-cell-wrap">{!value.Answer__c}</p></td>
+                    </tr>
+                </aura:iteration>
+                       
+           </aura:iteration>
+                  </tbody>   
+        </table>
+    </div>
+    
+    
+    
+</aura:component>

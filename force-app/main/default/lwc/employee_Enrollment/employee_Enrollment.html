@@ -1,0 +1,346 @@
+<template>
+
+<div style="height: 80vh;">
+    <lightning-card >
+   
+    <!--For new Candidaite!!-->
+    <template if:true={areDetailsVisible}>
+        <br/><br/>
+            <template if:true={showProgress}>
+                <template if:true={showProgress}>
+                    <lightning-progress-indicator current-step="1" type="path" variant="base">
+                        <lightning-progress-step label="Personal Details" value="1" ></lightning-progress-step>
+                        <lightning-progress-step label="Work Experience" value="2" ></lightning-progress-step>
+                        <lightning-progress-step label="Upload Documents" value="3" ></lightning-progress-step>
+                        <lightning-progress-step label="Open Vacancies" value="4" ></lightning-progress-step>
+                        <lightning-progress-step label="Apply For Job" value="5" ></lightning-progress-step>
+                        <lightning-progress-step label="Self Assessment" value="6" ></lightning-progress-step>
+                        <lightning-progress-step label="Technical Assessment" value="7" ></lightning-progress-step>
+                        <lightning-progress-step label="Terms & Conditions" value="8" ></lightning-progress-step>
+                    </lightning-progress-indicator>
+                </template>
+            </template>
+            <br/>
+            <div style = "border-style: solid;margin :1%;zoom: 115%;" >
+            <div class="slds-m-vertical_medium" style="margin: 1% 18% 1%;">
+                    <lightning-record-form record-id={conId} object-api-name={objectApiName}
+                    fields={fields} columns="2" mode="edit" onsubmit={handleSubmit} onsuccess={handleSuccessCon}>
+                    </lightning-record-form>
+                </div>
+            </div>
+            
+    </template>
+
+    <!--Updating Work Experience-->
+    <template if:true={workExperienceReq}>
+        <template if:true={showProgress}>
+            <lightning-progress-indicator current-step="2" type="path" variant="base">
+                <lightning-progress-step label="Personal Details" value="1" ></lightning-progress-step>
+                <lightning-progress-step label="Work Experience" value="2" ></lightning-progress-step>
+                <lightning-progress-step label="Upload Documents" value="3" ></lightning-progress-step>
+                <lightning-progress-step label="Open Vacancies" value="4" ></lightning-progress-step>
+                <lightning-progress-step label="Apply For Job" value="5" ></lightning-progress-step>
+                <lightning-progress-step label="Self Assessment" value="6" ></lightning-progress-step>
+                <lightning-progress-step label="Technical Assessment" value="7" ></lightning-progress-step>
+                <lightning-progress-step label="Terms & Conditions" value="8" ></lightning-progress-step>
+            </lightning-progress-indicator>
+        </template>
+           
+        <div style = "border-style: solid;margin :1%;zoom: 115%;" > 
+            <table class="slds-table slds-table_bordered slds-no-row-hover slds-table_cell-buffer" role="grid">
+            <thead>
+            <tr>
+                <th scope="col" height="22" style="width: 3rem">Nr.</th>
+                <th scope="col" height="22">Company</th>
+                <th scope="col" height="22">Start Year</th>
+                <th scope="col" height="22">End Year</th>
+                <th scope="col" height="22">Title</th>
+                <th scope="col" height="22" style="width: 3rem"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <template for:each={itemList} for:item="item" for:index="index">
+                <tr key={item.id} class="slds-hint-parent">
+                    <td style="font-weight: bold">
+                        <lightning-formatted-number value={index}></lightning-formatted-number>.
+                    </td>
+                    <td>
+                        <lightning-input type="text" variant="label-hidden" label="" data-id={index} name="Company__c" value={item.Company__c} onchange={handleInputChange}></lightning-input>
+                    </td>
+                    <td>
+                        <lightning-input type="date" variant="label-hidden" label="" data-id={index} name="Start_Year__c" value={item.Start_Year__c} onchange={handleInputChange}></lightning-input>
+                    </td>
+                    <td>
+                        <lightning-input type="date" variant="label-hidden" label="" data-id={index} name="End_Year__c" value={item.End_Year__c} onchange={handleInputChange}></lightning-input>
+                    </td>
+                    <td>
+                        <lightning-input type="text" variant="label-hidden" label="" data-id={index} name="Title__c" value={item.Title__c} onchange={handleInputChange}></lightning-input>
+                    </td>
+                    <td>
+                        <lightning-button-icon icon-name="utility:delete" alternative-text="Remove" title="Remove" name={index} onclick={removeRow}></lightning-button-icon>
+                    </td>
+                </tr>
+            </template>
+            </tbody>
+        </table>
+
+        <div class="slds-p-left_small slds-p-vertical_small" style="margin: 1%;">
+            <lightning-button class="slds-p-right_small" variant="destructive" label="delete all rows" title="delete all rows" icon-name="utility:recycle_bin_full" onclick={removeAllRows}></lightning-button>
+            <lightning-button variant="neutral" label="add additional row" title="add additional row" icon-name="utility:add" onclick={addNewRow}></lightning-button>
+            <lightning-button variant="brand" label="Next" title="Primary action" onclick={handleWorkExperience} class="slds-float--right"></lightning-button>
+        </div>
+        
+        </div>
+        <br/>
+
+    </template>
+
+    <!--Updating Documents-->
+    <template if:true={showDocCategories}>
+
+        <template if:true={showProgress}>
+            <lightning-progress-indicator current-step="3" type="path" variant="base">
+                <lightning-progress-step label="Personal Details" value="1" ></lightning-progress-step>
+                <lightning-progress-step label="Work Experience" value="2" ></lightning-progress-step>
+                <lightning-progress-step label="Upload Documents" value="3" ></lightning-progress-step>
+                <lightning-progress-step label="Open Vacancies" value="4" ></lightning-progress-step>
+                <lightning-progress-step label="Apply For Job" value="5" ></lightning-progress-step>
+                <lightning-progress-step label="Self Assessment" value="6" ></lightning-progress-step>
+                <lightning-progress-step label="Technical Assessment" value="7" ></lightning-progress-step>
+                <lightning-progress-step label="Terms & Conditions" value="8" ></lightning-progress-step>
+            </lightning-progress-indicator>
+        </template>
+        
+        <div style="margin-left: 6%;border-style: solid;margin :2%;">   
+           <div style="border-style: solid;margin :1%">   
+            <iframe src={frameURLSelf} width="100%" height="450px;"> </iframe>
+            </div>
+            <div class="slds-p-left_small slds-p-vertical_small" style="margin: 2%;">
+                <lightning-button variant="brand" label="Next" title="Primary action" onclick={getAssignmentListinitial} class="slds-float--right"></lightning-button>
+            </div>
+        </div>
+    </template>
+
+
+    <!--showing Spinner-->
+    <template if:true={showSpinner}>
+        <div class="exampleHolder">
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </div>
+    </template> 
+
+
+    <!--List of available Assignments-->
+    <template if:true={assView}>
+        <template if:true={showProgress}>
+            <lightning-progress-indicator current-step="4" type="path" variant="base">
+                <lightning-progress-step label="Personal Details" value="1" ></lightning-progress-step>
+                <lightning-progress-step label="Work Experience" value="2" ></lightning-progress-step>
+                <lightning-progress-step label="Upload Documents" value="3" ></lightning-progress-step>
+                <lightning-progress-step label="Open Vacancies" value="4" ></lightning-progress-step>
+                <lightning-progress-step label="Apply For Job" value="5" ></lightning-progress-step>
+                <lightning-progress-step label="Self Assessment" value="6" ></lightning-progress-step>
+                <lightning-progress-step label="Technical Assessment" value="7" ></lightning-progress-step>
+                <lightning-progress-step label="Terms & Conditions" value="8" ></lightning-progress-step>
+            </lightning-progress-indicator>
+        </template>
+        <div style="margin:4%">
+            <div style="margin-left: 6%;border-style: solid;margin :3%;">  
+                <lightning-datatable data={accList} columns={columns} sorted-by={sortBy} sorted-direction={sortDirection} onsort={handleSortdata} key-field="Id" onrowaction={callRowAction}> 
+                </lightning-datatable>
+            </div>
+        </div>  
+    </template>
+
+    <template if:true={isCreatingApp}>
+        <template if:true={showProgress}>
+            <lightning-progress-indicator current-step="5" type="path" variant="base">
+                <lightning-progress-step label="Personal Details" value="1" ></lightning-progress-step>
+                <lightning-progress-step label="Work Experience" value="2" ></lightning-progress-step>
+                <lightning-progress-step label="Upload Documents" value="3" ></lightning-progress-step>
+                <lightning-progress-step label="Open Vacancies" value="4" ></lightning-progress-step>
+                <lightning-progress-step label="Apply For Job" value="5" ></lightning-progress-step>
+                <lightning-progress-step label="Self Assessment" value="6" ></lightning-progress-step>
+                <lightning-progress-step label="Technical Assessment" value="7" ></lightning-progress-step>
+                <lightning-progress-step label="Terms & Conditions" value="8" ></lightning-progress-step>
+            </lightning-progress-indicator>
+        </template>
+
+        <div style="height: 55vh;">
+              
+
+                <lightning-record-edit-form  object-api-name="Application__c" onsubmit={handleSubmit} onsuccess={handleSuccessApp}>
+                    
+                        <div class="col">
+                            <lightning-input-field field-name="Contact__c" value={conId}>
+                            </lightning-input-field>
+                            <lightning-input-field field-name="Mandate__c" value={assId}>
+                            </lightning-input-field>
+                        </div>
+                        <div class="col1">
+                            <lightning-input-field field-name="Origin__c">
+                            </lightning-input-field>
+                            <lightning-input-field field-name="Last_Working_Day__c">
+                            </lightning-input-field>
+                        </div>
+                        <div>
+                            <lightning-button class="slds-float--right" variant="brand" type="submit" name="update" label="Submit" style="margin-top: 5%;margin-right: 47%;"></lightning-button>
+                        </div>
+                    
+                </lightning-record-edit-form>
+            </div>
+        
+        
+    </template>
+
+    <!--Creating Self assesment response-->
+    <template if:true={isSelfAssOpen}>
+        <template if:true={showProgress}>
+            <lightning-progress-indicator current-step="6" type="path" variant="base">
+                <lightning-progress-step label="Personal Details" value="1" ></lightning-progress-step>
+                <lightning-progress-step label="Work Experience" value="2" ></lightning-progress-step>
+                <lightning-progress-step label="Upload Documents" value="3" ></lightning-progress-step>
+                <lightning-progress-step label="Open Vacancies" value="4" ></lightning-progress-step>
+                <lightning-progress-step label="Apply For Job" value="5" ></lightning-progress-step>
+                <lightning-progress-step label="Self Assessment" value="6" ></lightning-progress-step>
+                <lightning-progress-step label="Technical Assessment" value="7" ></lightning-progress-step>
+                <lightning-progress-step label="Terms & Conditions" value="8" ></lightning-progress-step>
+            </lightning-progress-indicator>
+        </template>
+    <br/>
+    <div style="margin-left: 6%;border-style: solid;margin :1%;">  
+        <div style="margin: 2%;">   
+            <template for:each={selfasslist} for:item="selfass" for:index="index" >  
+                <div class="slds-p-left_small" key={selfass.Question_name__c}  >  
+                {selfass.Question_name__c}  
+                <br/>
+                <lightning-textarea  onchange={updateResponseSelf} name = {index} value={selfass.Response__c} ></lightning-textarea>
+                </div>  
+            </template>
+
+            <div class="slds-p-left_small slds-p-vertical_small" style="margin: 0%;">
+                <lightning-button variant="brand" label="Next" title="Primary action" onclick={submitSar} class="slds-float--right"></lightning-button>
+            </div>
+        </div>
+    </div>
+    </template>
+
+    <!--Creating Technical Question response-->
+    <template if:true={isCreatingOP}>
+        
+        <template if:true={showProgress}>
+            <lightning-progress-indicator current-step="7" type="path" variant="base">
+                <lightning-progress-step label="Personal Details" value="1" ></lightning-progress-step>
+                <lightning-progress-step label="Work Experience" value="2" ></lightning-progress-step>
+                <lightning-progress-step label="Upload Documents" value="3" ></lightning-progress-step>
+                <lightning-progress-step label="Open Vacancies" value="4" ></lightning-progress-step>
+                <lightning-progress-step label="Apply For Job" value="5" ></lightning-progress-step>
+                <lightning-progress-step label="Self Assessment" value="6" ></lightning-progress-step>
+                <lightning-progress-step label="Technical Assessment" value="7" ></lightning-progress-step>
+                <lightning-progress-step label="Terms & Conditions" value="8" ></lightning-progress-step>
+            </lightning-progress-indicator>
+        </template>
+
+    <br/>
+        
+    <div style="margin-left: 6%;border-style: solid;margin :1%;">
+        <div style="margin: 2%;">  
+            <template for:each={onePagerlist} for:item="onePager" for:index="index" >  
+                <div class="slds-p-left_small" key={onePager.Question_Eng__c}  >  
+                {onePager.Question_Eng__c}  
+                <br/>
+                <lightning-textarea  onchange={updateResponseOne} name = {index} value={onePager.Response__c} ></lightning-textarea>
+                </div>  
+            </template>
+        
+        <div class="slds-p-left_small slds-p-vertical_small" style="margin: 0%;">
+            <lightning-button variant="brand" label="Next" title="Primary action" onclick={submitOP} class="slds-float--right"></lightning-button>
+        </div>
+    </div>
+    </div>
+    </br>
+        
+    </template>
+
+    <!-- Modal for job Assignment -->
+    <template if:true={showDocCategoriesModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container" style="margin-right: 41%;" >
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header"  style="width: 150%;">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeiframe}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading_5" class="slds-text-heading_medium slds-hyphenate">Job Requisition Documents</h2>
+                </header>
+              
+                <div class="slds-modal__content slds-p-around_large" id="modal-content-id-57"  style="width: 150%;">
+                        <div class="slds-m-around_medium">
+                                <iframe src={frameURLSelf} width="100%" height="400px;"> </iframe>
+                        </div>
+                </div>
+                <footer class="slds-modal__footer"  style="width: 150%;">
+                    <button class="slds-button slds-button_neutral" onclick={closeiframe} title="Cancel">Cancel</button>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+     <!--List of Applied application for the new candidate-->
+     <template if:true={appView}>
+        <template if:true={showProgress}>
+            <lightning-progress-indicator current-step="8" type="path" variant="base">
+                <lightning-progress-step label="Personal Details" value="1" ></lightning-progress-step>
+                <lightning-progress-step label="Work Experience" value="2" ></lightning-progress-step>
+                <lightning-progress-step label="Upload Documents" value="3" ></lightning-progress-step>
+                <lightning-progress-step label="Open Vacancies" value="4" ></lightning-progress-step>
+                <lightning-progress-step label="Apply For Job" value="5" ></lightning-progress-step>
+                <lightning-progress-step label="Self Assessment" value="6" ></lightning-progress-step>
+                <lightning-progress-step label="Technical Assessment" value="7" ></lightning-progress-step>
+                <lightning-progress-step label="Terms & Conditions" value="8" ></lightning-progress-step>
+            </lightning-progress-indicator>
+        </template>
+        
+        
+        <div style="margin:4%">
+                <div style="margin-left: 6%;border-style: solid;margin :3%;">  
+                    <lightning-datatable data={accList} columns={columns} sorted-by={sortBy} sorted-direction={sortDirection} onsort={handleSortdata} key-field="Id" onrowaction={callRowAction}> 
+                    </lightning-datatable>
+                </div>
+        </div>
+        
+        
+    </template>
+
+    
+    <!-- Accepting Confirmation consent -->
+    <template if:true={confirmation}>
+        <template if:true={showProgress}>
+            <lightning-progress-indicator current-step="8" type="path" variant="base">
+                <lightning-progress-step label="Personal Details" value="1" ></lightning-progress-step>
+                <lightning-progress-step label="Work Experience" value="2" ></lightning-progress-step>
+                <lightning-progress-step label="Upload Documents" value="3" ></lightning-progress-step>
+                <lightning-progress-step label="Open Vacancies" value="4" ></lightning-progress-step>
+                <lightning-progress-step label="Apply For Job" value="5" ></lightning-progress-step>
+                <lightning-progress-step label="Self Assessment" value="6" ></lightning-progress-step>
+                <lightning-progress-step label="Technical Assessment" value="7" ></lightning-progress-step>
+                <lightning-progress-step label="Terms & Conditions" value="8" ></lightning-progress-step>
+            </lightning-progress-indicator>
+        </template>
+        <div style="margin-left: 6%;border-style: solid;margin :1%;">
+              <c-dynamic-signature record-id={recordId} ></c-dynamic-signature>
+        </div>
+    </template>
+     
+
+
+</lightning-card>
+</div>
+
+</template>

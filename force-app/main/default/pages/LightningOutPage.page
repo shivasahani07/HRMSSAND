@@ -1,0 +1,28 @@
+<apex:page showHeader="false" sidebar="false">
+    <apex:includeLightning />
+    <div id="renderUserDashboard" />
+    <apex:form >
+        <script>
+        
+        $Lightning.use("c:PE_UserDashboardAPP", function() {
+            $Lightning.createComponent("c:PE_UserDashboardComponent", {}, "renderUserDashboard", function(cmp) {
+                // do some stuff
+            });
+        });
+        window.addEventListener('message', function(event) {
+            debugger;
+            if (event.origin !== window.location.origin) {
+                // Ensure that the event is coming from the same domain.
+                return;
+            }
+            
+            var payload = event.data;
+            if (payload.eventType === 'MyEvent') {
+                // Handle the event as needed
+                console.log(payload.data);
+                sforce.one.navigateToURL(payload.data);
+            }
+        });
+        </script>
+    </apex:form>
+</apex:page>

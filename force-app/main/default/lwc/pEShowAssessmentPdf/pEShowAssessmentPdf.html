@@ -1,0 +1,109 @@
+<template>
+    <div>
+        <template if:false={showTable}>
+            <div class="container">
+                <h1 class="slds-text-heading_large custom-heading">
+                    <lightning-icon icon-name="utility:clock" size="large" class="slds-icon-text-custom custom-icon"></lightning-icon>
+                    <span class="slds-text-title_bold">PE Intervals</span>
+                </h1>
+            </div>
+
+            <div class="card-container">
+                <template for:each={intervals} for:item="interval">
+                    <div key={interval.Id} class="card" onclick={handleCardClick} data-id={interval.Id}>
+                        {interval.Name}
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={showTable}>
+            <div class="back-container">
+                <button class="back-button" onclick={handleBackClick}>
+                    <lightning-icon icon-name="utility:back" size="x-small"></lightning-icon>
+                </button>
+            </div>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-label="Example default base table of Opportunities">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Opportunity Name">Summary Name</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Account Name">User</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="No. of Feedback Items">No. of Feedback Items</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="PDF">PDF</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Setup Meeting">Setup Meeting</div>
+                        </th>
+                        <!-- Add more fields as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={summaryData} for:item="summary">
+                        <tr key={summary.Id}>
+                            <td>{summary.Name}</td>
+                            <td>{summary.User__r.Name}</td>
+                            <td style="padding-left: 70px;">1</td>
+
+                            <td>
+                                <button class="pdf-button" onclick={handleDownloadPdf} data-id={summary.Id}>
+                                    <lightning-icon icon-name="utility:download" size="x-small"></lightning-icon>
+                                </button>
+                            </td>
+                            <td>
+                                <button class="meeting-button" onclick={handleSetupMeeting}>
+                                    <lightning-icon icon-name="utility:event" size="x-small"></lightning-icon>
+                                </button>
+                            </td>
+                            <!-- Add more fields as needed -->
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+        <template if:true={showSetupMeetingModal}>
+    <div class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h2 class="slds-text-heading_medium">Setup Meeting</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium">
+                <div class="slds-form slds-form_stacked">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="meeting-user-name">User Name</label>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="meeting-user-name" class="slds-input meeting-user-name" readonly value="Ajeet Kumar"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="meeting-manager-name">Manager Name</label>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="meeting-manager-name" class="slds-input meeting-manager-name" readonly value="Chandan Kumar" />
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="meeting-manager-name">HR Name</label>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="meeting-HR-name" class="slds-input meeting-manager-name" readonly value="Aakash Jain" />
+                        </div>
+                    </div>
+                    <!-- Add more form fields as needed -->
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral custom-button" onclick={handleClose}>Close</button>
+                <button class="slds-button slds-button_brand custom-button" onclick={handleSave}>Submit</button>
+            </div>
+        </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+
+    </div>
+</template>

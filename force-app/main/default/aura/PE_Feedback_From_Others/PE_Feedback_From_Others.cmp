@@ -1,0 +1,135 @@
+<aura:component controller="PE_Feedback_From_Others_Controller" implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:searchInterface">
+    <aura:attribute name="UserName" type="String" />
+    <aura:attribute name="userLoginId" type="String" description="logged in User ID" />
+    <aura:attribute name="CurrentIntervalName" type="Object" description="Intervals" />
+    <aura:attribute name="ListofIntervals" type="List[]" description="List of Intervals" />
+    <aura:attribute name="feedbackSummaryID" type="sObject" description="Related Feedback Interval Summary" />
+    <aura:attribute name="intervalID" type="String" description="Interval ID" />
+    <aura:attribute name="showFeedbackType" type="Boolean" default="true" description="Show Feedback Type" />
+    <aura:attribute name="showFeedbacks" type="Boolean" default="false" description="Show Feedback Type" />
+    <aura:attribute name="showDownload" type="Boolean" default="true" description="Show Download button" />
+    <aura:attribute name="ListofPEFeddbacks" type="List" description="List of Different Feedbacks" />
+    <aura:attribute name="chosenRDType" type="String" description="Holding Recordtype based on PE Chosen" />
+    <aura:attribute name="sendData" type="object" />
+    <aura:attribute name="loopingVar" type="List" />
+    <aura:attribute name="lastElement" type="integer" default="0" />
+    <aura:attribute name="lastArray" type="Object" />
+    <ltng:require scripts="{!join(',',$Resource.PE_Jquery,$Resource.select2 + '/select2-4.0.3/dist/js/select2.js')}" />
+    <!--ltng:require scripts="{!$Resource.jsPDFNew}" /-->
+    <!--ltng:require scripts="{!join(',',$Resource.jsPDF+'/jspdf.debug.js',$Resource.PE_Jquery ,$Resource.select2 + '/select2-4.0.3/dist/js/select2.js')}" />
+   <ltng:require scripts="//jsfiddle.net/ugD5L/135/embed/" / -->
+    <!-- create 2 aura handler with waiting and donewaiting events-->
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}" />
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}" />
+    <!--create a component attributs -->
+    <aura:attribute name="Spinner" type="boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.getIntervalDetails}"></aura:handler>
+    <!--Added by Ashik Shetty for PDF purpose -->
+    <!--aura:registerEvent name="PE_PDF_Event" type="c:PE_PDF_Event" /-->
+    <!--     -->
+    <aura:if isTrue="{!and(v.showFeedbackType,v.showFeedbacks==false)}">
+        <div>
+            <aura:iteration items="{!v.ListofIntervals}" var="Q" indexVar="index">
+                <div style="height:100%;margin: 50px;width:100%;">
+                    <aura:if isTrue="{!not(empty(v.lastArray))}">
+                        <aura:if isTrue="{!v.ListofIntervals.length-1>index}">
+                            <!--aura:if isTrue="{!or(index % 2 != 0,index == 0)}"-->
+                            <div class="column" onclick="{!c.getFeedbackitems}" data-value="{!Q.Id}" style="background-color: #4ea6e4;"> {!Q.Name} </div>
+                        </aura:if>
+                    </aura:if>
+                    <aura:if isTrue="{!(empty(v.lastArray))}">
+                        <aura:if isTrue="{!v.ListofIntervals.length>index}">
+                            <!--aura:if isTrue="{!or(index % 2 != 0,index == 0)}"-->
+                            <div class="column" onclick="{!c.getFeedbackitems}" data-value="{!Q.Id}" style="background-color: #4ea6e4;"> {!Q.Name} </div>
+                        </aura:if>
+                    </aura:if>
+                    <!--/aura:if-->
+                    <!--aura:if isTrue="{!and(index % 2 == 0,index > 0)}"> 
+        <div class="column" onclick="{!c.getFeedbackitems}" data-value="{!Q.Id}" style="background-color: #4ea6e4;">
+           {!Q.Name} 
+        </div>
+        </aura:if--></div>
+            </aura:iteration>
+            <aura:if isTrue="{!not(empty(v.lastArray))}">
+                <div class="column1" onclick="{!c.getFeedbackitems}" data-value="{!v.lastArray.Id}" style="background-color: #4ea6e4;"> {!v.lastArray.Name} </div>
+            </aura:if>
+        </div>
+    </aura:if>
+    <div>
+        <aura:if isTrue="{!v.showFeedbackType==false}">
+            <!--lightning:button label="Mini Form" iconName="utility:news" iconPosition="left" variant="success" onclick="{!c.getMiniFeedback}" />
+     <lightning:button label="PE Feedback" iconName="utility:mark_all_as_read" iconPosition="left" variant="success" onclick="{!c.getPEFeedback}" />
+     <lightning:button label="Non-PE Feedback" iconName="utility:richtextbulletedlist" iconPosition="left" variant="success" onclick="{!c.getNonPEFeedback}" />
+     <lightning:button label="All" iconName="utility:expand_all" iconPosition="left" variant="success" onclick="{!c.getAllPEFeedback}" /-->
+            <div>
+                <lightning:button label="Back" class="buttonCss" iconName="utility:back" iconPosition="center" variant="brand" onclick="{!c.back}" />
+                <div style="height:100%;margin: 50px;width:100%;">
+                    <!--img src="{!$Resource.BackButton}"  class="buttonCss" onclick="{!c.back}"/-->
+                    <div class="column" onclick="{!c.getPEFeedback}" style="background-color: #4ea6e4;"> PE Feedback </div>
+                    <div class="column disabledCss" onclick="{!c.getAllPEFeedback}" style="background-color: #4ea6e4;"> All Feedback </div>
+                    <div class="column disabledCss" onclick="{!c.getMiniFeedback}" style="background-color: #4ea6e4;" disabled="disabled"> Mini Form </div>
+                    <div class="column2 disabledCss" onclick="{!c.getNonPEFeedback}" style="background-color: #4ea6e4;"> Non-PE Feedback </div>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+    <!--loading spinner start... style=Brand Medium (blue dots)-->
+    <aura:if isTrue="{!v.Spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert"> <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    <!-- Loading spinner end-->
+    <aura:if isTrue="{!v.showFeedbacks}">
+        <!--  <div id="prinpdf"><h1>Ejemplo PDF</h1></div> -->
+        <div style="margin-left: -15%;">
+            <lightning:button label="Back" iconName="utility:back" class="buttonCss" iconPosition="center" variant="brand" onclick="{!c.backButton}" />
+            <lightning:button label="Download as PDF" class="buttonCss1" iconName="utility:download" iconPosition="center" variant="brand"  disabled="{!v.showDownload}" onclick="{!c.downloadPdf1}" /> 
+            <!--lightning:button label="Download as PDF" class="buttonCss" iconName="utility:download" iconPosition="center" variant="brand" disabled="{!v.showDownload}" onclick="{!c.downloadJs}" /-->
+            <!-- <lightning:button label="Download" class="buttonCss" iconName="utility:download" iconPosition="center" variant="brand" disabled="{!v.showDownload}" onclick="{!c.downloadCsv}" /> -->
+        </div><br></br>
+        <div id="customers">
+            <div class="table-responsive feedbackTable">
+                <div style="width:41%;margin:1% 25% 2% 38%;color:black;">
+                    <div class="headerCSS1"><img src="{!$Resource.PE_ResponsePageLogo}" class="etpdflogo"  /></div>
+                    <h1 class="hiddenCss" title=""><b>{!v.UserName}</b></h1>
+                    <h1 class="hiddenCss" title="">PE Interval : <b>{!v.CurrentIntervalName}</b></h1>
+                </div>
+                <table id="tableId" class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer feedbackTable" style="margin-left:-4%">
+                    <thead>
+                        <tr class="">
+                            <th scope="col" style="background-color: beige;font-weight: bolder;">
+                                <div class="" title="ID">Questions</div>
+                            </th>
+                            <th scope="col" style="background-color:beige; font-weight: bolder;">
+                                <div class="" title="Name">Feedbacks</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.ListofPEFeddbacks}" var="cus" indexVar="key">
+                            <tr style="" class="table table-bordered table-hover">
+                                <th scope="row">
+                                    <div class="" title="{!cus.key}" style=" word-wrap: break-word; width: 100%;list-style: disc;white-space: normal;text-align: justify;">{!cus.key}</div>
+                                </th>
+                                <td style="">
+                                    <ul>
+                                        <aura:iteration items="{!cus.value}" var="ans">
+                                            <!-- <div class="" title="{!ans}">{!ans}</div-->
+                                            <!--ul> -->
+                                            <li class="alignCss">{!ans}</li>
+                                            <!--/ul-->
+                                        </aura:iteration>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

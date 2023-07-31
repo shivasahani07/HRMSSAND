@@ -1,0 +1,80 @@
+<aura:component controller="SimilarAccountHelper"  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <!--Attribiute-->
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="AccountsWithSimilarCIN" type="List" />
+    <aura:attribute name="showImage" type="boolean" default="false"/>
+    
+    <aura:attribute name="url" type="String" />
+    <!--Handler-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!--Lightning Card-->
+    
+    <lightning:card >
+        <div style = "border-style: solid;margin :1%" >
+            <div style = "margin :1%" >
+                <aura:if  isTrue="{!v.AccountsWithSimilarCIN.length > 0}">
+                    <div style="margin-bottom: 2%;margin-left: 4%;margin-top: 2%;">
+                        <lightning:button variant="destructive" disabled="true">Accounts With Similar CIN/Registration No. ⬇️</lightning:button> 
+                        <br/>
+                    </div>
+                    <table aria-multiselectable="true" class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid" aria-label="Example advanced table of Opportunities with cell focused">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="slds-text-title_caps" scope="col">
+                                    <div class="slds-truncate" title="Account Name">Name</div>
+                                </th>
+                                <th class="slds-text-title_caps" scope="col">
+                                    <div class="slds-truncate" title="Account Phone">Phone</div>
+                                </th>
+                                <th class="slds-text-title_caps" scope="col">
+                                    <div class="slds-truncate" title="Account Stage">Stage</div>
+                                </th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{! v.AccountsWithSimilarCIN }" var="account">
+                                <tr>
+                                    <td>
+                                        <a target="_blank" href="{!$Site.CurrentSiteUrl+'/lightning/r/Account/'+account.Id+'/view'}" tabindex="-1">
+
+                                            <lightning:badge label="{!account.Name}"/>
+                                        </a> 
+                                        
+                                    </td>
+                                    <td>
+                                        <b>
+                                            {!account.Phone}
+                                        </b>
+                                    </td>
+                                    <td> 
+                                        <b>
+                                            {!account.Stage__c}
+                                        </b> 
+                                    </td>
+                                </tr>	
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    <aura:set attribute="else">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_2-of-8 LeftDiv">
+                                <img src="{!$Resource.Util_Logo}" alt="User avatar" class="center"/>
+                            </div>
+                            <div class="slds-col slds-size_6-of-8 LeftDiv">
+                                <div style="margin-top: 13%;margin-left: 4%;">
+                                    <b>
+                                        No Account With Similar CIN/Registration Exists .. 😊😊
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:set>
+                </aura:if> 
+            </div>
+        </div>
+    </lightning:card>
+    
+    
+    <br/>
+</aura:component>

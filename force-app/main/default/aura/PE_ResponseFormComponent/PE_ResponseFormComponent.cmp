@@ -1,0 +1,261 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="PE_ResponseFormController" access="global">
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:attribute name="peQuestion" type="PE_Question__c" default="{'sobjectType': 'PE_Question__c'}" />
+	<aura:attribute name="peQunLineItems" type="Object[]" />
+     <aura:attribute name="UserName" type="String" />
+	<aura:attribute name="feedbackId" type="string" default="" />
+	<aura:attribute name="showGeneralMsg" type="Boolean" default="false" />
+	<aura:attribute name="msgHeading" type="String" default="" />
+	<aura:attribute name="msgDetail" type="String" default="" />
+	<aura:attribute name="msgIcon" type="String" default="action:approval" />
+	<aura:attribute name="showForm" type="Boolean" default="false" />
+	<aura:attribute name="isValid" type="Boolean" default="false" />
+	<aura:attribute name="errorMsg" type="String" />
+	<aura:Attribute name="showErrorSection" type="Boolean" default="false" />
+	<aura:attribute name="feedbackSFId" type="String" />
+	<aura:attribute name="userRole" type="String" />
+	<aura:attribute name="strFid" type="String" default="" />
+	<aura:attribute name="strUsrId" type="String" default="" />
+	<aura:Attribute name="sSkillsQunExists" type="Boolean" default="false" />
+	<aura:Attribute name="techQunsExists" type="Boolean" default="false" />
+    <aura:Attribute name="projQunsExists" type="Boolean" default="false" />
+       <aura:Attribute name="generalQunExists" type="Boolean" default="false" />
+	<aura:attribute name="isOpen1" type="boolean" default="false" />
+	 <aura:handler event="aura:waiting" action="{!c.showSpinner}" />
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}" />
+    <!--create a component attributs -->
+    <aura:attribute name="Spinner" type="boolean" default="false" />
+    <aura:if isTrue="{!v.Spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert"> <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+     
+	<div class="slds-container--center  slds-container--large  slds-theme_default">
+		<!--      <aura:if isTrue="{!v.showErrorSection}">
+			<ui:message title="Error" severity="error" closable="true" mousedown="{!closeUIMsg}"> {!v.errorMsg} </ui:message>
+		</aura:if>
+ -->
+		<div>
+			<aura:if isTrue="{!v.showErrorSection}">
+				<div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+					<div class="slds-modal__container">
+						<div class="slds-modal__header slds-theme--error slds-theme--alert-texture"> <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close">
+								<span class="slds-assistive-text">Close</span>
+							</button>
+							<h2 class="slds-text-heading--medium" id="prompt-heading-id">Error</h2>
+						</div>
+						<div class="slds-modal__content slds-p-around--medium">
+							<div>
+								<ui:outputText value="{!v.errorMsg}" /> </div>
+						</div>
+						<div class="slds-modal__footer slds-theme--default"> <button class="slds-button slds-button--neutral" onclick="{!c.closeModel}">OK</button> </div>
+					</div>
+				</div>
+				<div class="slds-backdrop slds-backdrop--open"></div>
+			</aura:if>
+		</div>
+		<aura:if isTrue="{!v.showGeneralMsg}">
+			<div class="slds-grid">
+				<div class="slds-col slds-size--1-of-6"></div> <br></br><br></br><br></br>
+			</div>
+			<div class="slds-grid">
+				<div class="slds-col slds-size--1-of-6"></div>
+				<div class="slds-col slds-size--4-of-6">
+					<article class="slds-card">
+						<div class="slds-card__header slds-grid">
+							<header class="slds-media slds-media_center slds-has-flexi-truncate">
+								<div class="slds-media__figure marginLeftFourty">
+									<lightning:icon iconName="{!v.msgIcon}" size="large" alternativeText="Indicates approval" /> </div>
+								<div class="slds-media__body">
+									<h2> <span class="slds-text-heading_small">{!v.msgHeading}</span> </h2>
+								</div>
+							</header>
+						</div>
+						<div class="slds-card__body slds-card__body_inner marginLeftThirtyFive">
+							<h4><b>{!v.msgDetail}.</b></h4>
+						</div>
+					</article>
+				</div>
+				<div class="slds-col slds-size--1-of-6"></div>
+			</div>
+		</aura:if>
+		<aura:if isTrue="{!v.showForm}">
+			<div class="slds-page-header slds-text-heading_large heading ">
+              <div class="headerCSS "><img src="{!$Resource.HRMS_Logo}" class="etlogo" /></div>
+                 <div class="headerCSS">
+				<center style="font-family: cambria;">PE RESPONSE FORM</center>
+                </div>
+			</div>
+           <center style="font-weight:bold;font-size: 140%;margin-left: -3%;font-family: cambria;"><b>Response form for : {!v.UserName}</b></center>
+			<aura:if isTrue="{!v.techQunsExists}"> <span style="margin-right:66%;font-weight:bold;font-size: 140%;margin-left: 2%;">Competency/ Technical Skills</span> <br/>
+				<div class="slds-form slds-box slds-form_horizontal slds-scrollable_y">
+					<aura:iteration items="{!v.peQunLineItems}" var="obj" indexVar="index">
+						<aura:if isTrue="{!obj.qunType == 'techSkill' || obj.qunType == 'Competency/ Technical Skills'}">
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'Desc' }">
+									<aura:if isTrue="{!obj.isMandatory}"> <span class="requiredInput">*</span> </aura:if> <label class="slds-form-element__label labelStyle" for="{!'field'+index}">{!obj.fieldName}
+									</label>
+									<div class="slds-form-element__control">
+										<lightning:input aura:id="field1" type="text" label="" name="field1" value="{!obj.response}" required="" />
+												<span><aura:if isTrue="{!obj.response.length == 300}"><lightning:badge class="css300" label="max 300 character allowed!!!" ></lightning:badge></aura:if></span>  </div> <br/> </aura:if>
+							</div>
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'DescLong' }">
+									<aura:if isTrue="{!obj.isMandatory}"> <span class="requiredInput">*</span> </aura:if> <label class="slds-form-element__label labelStyle" for="{!'field'+index}">{!obj.fieldName}</label>
+									<div class="slds-form-element__control">
+										<lightning:textarea aura:id="field2" name="myTextArea" label="" maxlength="300" value="{!obj.response}" />
+												<span><aura:if isTrue="{!obj.response.length == 300}"><lightning:badge class="css300" label="max 300 character allowed!!!" ></lightning:badge></aura:if></span>  </div> <br/> </aura:if>
+							</div>
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'picklist' }">
+									<aura:if isTrue="{!obj.isMandatory}"> <span class="requiredInput">*</span> </aura:if> <label class="slds-form-element__label labelStyle" for="{!'field'+index}">{!obj.fieldName}</label>
+									<div class="slds-form-element__control">
+										<lightning:select class="slds-size_3-of-12" name="mySelect" aura:id="field" label="" value="{!obj.response}">
+											<option text="" value="--None--" />
+											<aura:iteration items="{!obj.picklistVal}" var="item">
+												<option text="{!item}" value="{!item}" /> </aura:iteration>
+										</lightning:select>
+									</div> <br/> </aura:if>
+							</div>
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'multipicklist' }">
+									<aura:if isTrue="{!obj.isMandatory}"> </aura:if> <label style="float:left;" class="slds-form-element__label labelStyle">{!obj.fieldName}</label><span style="float:left;" class="requiredInput">*</span>
+									<lightning:dualListbox aura:id="selectOptions" name="Skills" label="" sourceLabel="Available Options" selectedLabel="Selected Options" options="{!obj.picklistVal}" value="{!obj.selectedMulPickVals }" onchange="{!c.handleChange }" class='dualListBox' /> <br/> </aura:if>
+							</div> <br/> </aura:if>
+					</aura:iteration>
+				</div>
+			</aura:if> <br/>
+            	<aura:if isTrue="{!v.projQunsExists}"> <span style="margin-right:66%;font-weight:bold;font-size: 140%;margin-left: 2%;">Project Contribution</span> <br/>
+				<div class="slds-form slds-box slds-form_horizontal slds-scrollable_y">
+					<aura:iteration items="{!v.peQunLineItems}" var="obj" indexVar="index">
+						<aura:if isTrue="{!obj.qunType == 'projectCon'  || obj.qunType == 'Project Contribution'}">
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'Desc' }">
+									<aura:if isTrue="{!obj.isMandatory}"> <span class="requiredInput">*</span> </aura:if> <label class="slds-form-element__label labelStyle" for="{!'field'+index}">{!obj.fieldName}
+									</label>
+									<div class="slds-form-element__control">
+										<lightning:input aura:id="field1" type="text" label="" name="field1" value="{!obj.response}" required="" />
+												<span><aura:if isTrue="{!obj.response.length == 300}"><lightning:badge class="css300" label="max 300 character allowed!!!" ></lightning:badge></aura:if></span>  </div> <br/> </aura:if>
+							</div>
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'DescLong' }">
+									<aura:if isTrue="{!obj.isMandatory}"> <span class="requiredInput">*</span> </aura:if> <label class="slds-form-element__label labelStyle" for="{!'field'+index}">{!obj.fieldName}</label>
+									<div class="slds-form-element__control">
+										<lightning:textarea aura:id="field2" name="myTextArea" label="" maxlength="300" value="{!obj.response}" />
+												<span><aura:if isTrue="{!obj.response.length == 300}"><lightning:badge class="css300" label="max 300 character allowed!!!" ></lightning:badge></aura:if></span>  </div> <br/> </aura:if>
+							</div>
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'picklist' }">
+									<aura:if isTrue="{!obj.isMandatory}"> <span class="requiredInput">*</span> </aura:if> <label class="slds-form-element__label labelStyle" for="{!'field'+index}">{!obj.fieldName}</label>
+									<div class="slds-form-element__control  ">
+										<lightning:select class="slds-size_3-of-12" name="mySelect" aura:id="field" label="" value="{!obj.response}">
+											<option text="" value="--None--" />
+											<aura:iteration items="{!obj.picklistVal}" var="item">
+												<option text="{!item}" value="{!item}" /> </aura:iteration>
+										</lightning:select>
+									</div> <br/> </aura:if>
+							</div>
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'multipicklist' }">
+									<aura:if isTrue="{!obj.isMandatory}"> </aura:if> <label style="float:left;" class="slds-form-element__label labelStyle">{!obj.fieldName}</label><span style="float:left;" class="requiredInput">*</span>
+									<lightning:dualListbox aura:id="selectOptions" name="Skills" label="" sourceLabel="Available Options" selectedLabel="Selected Options" options="{!obj.picklistVal}" value="{!obj.selectedMulPickVals }" onchange="{!c.handleChange }" class='dualListBox' /> <br/> </aura:if>
+							</div> <br/> </aura:if>
+					</aura:iteration>
+				</div>
+			</aura:if> <br/>
+            <aura:if isTrue="{!v.generalQunExists}"> <span style="margin-right:66%;font-weight:bold;font-size: 140%;margin-left: 2%;">General</span> <br/>
+				<div class="slds-form slds-box slds-form_horizontal slds-scrollable_y">
+					<aura:iteration items="{!v.peQunLineItems}" var="obj" indexVar="index">
+						<aura:if isTrue="{!obj.qunType == 'General'}">
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'Desc' }">
+									<aura:if isTrue="{!obj.isMandatory}"> <span class="requiredInput">*</span> </aura:if> <label class="slds-form-element__label labelStyle" for="{!'field'+index}">{!obj.fieldName}
+									</label>
+									<div class="slds-form-element__control">
+										<lightning:input aura:id="field1" type="text" label="" name="field1" value="{!obj.response}" required="" />
+												<span><aura:if isTrue="{!obj.response.length == 300}"><lightning:badge class="css300" label="max 300 character allowed!!!" ></lightning:badge></aura:if></span>  </div> <br/> </aura:if>
+							</div>
+							<div class="">
+								<aura:if isTrue="{!obj.fieldTyp == 'DescLong' }">
+									<aura:if isTrue="{!obj.fieldName != 'Overall comments/ feedback on your experience working with your colleague' }"> <label class="slds-form-element__label labelStyle" style="float:left;width: 100% !important;text-align:left !important;" for="{!'field'+index}">{!obj.fieldName}</label>
+										<div class="slds-form-element__control">
+											<lightning:textarea aura:id="field2" name="myTextArea" label="" maxlength="300"  value="{!obj.response}" />
+													<span><aura:if isTrue="{!obj.response.length == 300}"><lightning:badge class="css300" label="max 300 character allowed!!!" ></lightning:badge></aura:if></span>  </div> <br/></aura:if>
+									<aura:if isTrue="{!obj.fieldName == 'Overall comments/ feedback on your experience working with your colleague' }"> 
+										<div class="slds-form-element__control" >
+											<lightning:textarea label="{!obj.fieldName}" class="slds-form-element__label labelStyle" aura:id="OverallComment" name="myTextArea"  maxlength="300" value="{!obj.response}" messageWhenBadInput="Bad Input"  messageWhenValueMissing="Please fill your comments!" required ="true" />
+											<span><aura:if isTrue="{!obj.response.length == 300}"><lightning:badge class="css300" label="max 300 character allowed!!!" ></lightning:badge></aura:if></span>  </div> <br/></aura:if>
+								</aura:if>
+							</div>
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'picklist' }">
+									<aura:if isTrue="{!obj.isMandatory}"> <span class="requiredInput">*</span> </aura:if> <label class="slds-form-element__label labelStyle" for="{!'field'+index}">{!obj.fieldName}</label>
+									<div class="slds-form-element__control  ">
+										<lightning:select class="slds-size_3-of-12" name="mySelect" aura:id="field" label="" value="{!obj.response}">
+											<option text="" value="--None--" />
+											<aura:iteration items="{!obj.picklistVal}" var="item">
+												<option text="{!item}" value="{!item}" /> </aura:iteration>
+										</lightning:select>
+									</div> <br/> </aura:if>
+							</div>
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'multipicklist' }">
+									<aura:if isTrue="{!obj.isMandatory}"> </aura:if> <label style="float:left;" class="slds-form-element__label labelStyle">{!obj.fieldName}</label><span style="float:left;" class="requiredInput">*</span>
+									<lightning:dualListbox aura:id="selectOptions" name="Skills" label="" sourceLabel="Available Options" selectedLabel="Selected Options" options="{!obj.picklistVal}" value="{!obj.selectedMulPickVals }" onchange="{!c.handleChange }" class='dualListBox' /> <br/> </aura:if>
+							</div> <br/> </aura:if>
+					</aura:iteration>
+				</div>
+			</aura:if> <br/>
+            
+			<aura:if isTrue="{!v.sSkillsQunExists}"> <span style="margin-right:66%;font-weight:bold;font-size: 140%;margin-left: 2%;">Soft skills</span>
+				<div class="slds-form  slds-box slds-form_horizontal slds-scrollable_y">
+					<aura:iteration items="{!v.peQunLineItems}" var="obj" indexVar="index">
+						<aura:if isTrue="{!obj.qunType == 'sSkills'}">
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'Desc' }">
+									<aura:if isTrue="{!obj.isMandatory}"> <span class="requiredInput">*</span> </aura:if> <label class="slds-form-element__label labelStyle" for="{!'field'+index}">{!obj.fieldName}
+									</label>
+									<div class="slds-form-element__control">
+										<lightning:input aura:id="field1" type="text" label="" name="field1" value="{!obj.response}" required="" />
+													<span><aura:if isTrue="{!obj.response.length == 300}"><lightning:badge class="css300" label="max 300 character allowed!!!" ></lightning:badge></aura:if></span>   </div> <br/> </aura:if>
+							</div>
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'DescLong' }">
+									<!--aura:if isTrue="{!obj.isMandatory}"> <span class="requiredInput">*</span> </aura:if-->
+									 <label class="slds-form-element__label labelStyle" style="float:left;width: 100% !important;text-align:left !important;" for="{!'field'+index}">{!obj.fieldName}</label>
+										<div class="slds-form-element__control">
+											<lightning:textarea aura:id="field2" name="myTextArea" label="" maxlength="300"  value="{!obj.response}" />
+													<span><aura:if isTrue="{!obj.response.length == 300}"><lightning:badge class="css300" label="max 300 character allowed!!!" ></lightning:badge></aura:if></span> 
+                                    </div> </aura:if></div><br/>
+								
+						
+							<div class="slds-form-element">
+								<aura:if isTrue="{!obj.fieldTyp == 'picklist' }">
+									<aura:if isTrue="{!obj.isMandatory}"> <span class="requiredInput">*</span> </aura:if> <label class="slds-form-element__label labelStyle" for="{!'field'+index}">{!obj.fieldName}</label>
+									<div class="slds-form-element__control  ">
+										<lightning:select class="slds-size_3-of-12" name="mySelect" aura:id="field" label="" value="{!obj.response}">
+											<option text="" value="--None--" />
+											<aura:iteration items="{!obj.picklistVal}" var="item">
+												<option text="{!item}" value="{!item}" /> </aura:iteration>
+										</lightning:select>
+									</div> <br/> </aura:if> <br/> </div>
+							<div class="slds-form-element" style="width:20%;float:left;height:20%;">
+								<aura:if isTrue="{!obj.fieldTyp == 'multipicklist' }">
+									<aura:if isTrue="{!obj.isMandatory}"> </aura:if> <label style="float:left;width: 100% !important;text-align:left !important;" class="slds-form-element__label labelStyle">{!obj.fieldName}</label> <span style="float:left" class="requiredInput">*</span>
+									<lightning:dualListbox class="dualListBox" aura:id="selectOptions" name="Skills" label="" sourceLabel="Available Options" selectedLabel="Selected Options" options="{!obj.picklistVal}" value="{!obj.selectedMulPickVals }" /> <br/> </aura:if>
+							</div>
+						</aura:if>
+					</aura:iteration>
+				</div>
+			</aura:if> <br/> <br/>
+			<div class="slds-align_absolute-center" style="margin-bottom: 5%;">
+				<lightning:button variant="brand" label="Submit" onclick="{!c.onSubmit}" />
+				<lightning:button variant="brand" label="Save as Draft" onclick="{!c.onClickDraft}" /> </div>
+		</aura:if>
+	</div>
+	
+</aura:component>

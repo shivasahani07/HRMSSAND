@@ -1,0 +1,115 @@
+<apex:page controller="DataDisplayController" sidebar="false"  showHeader="false" renderAs="pdf" applyHtmlTag="false" applyBodyTag="false" title="PE_Feedback_{!userName}.pdf">
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+            <style>
+                @page {
+                size: A4 portrait;
+                border: 2px solid rgb(217, 219, 221);
+                @bottom-center { 
+                content: counter(page) " / " counter(pages); 
+                }
+                }
+                
+                hr.seperator {
+                margin: 10px auto 5px quto;
+                width: 50%;
+                color: #000;
+                background-color: #000;
+                height: 1px;
+                border: none;
+                }
+                hr.lineCss{
+                display: block;
+                height: 1px;
+                border: 0;
+                border-bottom: 1px solid #ccc;
+                margin: 1em 0;
+                padding: 0;
+                }
+                
+                td{
+                border-bottom : 1px solid #ccc;}
+                
+                
+                h3 {
+                text-align: center;
+                margin: 0;
+                font-size: 1.0em;
+                font-weight: normal;
+                }
+                .customHr {
+                width: 95%
+                font-size: 1px;
+                color: rgba(0, 0, 0, 0);
+                line-height: 1px;
+                
+                background-color: grey;
+                margin-top: -6px;
+                margin-bottom: 10px;
+                }
+                div.footer {
+                padding: 5px;
+                position: fixed;
+                }
+                .putinTop {
+                vertical-align: middle;
+                }
+                .pagenumber:before {
+                content: counter(page);
+                }
+                .pagecount:after {
+                content: counter(pages);
+                }
+            </style>
+        </head>
+        <apex:form >
+            <!--apex:outputPanel id="thePanel" -->
+            <!--div class="header"--><img src="{!$Resource.HRMS_Logo}" height="15%" width="15%" />
+            <!--/div-->
+            <h1 style="text-align: center; margin: 0; font-size: 1.5em; font-weight: bolder;">PE FEEDBACK RESPONSES</h1>
+            <hr class="seperator" />
+            <h3>PE Cycle : <b> {!IntervalName}</b> </h3>
+            <h3>PE User : <b>{!userName} </b></h3>
+            <hr class="lineCss" />
+            <table id="tableId" style="margin-left: 30px ;margin-right: 30px;border-collapse:collapse">
+                <thead style="background-color: #E4F0C8;">
+                    <tr >
+                        <th scope="col" style="background-color: #E4F0C8;font-weight: bolder;">
+                            <div class="" title="ID" style="margin-left: 60px ;margin-right: 90px;">Questions</div>
+                        </th>
+                        <th scope="col" style="background-color:#E4F0C8; font-weight: bolder;">
+                            <div class="" title="Name" style="margin-left: 90px ;margin-right: 20px;">Feedbacks</div>
+                        </th>
+                        
+                    </tr>
+                    
+                </thead>
+                
+                <tbody>
+                    <apex:variable var="index" value="{!0}" />
+                    <apex:repeat value="{!keys}" var="key">
+                        <tr  valign="top">
+                            <td>
+                                <br/>
+                                <div class="" style=" word-wrap: break-word; width: 100%;list-style: disc;white-space: normal;text-align: justify; font-weight: normal!important;">{!key}</div>
+                            </td>
+                            <td>
+                                <ul>
+                                    <apex:repeat value="{!values[key]}" var="map">
+                                        <!-- <div class="" title="{!ans}">{!ans}</div-->
+                                        <!--ul> -->
+                                        <li style="text-align: justify" >{!map}</li>
+                                        <!--/ul-->
+                                    </apex:repeat>
+                                </ul>
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+            
+            <!--/apex:outputPanel-->
+        </apex:form>
+    </html>
+</apex:page>

@@ -1,0 +1,16 @@
+<template>
+    <div class="container">
+        <template if:false={showSuccessMessage}>
+            <div class="success-message">
+                <lightning-icon icon-name="utility:success" alternative-text="Success"></lightning-icon>
+                Submitting for Approval...
+            </div>
+        </template>
+        <template if:true={errorMessage}>
+            <div class="error-message">
+                <lightning-icon icon-name="utility:error" alternative-text="Error"></lightning-icon>
+                {errorMessage}
+            </div>
+        </template>
+    </div>
+</template>

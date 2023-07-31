@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="Approval Status" icon-name="standard:sales_path">
+        <div style="margin:2rem;">
+            <lightning-progress-indicator current-step={currentvalue} type="path" variant="base">
+                <lightning-progress-step label="New" value="New" onclick={pathHandler}></lightning-progress-step>
+                <lightning-progress-step label="Pending" value="Pending" onclick={pathHandler}></lightning-progress-step>
+                <lightning-progress-step label="Approved" value="Approved" onclick={pathHandler}></lightning-progress-step>
+                <lightning-progress-step label="Rejected" value="Rejected" onclick={pathHandler}></lightning-progress-step>
+	        </lightning-progress-indicator>
+        </div>
+	</lightning-card>
+</template>

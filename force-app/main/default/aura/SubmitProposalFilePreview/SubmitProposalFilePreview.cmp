@@ -1,0 +1,118 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" 
+                access="global" controller="SendEmailController">
+    
+    <aura:attribute name="showTemp" type="boolean"/>
+    <aura:attribute name="content" type="String"/>
+    <aura:attribute name="cc" type="String"/>
+    <aura:attribute name="defaultEmail" type="String"/>
+    <aura:attribute name="fileId" type="String"/>
+    <aura:attribute name="fileTitle" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="12" padding="around-small">
+        <lightning:card>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_2-of-2">                    
+                    <aura:if isTrue="{!NOT(v.showTemp)}">
+                        
+                        <div class="slds-p-bottom_medium slds-p-left_medium slds-border_bottom">
+                            <div class="slds-media">
+                                <div class="slds-media__figure slds-p-right_medium">
+                                    <div class="slds-icon slds-page-header__icon ">
+                                        <lightning:icon iconName="action:add_file" size="small"/>
+                                    </div>
+                                </div>
+                                <div class="slds-media__body">
+                                    <div class="slds-p-top_small">
+                                        <h1>
+                                            <span class="slds-page-header__title" title="Email Participants">File Preview</span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="slds-p-around_medium">
+                            <div class="slds-box">
+                                <div class="slds-col slds-align_absolute-center"> 
+                                    <lightning:fileCard fileId="{!v.fileId}" description="Sample Description"/>
+                                </div>
+                            </div>
+                        </div><br/>
+                        
+                        <div style="text-align:center;"> 
+                            <lightning:button iconPosition="left" variant="brand" onclick="{!c.handleNext}" name="next" label="Next" />
+                            <lightning:button iconPosition="right" variant="destructive" onclick="{!c.handleCancel}" name="cancel" label="Cancel" />
+                        </div>
+                        <aura:set attribute="else">
+                            
+                            <aura:html tag="style">
+                                .slds-modal__container{
+                                max-width: 80% !important;
+                                width:100% !important;
+                                height:100% !important;
+                                }
+                                .slds-modal__footer{
+                                display:none !important;
+                                }   
+                                .slds-modal__container>.modal-body>.baseDefault.forceChatterBasePublisher.forceChatterLightningComponent,
+                                .slds-modal__container>.modal-body>.baseDefault.forceChatterBasePublisher.forceChatterLightningComponent>.forceChatterPublisherPresentationPanel,
+                                .slds-modal__container>.modal-body>.baseDefault.forceChatterBasePublisher.forceChatterLightningComponent>.forceChatterPublisherPresentationPanel>.container.activeState,
+                                .slds-modal__container>.modal-body>.baseDefault.forceChatterBasePublisher.forceChatterLightningComponent>.forceChatterPublisherPresentationPanel>.container.activeState>.cuf-content
+                                {
+                                height:80%;
+                                }
+                            </aura:html>
+                            
+                            <div class="slds-p-bottom_medium slds-p-left_medium slds-border_bottom">
+                                <div class="slds-media">
+                                    <div class="slds-media__figure slds-p-right_medium">
+                                        <div class="slds-icon slds-page-header__icon ">
+                                            <lightning:icon iconName="action:email" size="small"/>
+                                        </div>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <div class="slds-p-top_small">
+                                            <h1>
+                                                <span class="slds-page-header__title" title="Email Participants">Send Proposal Email</span>
+                                            </h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-p-around_medium">
+                                <div class="slds-box">
+                                    <label class="slds-form-element__label" for="form-element-01">To:</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="text" value="{!v.defaultEmail}" id="txtEmail" class="slds-input" />
+                                    </div>
+                                    <label class="slds-form-element__label" for="form-element-01">cC:</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="text" value="{!v.cc}" class="slds-input" />
+                                    </div>
+                                    <label class="slds-form-element__label" for="form-element-01">Subject</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="text" id="txtSubject" class="slds-input" />
+                                    </div>							
+                                    <label class="slds-form-element__label" for="form-element-01">Message</label>
+                                    <div class="slds-form-element__control">
+                                        <lightning:inputRichText value="{!v.content}" placeholder="Content for Participants"/>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-grid slds-gutters slds-text-align_center slds-p-top--small">
+                                <div class="slds-col">
+                                    <button class="slds-button slds-button_neutral" onclick="{!c.handleSend}">Send Email</button>      
+                                    <button class="slds-button slds-button_neutral" onclick="{!c.handleCancel}">Cancel</button>      
+                                </div>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </div>
+        </lightning:card>
+    </lightning:layoutItem>
+    
+</aura:component>

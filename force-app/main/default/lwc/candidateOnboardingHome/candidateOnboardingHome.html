@@ -1,0 +1,69 @@
+<template>
+    <div class="sidebar slds-split-view_container slds-is-closed close-panel" data-my-id="leftPanel"
+        style="float:left;">
+        <lightning-button-icon onclick={togglePanel} variant="bare" icon-name="utility:left"
+            class="slds-button slds-button_icon slds-button_icon slds-split-view__toggle-button sidebar-button"
+            aria-controls="split-view-id" aria-expanded="true">
+        </lightning-button-icon>
+        <article aria-hidden="false" id="split-view-id" class="slds-split-view slds-grid slds-grid_vertical slds-grow"
+            style="padding-right: 7px">
+            <lightning-vertical-navigation selected-item={selectedNav} onselect={handleSelect}>
+                <lightning-vertical-navigation-section label="Candidate Name">
+                    <!-- <lightning-vertical-navigation-item-icon label="Recent" name="Recent"
+                        icon-name="utility:clock">
+                    </lightning-vertical-navigation-item-icon> -->
+
+                    <lightning-vertical-navigation-item-icon label="Profile" name="Profile"
+                        icon-name="utility:user">
+                    </lightning-vertical-navigation-item-icon>
+
+                    <lightning-vertical-navigation-item-icon label="My Application" name="My Application"
+                        icon-name="utility:form">
+                    </lightning-vertical-navigation-item-icon>
+
+                    <lightning-vertical-navigation-item-icon label="Public Reports" name="Public Reports"
+                        icon-name="utility:groups">
+                    </lightning-vertical-navigation-item-icon>
+
+                    <lightning-vertical-navigation-item label="All Reports" name="All Reports">
+                    </lightning-vertical-navigation-item>
+                </lightning-vertical-navigation-section>
+
+                <lightning-vertical-navigation-section label="My Docuemts">
+                    <lightning-vertical-navigation-item-icon label="Documents" name="docUploader"
+                        icon-name="utility:open_folder">
+                    </lightning-vertical-navigation-item-icon>
+
+                    <lightning-vertical-navigation-item-icon label="Log out" name="logout" onclick={logOut} icon-name="utility:logout">
+                    </lightning-vertical-navigation-item-icon>
+                </lightning-vertical-navigation-section>
+            </lightning-vertical-navigation>
+        </article>
+    </div>
+
+    <div style="float:right;padding-left:1px;" data-my-id="rightPanel" class="expand-panel">
+        <!--Main Right Body Section-->
+        <lightning-card title={selectedNav} icon-name="utility:work_order_type" class="slds-m-bottom_small">
+            <button class="slds-button slds-button_icon slds-button_icon-border slds-m-left_x-small" slot="actions" title="Refresh" alternative-text="Refresh" onclick={refreshUserData}>
+            <svg class="slds-button__icon" aria-hidden="true">
+                <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg?cache=9.28.0#refresh"></use>
+            </svg>
+        </button>
+
+        <article class="slds-grid slds-grid_vertical slds-grow slds-scrollable_none slds-m-top_x-small slds-m-bottom_x-large" style="height:84vh">
+            <div class=" slds-grid slds-grid_vertical slds-scrollable_y">
+                <template lwc:if={isShowMyProfile}>
+                    <!-- <c-candidate-detail recordid={recordId}></c-candidate-detail> -->
+                    <!-- <c-candidate-onboarding-home></c-candidate-onboarding-home> -->
+                    <c-new-employee-enrolment></c-new-employee-enrolment>
+                </template>
+
+                <template lwc:if={isShowDocUploader}>
+                    <iframe src="https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?Id=0030k00001R7oqcAAB" frameborder="0" width="95%" height="700px" style="overflow-x:hidden;"></iframe>
+                </template>
+
+            </div>
+        </article>
+        </lightning-card>
+    </div>
+</template>

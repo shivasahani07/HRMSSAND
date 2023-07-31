@@ -1,0 +1,123 @@
+<aura:component controller="PE_feedbackToOthersComponentController"  implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:searchInterface">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="userWithLineItemWrapperList" type="List[]" />
+    <aura:attribute name="showLineItems" type="Boolean" default="false"/>
+    <aura:attribute name="showOptions" type="Boolean" default="false"/>
+    <aura:attribute name="userId" type="String" default=""/>
+    <aura:attribute name="userName" type="String" default=""/>
+    <aura:attribute name="feedbackLineItemList" type="List[]" />
+    <aura:attribute name="lineItemWithRecordTypeWrapperList" type="List[]" />
+    <aura:attribute name="peFormList" type="List[]" />
+    <aura:attribute name="miniFormList" type="List[]" />
+    <aura:attribute name="fullFormList" type="List[]" />
+    <aura:attribute name="allFeedbackLineItemsforUser" type="List[]"/>
+    <aura:attribute name="feedbackStatusPicklistValuesWrapper" type="List[]"/>
+    <aura:attribute name="showBoxes" type="boolean" default="true"/>
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}" />
+		<aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}" />
+		<!--create a component attributs -->
+		<aura:attribute name="Spinner" type="boolean" default="false" />
+		<aura:if isTrue="{!v.Spinner}">
+				<div aura:id="spinnerId" class="slds-spinner_container">
+						<div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert"> <span class="slds-assistive-text">Loading</span>
+								<div class="slds-spinner__dot-a"></div>
+								<div class="slds-spinner__dot-b"></div>
+						</div>
+				</div>
+		</aura:if>
+
+
+     <!--  <div class="slds-grid slds-scrollable_x">
+        <aura:iteration items="{!v.feedbackStatusPicklistValuesWrapper}" var="statusVals" indexVar="statusIndex">          
+           <div class="slds-col slds-size_4-of-12" style="float:left;" >
+            <output data-selected-Index="{!statusIndex}" type="text" onclick = "{!c.getUsersForFeedbackStatus}" value="{!statusVals.feedbackStatus}" class="slds-input slds-col"  style="{! 'background-color:' + statusVals.backgroundColor }"/>&nbsp;
+        </div>
+        </aura:iteration>
+        </div> -->
+
+                   <!-- <div class="slds-container_small">
+                        <div class="slds-text-align_left"><b>Select an User: </b></div>
+                        <ui:inputSelect class="slds-select" disabled="" multiple="false" aura:id="selectUserName" >
+                        <ui:inputSelectOption text="None" label="None" />
+                            <aura:iteration items="{!v.userWithLineItemWrapperList}" var="item">
+                                <ui:inputSelectOption label="{!item.userName}" text="{!item.userId}"/>
+                            </aura:iteration>
+                        </ui:inputSelect>
+                    </div> -->
+
+                        <aura:if isTrue="{!v.showBoxes}">
+                        <br/>
+                        <div  style="float:left;" class="slds-col slds-size_4-of-12"><span  class="slds-text-heading_medium OpenCss">Open</span>
+                       
+                        <div >
+                             <br/>
+                            <aura:iteration items="{!v.userWithLineItemWrapperList}" var="item" indexVar="currentIndex">
+                            <aura:if isTrue="{!item.feedbackStatus == 'Open'}"> 
+                               <!--  <output data-selected-Index="{!currentIndex}" type="text" onclick="{!c.changeShowLineItemStatus}" value="{!item.userName}" /> -->
+
+                                 <lightning:button name="{!currentIndex}" label="{!item.userName}" class="slds-col slds-size_4-of-6" onclick="{!c.changeShowLineItemStatus}" /><br/>
+                             </aura:if> 
+
+
+                         </aura:iteration>
+                        </div>
+                        </div>
+
+                        <div  style="float:left;" class="slds-col slds-size_4-of-12"><span  class="slds-text-heading_medium InDraftCss">In Draft</span>
+                       
+                        <div>
+                             <br/>
+                            <aura:iteration items="{!v.userWithLineItemWrapperList}" var="item" indexVar="currentIndex">
+                             <aura:if isTrue="{!item.feedbackStatus == 'In Draft'}">
+
+                               <!--  <output data-selected-Index="{!currentIndex}" type="text" onclick="{!c.changeShowLineItemStatus}" value="{!item.userName}" />&nbsp; -->
+
+                                 <lightning:button name="{!currentIndex}" label="{!item.userName}" class="slds-col slds-size_4-of-6" onclick="{!c.changeShowLineItemStatus}" /><br/>
+                                
+                            </aura:if>
+                        </aura:iteration>
+                        </div>
+                        </div>
+
+
+                        <div  style="float:left;" class="slds-col slds-size_4-of-12"><span  class="slds-text-heading_medium SubmittedCss">Submitted</span>
+                        
+                        <div >
+                            <br/>
+                            <aura:iteration items="{!v.userWithLineItemWrapperList}" var="item" indexVar="currentIndex">
+                             <aura:if isTrue="{!item.feedbackStatus == 'Submitted'}">
+
+                               <!--  <output data-selected-Index="{!currentIndex}" type="text" onclick="{!c.changeShowLineItemStatus}" value="{!item.userName}" /><br/> -->
+
+                               <lightning:button name="{!currentIndex}" label="{!item.userName}" class="slds-col slds-size_4-of-6" onclick="{!c.changeShowLineItemStatus}" /><br/>
+                                
+                            </aura:if>
+                        </aura:iteration>
+                       </div>
+                       </div>
+                   </aura:if>
+
+                
+
+
+
+    <div style="margin: 0% 0% 2% 22%;">
+        <br/>
+        <aura:if isTrue="{!v.showOptions}">
+            <lightning:button label="Back" iconName="utility:back" iconPosition="left" variant="brand" onclick="{!c.back}" />
+            <lightning:button label="Mini Form" iconName="utility:news" iconPosition="left" variant="brand" onclick="{!c.getMiniFeedback}"  disabled="true" class="hiddenCss"/>
+            <lightning:button label="PE Feedback" iconName="utility:mark_all_as_read" iconPosition="left" variant="brand" onclick="{!c.getPEFeedback}" />
+            <lightning:button label="Non-PE Feedback" iconName="utility:richtextbulletedlist" iconPosition="left" variant="brand" onclick="{!c.getNonPEFeedback}" disabled="true" class="hiddenCss"/>
+            <lightning:button label="All" iconName="utility:expand_all" iconPosition="left" variant="brand" onclick="{!c.getAllPEFeedback}" class="hiddenCss"/> 
+        </aura:if>
+    </div>
+    
+    
+    <aura:if isTrue="{!v.showLineItems}">
+        <c:PE_FeedbackToOthesTable fblineitemList="{!v.feedbackLineItemList}"/>
+    </aura:if>
+    
+    
+    
+    
+</aura:component>

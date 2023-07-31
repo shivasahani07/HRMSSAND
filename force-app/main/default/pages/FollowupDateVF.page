@@ -1,0 +1,91 @@
+<apex:page sidebar="false" showHeader="false" standardStylesheets="false" controller="InfoRequiredPropSubmissClas"  >
+    
+    <html>
+        <head>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js" crossorigin='anonymous'></script>
+            <style>
+                html,body{
+                    background-color:#e5e7eb;
+                    font-family: 'Dosis', sans-serif;
+                    font-family: 'Varela Round', sans-serif !important;
+                }
+            </style>
+            </head>
+            <body id="body-pd" ng-app="myApp" ng-controller="myCtrl">
+                <script>
+                debugger
+                var leadObj;
+                leadObj = JSON.parse('{!leadRecordString}');
+                var app = angular.module('myApp',[])
+                .controller('myCtrl', function($scope){
+                    $scope.data = leadObj;
+                    $scope.dateFiled;
+                    $scope.leadId = leadObj.Id;
+                    $scope.dateFiled = new Date(leadObj.Followup_Date__c);
+                    
+                    $scope.saveleadData = function(){
+                        //delete $scope.data.attributes;
+                        debugger;
+                        var year = 0;
+                    var month = 0;
+                    var day = 0;
+                    
+                    year = $scope.dateFiled.getUTCFullYear();
+                    month = $scope.dateFiled.getUTCMonth()+1;
+                    day = $scope.dateFiled.getDate();
+                        InfoRequiredPropSubmissClas.updateLeadDate($scope.leadId,day,month,year,function(result,event){
+                            if(event.status){
+                                debugger;
+                                swal({
+                                    title: "Thank You",
+                                    text:  'Lead Details Saved Successfully.',
+                                    icon: "success",
+                                    button: "ok!",
+                                });
+                                //  var landingUrl = "https://sales-production--spadev.sandbox.my.salesforce.com";
+                                //   window.location.replace(landingUrl);
+ 
+                                $scope.$apply();
+                            }else{
+                                alert("ERROR")
+                            }
+                      });   
+
+                   } 
+                    
+                })
+                </script>
+                
+                 <div class="header">
+                    <h3  align="center"> Lead Details</h3>
+                 </div>
+                        
+                       <div class="container mt-2">
+                             <h4 style=" font-size: 21px;">Followup Date</h4>
+                            <form action="/action_page.php">
+     
+                            <div class="mb-2">
+                                <div class="form-outline mb-2">
+                                    <label class="form-label" for="form11Example4" style="margin-top: -2px; margin-bottom: 4px;">Followup Date</label>
+                                    <input type="date" class="form-control" ng-model="dateFiled"  placeholder="Enter Date"/>
+                                </div>
+                                
+                               
+                            </div>
+                           
+                          </form>
+                          </div>
+                
+               
+
+                
+                <div class="text-center">
+                <button type="submit" ng-click="saveleadData()" class="btn btn-primary">Submit</button>
+              </div>
+        </body>
+    </html>
+    
+</apex:page>

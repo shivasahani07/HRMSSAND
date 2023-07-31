@@ -1,0 +1,59 @@
+<!-- THIS COMP HAS BEEN CREATED BY SHIVA FOR PROJECT MANAGEMENT
+HELPER APEX = ProjectDemoHelper	
+ -->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="selectedId" type="String" />
+    <aura:attribute name="ProjectName" type="String" />
+    <aura:attribute name="StartDate" type="Date" />
+    <aura:attribute name="EndDate" type="Date" />
+    <aura:attribute name="Status" type="String" />
+     <aura:attribute name="EstimatedHours" type="integer" />
+    
+    
+    <div class="slds-page-header">
+        <div class="slds-page-header__name-title">
+            <h1 class="slds-section__title" >Welcome to Project Dashboard 🤷‍♂️👍</h1>  
+        </div>
+    </div>
+    <lightning:card footer="Card Footer" title="Hello">
+        <div class="sizing slds-grid slds-wrap">
+            <div class="slds-size_3-of-12 slds-p-left_large">
+                <lightning:input name="ProjectName" label="Project Name" placeholder="Project Name"/>
+            </div>
+            <div class="slds-size_2-of-12 slds-p-left_large">
+                <lightning:input type="date" name="StartDate" label="Start Date" placeholder="Start Date"/>
+                
+            </div>
+            <div class="slds-size_2-of-12 slds-p-left_large">
+                <lightning:input type="date" name="EndDate" label="End Date" placeholder="End Date"/>
+            </div>
+            <lightning:select name="Status" label="Project Status" required="true" class="slds-p-left_large">
+                <option value="NEW">NEW</option>
+                <option value="OPEN">OPEN</option>
+                <option value="CLOSED">CLOSED</option>
+                <option value="PENDING">PENDING</option>
+            </lightning:select>
+        </div>
+        <div class="sizing slds-grid slds-wrap">
+            <div class="slds-p-left_large">
+                <lightning:input name="EstimatedHours" label="Estimated Project Hours" placeholder="Estimated Project Hours"/> 
+            </div>
+            <div class="slds-p-left_large">
+                <lightning:input name="TagAccount" label="Tag Account" placeholder="Tag Account"/> 
+            </div>
+            <div class="slds-p-left_large">
+                <div class="slds-form-element slds-p-top_x-small">
+                    <c:lookupComponent/>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div>
+        	<lightning:button variant="brand" label="Next" title="Brand action" onclick="{! c.handleClick }" />
+        </div>   
+    </lightning:card>
+    
+</aura:component>

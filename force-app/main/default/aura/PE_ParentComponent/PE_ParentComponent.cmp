@@ -1,0 +1,53 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" controller="PE_ParentComponentHelper">
+    <aura:attribute name="showExistingScreen" type="boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="disable" type="boolean" default="true" />
+    <lightning:navigation aura:id="navLink"/>
+    <aura:attribute name="lastArray" type="Object" />
+    <aura:attribute name="ListofIntervals" type="List[]" description="List of Intervals" />
+    <aura:attribute name="lastElement" type="integer" default="0" />
+    
+    <div class="slds-box slds-theme_default " style=" background-color:#bc152a; color:white">
+        <div class="headerCSS "><a href = "/home/home.jsp"> <img src="{!$Resource.HRMS_Logo}" class="etlogo" /></a></div>
+        <div class="headerCSS">
+            <p align="right" style="font-size:18px">Welcome <b>Ajeet Kumar</b></p>
+        </div>
+    </div>
+    <div class="slds-card">
+            <aura:iteration items="{!v.ListofIntervals}" var="Q" indexVar="index">
+                <aura:if isTrue="{!not(empty(v.lastArray))}">
+                    <aura:if isTrue="{!v.ListofIntervals.length-1>index}">
+                        <div  data-value="{!Q.Id}" style="background-color: #4ea6e4;"> {!Q.Name} </div>
+                    </aura:if>
+                </aura:if>
+                <aura:if isTrue="{!(empty(v.lastArray))}">
+                    <aura:if isTrue="{!v.ListofIntervals.length>index}">
+                        <!--aura:if isTrue="{!or(index % 2 != 0,index == 0)}"-->
+                        <div class="column"  data-value="{!Q.Id}" style="background-color: #4ea6e4;"> {!Q.Name} </div>
+                    </aura:if>
+                </aura:if>
+            </aura:iteration>
+            <aura:if isTrue="{!not(empty(v.lastArray))}">
+                <div class="column1" onclick="{!c.getFeedbackitems}" data-value="{!v.lastArray.Id}" style="background-color: #4ea6e4;"> {!v.lastArray.Name} </div>
+            </aura:if>
+    </div>
+    
+    <!--  <aura:if isTrue="{!v.showExistingScreen}">
+        <aura:if isTrue="{!v.disable}">
+            <div style="width:100%; pointer-events: none; opacity: 0.6;" >
+                <c:PE_UserDashboardComponent />
+            </div>
+            <aura:set attribute="else">
+                <div style="width:100%;">
+                    <c:PE_UserDashboardComponent />
+                </div>
+            </aura:set>
+        </aura:if>
+        
+        <aura:set attribute="else">
+            <div class="slds-align_absolute-center slds-size_1-of-3" style="margin-top:8%;">
+                <lightning:button name="initiatePE" label="Initiate PE" class="slds-col slds-size_4-of-6" onclick="{!c.handleInitiatePE}" variant="brand"/><br/>
+            </div>            
+        </aura:set>
+    </aura:if> -->
+</aura:component>

@@ -1,0 +1,90 @@
+.THIS .successMsg{
+    font-size:50px!important;
+    background-color:#BDC3C7;
+    margin-top:25%;
+}
+
+.THIS .heading {
+    background-color: #bc152a;
+    color:white;
+    font-weight:bold;
+}
+
+.THIS .multipicklist{
+    margin-right:58%;
+}
+
+.THIS .requiredInput{
+    color:red ;
+    font-weight:bold;
+    font-size:17px;
+    
+}
+.THIS .slds-form-element__label{
+    font-size: .85rem!important;
+}
+
+.THIS .labelStyle{
+    font-size:110%;
+    font-weight:bold;
+    float:left;width: 100% !important;text-align:left !important;
+    margin-bottom: 5px!important;
+}
+.THIS .slds-textarea{
+    font-weight:500;
+    color: black ;
+}
+
+.THIS .TextAreaCss1 {
+    resize:none !important;
+    width:60% !important;
+}
+.THIS .marginLeftThirtyFive{
+    margin-left:5%
+}
+.THIS .marginLeftFourty{
+    margin-left:5%
+}
+
+.THIS .dualListBox{
+    height:170px !important;
+    width: 50px !important;
+}
+.THIS .slds-dueling-list__options{
+    width: 10rem;
+    height: 10rem;
+}
+
+.THIS .slds-form-element__control{
+    width:100% !important;
+}
+
+.THIS .slds-select_container{
+    width:400px !important;
+}
+.THIS .slds-scope{
+    background:#e60000 !important; 
+}
+.THIS .slds-spinner_container {  
+    z-index: 10000;
+    position: sticky;   
+}
+.THIS .etlogo{
+    
+    background-size: cover;
+    border: none;
+    width: 70px;
+    height: 40px;
+    cursor: pointer;
+    color: transparent;
+    
+}
+.THIS .headerCSS{
+    width: 32%;
+    display: inline-block;
+}
+
+.THIS .css300{
+    color: red;
+    font-weight: bolder;
+}

@@ -1,0 +1,25 @@
+<aura:component controller="PE_SelfAssessmentHelper" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="peFeedback" type="PE_Feedback_New__c"/>
+    
+    <aura:if isTrue="{!empty(v.peFeedback)}">
+        <br/>
+        <div style="width:50%;" class="slds-size_1-of-3 slds-align_absolute-center">
+            <lightning:button name="nn" label="Click for Self Assessment" class="slds-col slds-size_4-of-6" onclick="{!c.handleNewFeedback}" /><br/>
+        </div>
+    </aura:if>
+    
+    <aura:if isTrue="{!OR(v.peFeedback.Status__c == 'Open', v.peFeedback.Status__c == 'In Draft')}">
+        <br/>
+        <div style="width:50%;" class="slds-size_1-of-3 slds-align_absolute-center">
+            <lightning:button name="nn" label="Click for resume your Self Assessment" class="slds-col slds-size_4-of-6" onclick="{!c.handleDraftFeedback}" /><br/>
+        </div>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.peFeedback.Status__c == 'Submitted'}">
+        <div class ="slds-align_absolute-center" style="margin-top:5%; font-size:35px;">
+            Your self assessment is completed!!
+        </div>
+    </aura:if>
+    
+</aura:component>

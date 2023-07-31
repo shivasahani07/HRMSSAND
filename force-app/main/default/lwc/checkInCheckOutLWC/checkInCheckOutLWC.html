@@ -1,0 +1,15 @@
+<template>
+<template if:false={BooleanValue}>
+  <Lightning-card>
+      <lightning-button variant="brand" class="slds-p-left_small" label="Check-In" title="CheckIn" onclick={handleCheckIn} disabled={HandleDisable}></lightning-button>
+  </Lightning-card>
+</template>
+
+<template if:true={BooleanValue}>
+    <Lightning-card>
+    <lightning-button variant="brand" class="slds-p-left_small" label="Check-Out" title="CheckIn" onclick={handleCheckOut}></lightning-button>
+    <lightning-button variant="destructive" class="slds-p-left_small" label="Start Break Time" title="CheckIn" onclick={handleStartBreakTime}></lightning-button>
+    <lightning-button variant="destructive" class="slds-p-left_small" label="End Break Time" title="CheckIn" onclick={handleEndBreakTime}></lightning-button>
+    </Lightning-card>
+</template>
+</template>

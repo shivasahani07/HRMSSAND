@@ -1,0 +1,240 @@
+<apex:page sidebar="false" showHeader="false" standardStylesheets="false" controller="InfoRequiredPropSubmissClas"  >
+    
+    <html>
+        
+        <head>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js" crossorigin='anonymous'></script>
+            
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+            
+            
+            
+            
+            <style>
+                html,body{
+                    background-color:#e5e7eb;
+                    font-family: 'Dosis', sans-serif;
+                    font-family: 'Varela Round', sans-serif !important;
+                }
+            
+            .col-auto{
+                width: 647px;
+                padding-bottom: 6px;
+            }
+            </style>
+            </head>
+            
+            <script>
+                debugger;
+            var leadObj;
+            leadObj = JSON.parse('{!leadRecordString}');
+            
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                
+                $scope.data = leadObj;
+                $scope.leadId = leadObj.Id;
+                
+                $scope.saveRecord = function(){
+                    debugger;
+                    delete $scope.data.attributes;
+                    var ledId = $scope.leadId;
+                    if($scope.data.Legal_Name__c !=null && $scope.data.Legal_Name__c !=undefined){
+                        var legalName = $scope.data.Legal_Name__c;
+                    }else{
+                       swal({
+                                title: "ERROR",
+                                text:  'Please enter lagal Name !.',
+                                icon: "warning"
+                            }); 
+                    }
+                    
+                    if($scope.data.Address.city !=null && $scope.data.Address.city != undefined){
+                        var city = $scope.data.Address.city;
+                    }else{
+                        var city = "";
+                    }
+                    if($scope.data.Address.state !=null && $scope.data.Address.state != undefined){
+                        var state = $scope.data.Address.state;
+                    }else{
+                        var state = "";
+                    }
+                     if($scope.data.Address.street !=null && $scope.data.Address.street != undefined){
+                        var street = $scope.data.Address.street;
+                    }else{
+                        var street = "";
+                    }
+                    if($scope.data.GST__c !=null && $scope.data.GST__c != undefined){
+                        var gst =  $scope.data.GST__c;
+                    }else{
+                        var gst = "";
+                    }
+                    if($scope.data.pocemail !=null && $scope.data.pocemail != undefined){
+                        var pocemail =  $scope.data.pocemail;
+                    }else{
+                        var pocemail = "";
+                    }
+                    if($scope.data.POC_Mobile_Number__c !=null && $scope.data.POC_Mobile_Number__c != undefined){
+                        var pcophone =  $scope.data.POC_Mobile_Number__c;
+                    }else{
+                        var pcophone = "";
+                    }
+                    if($scope.data.POC_Position__c !=null && $scope.data.POC_Position__c != undefined){
+                        var position =  $scope.data.POC_Position__c;
+                    }else{
+                        var position = "";
+                    }
+                     if($scope.data.Signing_Authority_Name__c !=null && $scope.data.Signing_Authority_Name__c != undefined){
+                        var authname =  $scope.data.Signing_Authority_Name__c;
+                    }else{
+                        var authname = "";
+                    }
+                     if($scope.data.Singing_Authority_Position__c !=null && $scope.data.Singing_Authority_Position__c != undefined){
+                        var authpos =  $scope.data.Singing_Authority_Position__c;
+                    }else{
+                        var authpos = "";
+                    }
+                     if($scope.data.POC_Name__c !=null && $scope.data.POC_Name__c != undefined){
+                        var pocName =  $scope.data.POC_Name__c;
+                    }else{
+                        var pocName = "";
+                    }
+                    var authoEmail = $scope.data.Authorities_Email__c;
+                     if($scope.data.Authorities_Email__c !=null && $scope.data.Authorities_Email__c != undefined){
+                        var authoEmail =  $scope.data.Authorities_Email__c;
+                    }else{
+                        var authoEmail = "";
+                    }
+                    // delete $scope.data.Address;
+                    InfoRequiredPropSubmissClas.getUpdatedLeadData(ledId,legalName,city,state,street,gst,pocemail,pcophone,position,authname,authpos,pocName,authoEmail, function(result, event){ //$scope.leadId, $scope.data,7
+                        debugger;
+                        if(event.status){
+                            swal({
+                                title: "SUCCESS",
+                                text:  'Lead Details have been Saved Successfully.',
+                                icon: "success"
+                            });
+                        }else{
+                            swal({
+                                title: "ERROR",
+                                text:  'Something went wrong !.',
+                                icon: "error"
+                            });
+                        }
+                    }) 
+                    
+                    
+                }
+                
+                
+            });
+            </script>
+            
+            
+            <body ng-app="myApp" ng-controller="myCtrl">      
+                
+                
+                <div class="card" style="width:100%;height: 100%;">
+                    <div class="header">
+                        <div style="font-size: 21px;padding: 0px;background: darkgray;margin-bottom: 0px;margin-top: -1px;text-align: center;font-family: math;">Lead Details Information</div>
+                    </div>
+                    
+                    
+                    <div class="container" style="width:100%;padding: 0px;">
+                        
+                        <div class="mt-3" id="basic">
+                            <div class="mb-2">
+                                <div style="font-size: 18px;padding: 0px;background: darkgray;margin-bottom: 10px;text-align: center;margin-right: 0px;">Basic Details of Lead</div>
+                                <form >
+                                    <div class="col-auto" style=" width: 100%; padding-bottom: 10px;">
+                                        <label class="form-label" for="form11Example4" style="margin-top: -4px; margin-bottom: 4px;margin-left: 6px;font-size: 11px;">Legal Name of the Lead</label>
+                                        <input type="text" id="form11Example4" ng-model="data.Legal_Name__c" style="font-size: 14px;" placeholder="Enter Name"  class="form-control" />
+                                    </div>
+                                </form>
+                                <form >
+                                    <div class="col-auto" style=" width: 100%; padding-bottom: 10px;">
+                                        <label class="form-label" for="form11Example4" style="margin-top: -2px; margin-bottom: 4px;margin-left: 6px;font-size: 11px;">Address of the Lead</label>
+                                        <input type="text" id="form11Example4" ng-model="data.Address.street" placeholder="Enter Address"  class="form-control" />
+                                    </div>
+                                </form>
+                                <form >
+                                    <div class="col-auto" style=" width: 100%; padding-bottom: 10px;">
+                                        <label class="form-label" for="form11Example4" style="margin-top: -2px; margin-bottom: 4px;margin-left: 6px;font-size: 11px;">GST</label>
+                                        <input type="text" id="form11Example4" ng-model="data.GST__c" placeholder="Enter GST"  class="form-control" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        
+                        <div class="mb-2">
+                            <div style="font-size: 18px;padding: 0px;background: darkgray;margin-bottom: 15px;text-align: center;margin-right: 0px;margin-top: -10px;">Point of Contact Details</div>
+                            <form >
+                                <div class="col-auto" style=" width: 100%; padding-bottom: 0px;margin-top: -10px;">
+                                    <label class="form-label" for="form11Example4" style="margin-top: -2px; margin-bottom: 4px;margin-left: 6px;font-size: 11px;">Name</label>
+                                    <input type="text" id="form11Example4" ng-model="data.POC_Name__c" style=" margin-bottom: -10px; " placeholder="Enter Name"  class="form-control" />
+                                </div>
+                            </form>
+                            <form  style=" padding-top: 20px; padding-bottom: 10px; ">
+                                <div class="col-auto" style=" width: 100%;padding-bottom: 10px;">
+                                    <label class="form-label" for="form11Example4" style="margin-top: -2px; margin-bottom: 4px;margin-left: 6px;font-size: 11px;">Email</label>
+                                    <input type="text" id="form11Example4" ng-model="data.POC_Email_Id__c" placeholder="Enter Email"  class="form-control" />
+                                </div>
+                                <div class="col-auto" style=" width: 100%;padding-bottom: 0px;">
+                                    <label class="form-label" for="form11Example4" style="margin-top: -2px; margin-bottom: 4px;margin-left: 6px;font-size: 11px;">Mobile Number</label>
+                                    <input type="text" id="form11Example4" ng-model="data.POC_Mobile_Number__c" placeholder="Enter Mobile Number"  class="form-control" />
+                                </div>
+                            </form>
+                            <form >
+                                <div class="col-auto" style=" width: 100%; padding-bottom: 10px;">
+                                    <label class="form-label" for="form11Example4" style="margin-top: -2px; margin-bottom: 4px;margin-left: 6px;font-size: 11px;">Position</label>
+                                    <input type="text" id="form11Example4" ng-model="data.POC_Position__c" placeholder="Enter Position"  class="form-control" />
+                                </div>
+                            </form>
+                        </div>
+                        
+                        
+                        
+                        <div class="mb-2">   
+                            <div style="font-size: 18px;padding: 0px;background: darkgray;margin-bottom: 10px;text-align: center;margin-right: 0px;margin-top: -10px;">Signing Authority Details</div>
+                            <form >
+                                <div class="col-auto" style=" width: 100%; padding-bottom: 10px;">
+                                    <label class="form-label" for="form11Example4" style="margin-top: -2px; margin-bottom: 4px;margin-left: 6px;font-size: 11px;">Authority Name</label>
+                                    <input type="text" id="form11Example4" ng-model="data.Signing_Authority_Name__c" placeholder="Enter Authority Name"  class="form-control" />
+                                </div>
+                            </form>
+                            <form >
+                                <div class="col-auto" style=" width: 100%; padding-bottom: 10px;">
+                                    <label class="form-label" for="form11Example4" style="margin-top: -2px; margin-bottom: 4px;margin-left: 6px;font-size: 11px;">Authority Position</label>
+                                    <input type="text" id="form11Example4" ng-model="data.Singing_Authority_Position__c" placeholder="Enter Authority Position"  class="form-control" />
+                                </div>
+                            </form>
+                            <form >
+                                <div class="col-auto" style=" width: 100%; padding-bottom: 10px;">
+                                    <label class="form-label" for="form11Example4" style="margin-top: -2px; margin-bottom: 4px;margin-left: 6px;font-size: 11px;">Authorities Email</label>
+                                    <input type="text" id="form11Example4" ng-model="data.Authorities_Email__c" placeholder="Enter Authorities Email"  class="form-control" />
+                                </div>
+                            </form>
+                        </div>
+                        <button type="submit" ng-click="saveRecord()" style="padding: 5px; margin-top: 0px ;   margin-left: 52rem;margin-bottom: 8px;" class="btn btn-success">Submit Details</button>
+                        
+                        
+                        
+                        
+                    </div>
+                    
+                </div>
+                
+                
+            </body>
+        </html>
+        
+    </apex:page>

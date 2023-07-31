@@ -1,0 +1,12 @@
+.THIS .wrapCss {
+      word-wrap: break-word;
+     width: 100%;
+     list-style: disc;
+     white-space: normal;
+     text-align: justify;
+}
+.THIS .wrapCss1 {
+       word-wrap: break-word;
+    width: 100%;
+    white-space: normal;
+}

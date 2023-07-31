@@ -1,0 +1,165 @@
+.THIS.intervalcards {
+     background-image: url("http://pluspng.com/img-png/feedback-600.png");
+    /* Change url to wanted image */
+     background-size: cover;
+     border: none;
+     width: 128px;
+     height: 128px;
+     cursor: pointer;
+     color: transparent;
+}
+ .THIS .Quest{
+     background-image: url("http://pluspng.com/img-png/feedback-600.png");
+    /* Change url to wanted image */
+     height: 35px;
+     padding-top: 5px;
+     border: 3px;
+     border-color: blue;
+     border-radius: 15px;
+}
+ .THIS.intervalButton{
+     height:50px;
+     margin: 50px;
+}
+ .THIS .backgroundcolorCss{
+     background-color: lightblue;
+}
+ .THIS .column {
+     float: left;
+     width: 36%;
+     padding: 50px;
+     text-align: center;
+     font-size: 22px;
+     cursor: pointer;
+     color: white;
+     border-style: solid;
+     border-radius: 25px;
+    /*background-image: url("https://extentor--eleavemod--c.cs72.visual.force.com/resource/1524650211000/feedback");
+     background-size: 232px 135px;
+     background-position: center;
+    */
+}
+.THIS .column2 {
+     float: left;
+     width: 36%;
+     padding: 50px;
+     text-align: center;
+     font-size: 25px;
+     cursor: pointer;
+     color: white;
+     border-style: solid;
+     border-radius: 25px;
+    /*background-image: url("https://extentor--eleavemod--c.cs72.visual.force.com/resource/1524650211000/feedback");
+     background-size: 232px 135px;
+     background-position: center;
+    */
+}
+ .THIS .column1 {
+     float: left;
+     width: 36%;
+     padding: 50px;
+     text-align: center;
+     font-size: 25px;
+     cursor: pointer;
+     color: white;
+     border-style: solid;
+     border-radius: 25px;
+     margin-left: 24%;
+    /*background-image: url("https://extentor--eleavemod--c.cs72.visual.force.com/resource/1524650211000/feedback");
+     background-size: 232px 135px;
+     background-position: center;
+    */
+}
+ .THIS .half-row{
+     word-spacing: -1;
+     display: inline-block;
+     width: 45%;
+     margin: 2%;
+     height: 80px;
+     background-color:blue;
+}
+ .THIS .column:hover{
+     background-color: #1e81c8 !important;
+}
+ .THIS .column1:hover{
+     background-color: #1e81c8 !important;
+}
+ .THIS .column2:hover{
+     background-color: #1e81c8 !important;
+}
+ .THIS .buttonCss{
+     margin-top: 5%;
+     margin-left: 35%;
+     padding-left: 3rem;
+     padding-right: 3rem;
+}
+.THIS .buttonCss1{
+     margin-top: 5%;
+   margin-left: 4%;
+     padding-left: 3rem;
+     padding-right: 3rem;
+}
+/* Clear floats after the columns .THIS .row:after {
+     content: "";
+     display: table;
+     clear: both;
+}
+*/
+ .THIS .roww{
+     font-size: 35px;
+    /*Remove extra margins!*/
+     min-height:50px;
+     margin-top:25px;
+     width:90%;
+     background-color:white;
+     margin-left:auto;
+     margin-right:auto;
+     padding:2%;
+}
+ .THIS.slds-spinner_container {
+     z-index: 10000;
+     position: fixed;
+}
+ .THIS .tableCss {
+     border:1px solid black 
+}
+ .THIS .feedbackTable{
+     width:100% !important;
+     table-layout:fixed;
+}
+ .THIS .disabledCss {
+     pointer-events: none !important;
+    /* for "disabled" effect */
+     opacity: 0.5 !important;
+     background: #CCC !important;
+}
+ .THIS .hiddenCss {
+     display: none;
+}
+ .THIS .etpdflogo{
+     background-size: cover;
+     border: none;
+     width: 111px;
+     height: 40px;
+     cursor: pointer;
+     color: transparent;
+}
+ .THIS .bulletCss{
+     height: 8px;
+     width: 8px;
+     background-color: black;
+     border-radius: 50%;
+     display: inline-block;
+}
+ .THIS .alignCss{
+     word-wrap: break-word;
+     width: 100%;
+     list-style: disc;
+     white-space: normal;
+     text-align: justify;
+}
+.THIS .headerCSS1{
+width: 50%;
+       visibility: hidden;
+
+}

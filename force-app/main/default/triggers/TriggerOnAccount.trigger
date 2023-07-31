@@ -1,0 +1,1 @@
+Trigger TriggerOnAccount on Account (After Insert){DMSConfigHelper.createFolder(Trigger.new);}

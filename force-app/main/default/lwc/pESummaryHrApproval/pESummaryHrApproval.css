@@ -1,0 +1,29 @@
+.container {
+    margin: 1rem;
+	background-color:skyblue;
+}
+
+.success-message,
+.error-message {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.success-message {
+    background-color: #d6f0c9;
+    color: #008000;
+}
+
+.error-message {
+    background-color: #fde7e9;
+    color: #cc0000;
+}
+
+.error-message lightning-icon {
+    margin-right: 0.5rem;
+}
+
+.success-message lightning-icon {
+    margin-right: 0.5rem;
+}

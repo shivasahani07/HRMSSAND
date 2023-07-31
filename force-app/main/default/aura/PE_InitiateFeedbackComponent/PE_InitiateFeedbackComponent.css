@@ -1,0 +1,35 @@
+.THIS {
+}
+	.THIS .select2-search__field{
+    min-width:150px;
+}
+.THIS.allignCenterNavigationBar{    
+    text-align: center;
+    font-size: 250%;
+}
+
+.THIS .sideBarNavigation{    
+    width:100% !important;
+    float: left !important; 
+}
+
+.THIS .roleSelection{
+    width: 100%;
+    float: left !important;
+}
+.THIS .selectedCss{
+	border: 1px solid #ccc;
+    width: 25%;
+    float: right;
+  /* left: 15%;*/ 
+    margin-top: 4.4em;
+    padding: 14px;
+    border-radius: 5px;
+}
+.THIS .slds-spinner_container {  
+  z-index: 10000;
+  position: sticky;   
+}
+.THIS .slds-form-element__label{
+        font-size: .8125rem!important;
+}

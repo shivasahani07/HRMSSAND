@@ -1,0 +1,43 @@
+.THIS .userNameButton{
+    background-color:#c3c1c1;
+    float:left;
+}
+.THIS .OpenCss{
+          background-color: #36a0fe;
+    padding: 0% 24% 0% 28%;
+    border-radius: 3%;
+    font-weight: bold;
+    color: white;
+    font-family: cambria;
+    }
+.THIS .InDraftCss{
+     background-color: orange;
+    width: 2%;
+    padding: 0% 21% 0% 24%;
+    border-radius: 3%;
+    font-weight: bold;
+    color: white;
+    font-family: cambria;
+}
+.THIS .SubmittedCss{
+       background-color: green;
+    padding: 0% 15% 0% 23%;
+    border-radius: 3%;
+    font-weight: bold;
+    color: white;
+    font-family: cambria;
+}
+.THIS .slds-spinner_container {  
+  z-index: 10000;
+  position: sticky;   
+}
+.THIS .hiddenCss{
+    display: none;
+}
+.THIS .alignCss1{
+     word-wrap: break-word;
+     width: 100%;
+     list-style: disc;
+     white-space: normal;
+     text-align: justify;
+}

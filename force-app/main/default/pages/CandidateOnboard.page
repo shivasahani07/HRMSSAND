@@ -1,0 +1,31 @@
+<apex:page showHeader="false" sidebar="false">
+    <apex:includeLightning />
+    <apex:slds />
+    <!--Lightning Container-->
+    <div style="width:100%;height:100vh;" id="LightningContainer"/>
+    
+    <script type="text/javascript">
+    //get contact Id from URL
+    var contactId = "{!$CurrentPage.parameters.id}";
+    var hashCode = "{!$CurrentPage.parameters.hashCode}";
+
+    
+    //Create Lightning Component
+    $Lightning.use("c:CandidateOnboardingApp", function() {
+        debugger;
+        $Lightning.createComponent("c:candidateOnboardingHome", 
+                                   { hashCodeId :hashCode}, //Pass Parameter
+                                   "LightningContainer", function(component) {
+                                       console.log('Component created Successfully');
+                                   });
+    });
+    
+    //function callLWCMethod() {
+        //let message = document.getElementById('messageId').value;
+    //var lwcComponent = document.querySelector("c-candidate-onboarding-home");
+        // lwcComponent.handleVFCall(message);
+    // }
+    </script>
+    
+
+</apex:page>

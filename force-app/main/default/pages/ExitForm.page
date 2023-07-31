@@ -1,0 +1,74 @@
+<apex:page sidebar="false" showHeader="false" standardStylesheets="false" controller="ReimbursementConfigController">
+    <html>
+        <head>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js" integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js" integrity="sha512-sH8JPhKJUeA9PWk3eOcOl8U+lfZTgtBXD41q6cO/slwxGHCxKcW45K4oPCUhHG7NMB4mbKEddVmPuTXtpbCbFA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet" crossorigin="anonymous"/>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>  
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        </head>
+         <body ng-app="ExitApp" ng-controller="Exit_Ctrl">
+            <div class="container">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h4>
+                            Resignation Form
+                        </h4>
+                     </div>
+                <div class="card-body">
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <label>Resign Date</label>
+                        	<input class="form-control" type="date"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Last Working Date</label>
+                        	<input class="form-control" type="date"/>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <label>Personal Email</label>
+                        	<input class="form-control" type="text"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Mobile No.</label>
+                        	<input class="form-control" type="text"/>
+                        </div>
+                     </div>  
+                     <div class="row mt-3">
+                     	<div class="col-md-12">
+                         	<textarea rows="3" class="form-control"></textarea>
+                         </div>
+                      </div>
+                      <div class="row mt-3">
+                     	<div class="col-md-12">
+                            <button class="btn btn-primary" ng-click="SaveResignation()"><i class="fa-solid fa-circle-check pe-2"></i>Save</button>
+                         </div>
+                      </div>
+                    </div>
+                </div>
+             </div>
+         </body>  
+         <script>
+            var app = angular.module('ExitApp', []);
+            app.controller('Exit_Ctrl', function ($scope) {
+                $scope.getCandidate = function () {				
+                ReimbursementConfigController.getCandidate(function (result, event) {
+                    //debugger;
+                    console.log(result);
+                    console.log(event);
+                    if (event.status) {
+                        $scope.objRemb = result;                        
+                        debugger;
+                        $scope.$apply();
+                    }
+                })
+            }
+            $scope.getReimbDet();
+            });
+         </script>
+      </html>
+</apex:page>

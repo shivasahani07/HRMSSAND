@@ -1,0 +1,92 @@
+<template>
+    <div style="height: 100%;border-radius: 3px; background-color: #f3f3f3;">
+        
+        <lightning-button variant="brand" label="Create new DMS Config" title="Create new DMS Config" onclick={createRecordPopupHandler} class="slds-m-around_medium slds-float_right"></lightning-button>
+        <template if:true={records}>
+            <div style="padding-top: 4%;">
+                <lightning-datatable
+                key-field="id"
+                data={records}
+                show-row-number-column
+                row-number-offset={rowOffset}
+                suppress-bottom-bar
+                columns={columns}>
+            </lightning-datatable>
+            <template if:false={recordsAvailable}>
+                <div class="slds-align_absolute-center">
+                    <p>No items to display.</p>
+                </div>
+            </template>
+            </div>
+        </template>  
+        <template if:true={showCreateRecordPopup}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_small">
+                <div class="slds-modal__container">
+                    <!-- modal header start -->
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideRecordPoupHandler}>
+                            <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New DMS Config</h2>
+                    </header>
+                
+                    <!-- modal body start -->
+                    <div class="slds-modal__content slds-p-around_medium modalBody" id="modal-content-id-1">
+                        <template if:true={showLoader}>
+                            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                        </template>
+
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col">
+                                <lightning-input type="text" label="Trigger Name" onchange={inputChangeHandler} data-id="Trigger_Name__c"></lightning-input>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-combobox name="object"
+                                    label="Object"
+                                    data-id="Object__c"
+                                    value={newRecord.Object__c}
+                                    placeholder="Select Object" options={objects}
+                                    onchange={inputChangeHandler}
+                                   >
+                                </lightning-combobox>
+                            </div>
+                        </div>
+
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col">
+                                <lightning-input type="text" label="Folder by comma seprated" onchange={inputChangeHandler} data-id="Folders__c"></lightning-input>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-combobox name="triggerPoint"
+                                    label="Trigger Point"
+                                    data-id="Trigger_Point__c"
+                                    value={newRecord.Trigger_Point__c}
+                                    placeholder="Trigger Point" options={triggerPointList}
+                                    onchange={inputChangeHandler}
+                                   >
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- modal footer start-->
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={hideRecordPoupHandler}>Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick={handleSaveResult}>Create DMS Config</button>
+                    </footer>
+                
+                </div>
+            </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+     </template>
+     <!-- modal end -->
+        
+        <template if:false={records}>
+            <h1>Empty, Create new DMS Config.</h1>
+        </template>
+    </div>
+</template>

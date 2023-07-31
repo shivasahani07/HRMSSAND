@@ -1,0 +1,18 @@
+<apex:page showHeader="false" sidebar="false" pageStyle="background:#e60000 !important;">
+    
+    <!--div id="renderPEResponseForm" style="background:#e60000 !important;"/-->
+       <div id="renderPEResponseForm" />
+    <apex:includeLightning />
+    <script>
+    debugger;
+    $Lightning.use("c:PE_ResponseFormApplication", function() {
+        $Lightning.createComponent("c:PE_ResponseFormComponent",
+                                   {},                      
+                                   "renderPEResponseForm",
+                                   function(cmp) {
+                                       // do some stuff
+                                   });
+    });
+    </script>
+    
+</apex:page>

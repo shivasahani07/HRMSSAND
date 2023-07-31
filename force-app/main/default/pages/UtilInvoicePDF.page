@@ -1,0 +1,197 @@
+<apex:page showHeader="false" sidebar="false" docType="html-5.0" renderAs="pdf"   controller="Generate_Invoice_Controller">
+    <html>
+    	<head>
+            
+        </head>
+        <body>
+            <div style="display: inline-block;width: 100%;margin: 1rem;padding: 2rem 2rem;font-family: Noto Sans,Helvetica,sans-serif;">
+                <div style="display: inline-block;padding: 1rem 1rem;vertical-align: middle;float:left;width:50%">
+                    <apex:image value="{!$Resource.logo}" style="height:30px;" /><br/>
+                    <div ><p class='organization'><strong>UtilitarianLabs Inc</strong></p></div>
+                    <div >
+                        <div >{!invDetails.Company_Name__c} </div>
+                        <div >{!invDetails.Address__c} </div>
+                        <div >PHONE : {!invDetails.Phone__c} </div>
+                    </div>
+                </div>
+                <div style="display: inline-block;padding: 1rem 1rem;vertical-align: middle;">
+                    <span style="font-size:20px;margin-top:15px;color: #f5a20b;">
+                        <strong >INVOICE</strong>
+                    </span><br/>
+                    <br/>
+                    Invoice #  <b style="font-size:14px;">&nbsp; {!accountDetails.invoices__r[0].name}</b>
+                    <br/>Invoice Date<b style="font-size:14px;">&nbsp;   {!generationDate}</b>
+                    <br/> Payment Terms Net<b style="font-size:14px;">&nbsp;   30</b>
+                    <!--br/>PO #<b style="font-size:14px;">&nbsp; PO Number</b-->
+                    <br/>Due Date<b style="font-size:14px;">&nbsp;   {!accountDetails.invoices__r[0].Due_Date__c}</b>
+                    <br/>Billing Period<b style="font-size:14px;">&nbsp;{!accountDetails.invoices__r[0].Start_Date__c} To {!accountDetails.invoices__r[0].End_Date__c}</b>
+                    <br/><span style="color:red;font-size:18px;"> NOT PAID </span><br/>
+                </div>
+            </div>
+            
+            <div style="display: inline-block;width: 100%;margin: 1rem;padding: 2rem 2rem;padding-top:10px;font-family: Noto Sans,Helvetica,sans-serif;">
+                <div style="display: inline-block;padding: 2rem 2rem;vertical-align: middle;float:left;width:50%">
+                        <strong style="font-size:14px;font-family: Noto Sans,Helvetica,sans-serif;">Billing Entity name</strong><br/>
+                        <apex:outputText value="{!accountDetails.Billingstreet}" /><br />
+                        <apex:outputText value="{!accountDetails.Billingcity}" /><br/>
+                        <apex:outputText value="{!accountDetails.BillingState}" /><br/>
+                    <apex:outputText value="{!accountDetails.BillingPostalCode}" /><br />
+                        <!--apex:outputText value="{!billInfoForInvoice.Billing_Country__c}" />&nbsp;<br /-->
+                    	
+                </div>
+                <div style="display: inline-block;padding: 2rem 2rem;vertical-align: middle;font-family: Noto Sans,Helvetica,sans-serif;">
+                        <strong style="font-size:14px;font-family: Noto Sans,Helvetica,sans-serif;">Billing Entity name</strong><br/>
+                        <apex:outputText value="{!accountDetails.Billingstreet}" /><br />
+                    <apex:outputText value="{!accountDetails.Billingcity}" /><br/>
+                    <apex:outputText value="{!accountDetails.BillingState}" />
+                    <apex:outputText value="{!accountDetails.BillingPostalCode}" />
+                        <!--apex:outputText value="{!billInfoForInvoice.Billing_Country__c}" />&nbsp;<br /-->
+                        
+                        
+                </div>
+            </div>
+            <br/>
+            <hr style="border-top: 1px;"/>
+            <table style="width:100%;font-family: Noto Sans,Helvetica,sans-serif;">
+                <tr colspan="2" >
+                    <td style="text-align:left;font-size:12px;">Description</td>
+                    <td style="text-align:right;font-size:12px;">Hours</td>
+                    <td style="text-align:center;font-size:12px;">Rate</td>
+                    <td style="text-align:right;font-size:12px;">Amount</td>
+                </tr>
+            </table>
+            <hr style="border-top: 1px;"/>
+            <table style="width:100%;font-family: Noto Sans,Helvetica,sans-serif;">
+                <tr colspan="2">
+                    <td style="text-align:left;font-weight:bold;">
+                        <p style="text-align:left;font-size:14px;margin-left:50px;"> {!accountDetails.invoices__r[0].Description__c}</p>
+                    </td>
+                    <td style="text-align:center;">
+                        <apex:outputPanel rendered="{!NOT(accountDetails.invoices__r[0].is_Hours_Applicable__c)}">
+                                                                    --
+                                                                </apex:outputPanel>
+                                                                <apex:outputPanel rendered="{!accountDetails.invoices__r[0].is_Hours_Applicable__c}">
+                                                                    {!accountDetails.invoices__r[0].Hours__c}
+                                                                </apex:outputPanel>
+                    </td>
+                    <td style="text-align:center;">
+                        <apex:outputPanel rendered="{!NOT(accountDetails.invoices__r[0].is_Hours_Applicable__c)}">
+                                                                    --
+                                                                </apex:outputPanel>
+                                                                <apex:outputPanel rendered="{!accountDetails.invoices__r[0].is_Hours_Applicable__c}">
+                                                                    {!accountDetails.Per_Hour_Rate__c}
+                                                                </apex:outputPanel>
+                    </td>
+                    <td style="font-weight:bold;text-align:right;"> 
+                        <apex:outputPanel rendered="{!NOT(accountDetails.invoices__r[0].is_Hours_Applicable__c)}">
+                                                                    {!accountDetails.invoices__r[0].Project_Cost__c}
+                                                                </apex:outputPanel>
+                                                                <apex:outputPanel rendered="{!accountDetails.invoices__r[0].is_Hours_Applicable__c}">
+                                                                    {!accountDetails.invoices__r[0].Total__c}
+                                                                </apex:outputPanel>
+                        <!--p style="text-align:right;font-size:14px;">$ <apex:outputText value="{0, number, ###,###,###,###.00}" id="myNumberDisplay" >
+                            <apex:param value="{!invoiceAmountTotal}"/>
+                            </apex:outputText></p-->
+                    </td>
+                </tr> 
+                <Span style="font-size: x-small;">General Description</Span>
+                <hr style="border-top: 1px;"/>
+            </table>
+            <div style="text-align:right;font-size:14px;font-family: Noto Sans,Helvetica,sans-serif;">
+                <b > Sub Total
+                    <apex:outputText value="{0, number, ###,###,###,###.00}" id="myNumberDisplay15" label="test">
+                        <apex:param value="{!accountDetails.invoices__r[0].Sub_Total__c}"/>
+                    </apex:outputText></b>
+                <hr style="border-top: 1px;"/>
+            </div>
+            <div style="text-align:right;font-size:14px;font-family: Noto Sans,Helvetica,sans-serif;">
+                <b > Discount
+                    <apex:outputText value="{0, number, ###,###,###,###.00}" id="myNumberDisplay14" label="test">
+                        <apex:param value="{!accountDetails.invoices__r[0].Discount__c}"/>
+                    </apex:outputText></b>
+                <hr style="border-top: 1px;"/>
+            </div>
+            <div style="text-align:right;font-size:14px;font-family: Noto Sans,Helvetica,sans-serif;">
+                <b >Subtotal Less Discout 
+                    <apex:outputText value="{0, number, ###,###,###,###.00}" id="myNumberDisplay13" label="test">
+                        <apex:param value="{!accountDetails.invoices__r[0].Sub_Total_Less_Discount__c}"/>
+                    </apex:outputText></b>
+                <hr style="border-top: 1px;"/>
+            </div>
+            <div style="text-align:right;font-size:14px;font-family: Noto Sans,Helvetica,sans-serif;">
+                <b >IGST (18%) 
+                    <apex:outputText value="{0, number, ###,###,###,###.00}" id="myNumberDisplay12" label="test">
+                        <apex:param value="{!accountDetails.invoices__r[0].IGST__c}"/>
+                    </apex:outputText></b>
+                <hr style="border-top: 1px;"/>
+            </div>
+            <div style="text-align:right;font-size:14px;font-family: Noto Sans,Helvetica,sans-serif;">
+                <b >Balance Due 
+                    <apex:outputText value="{0, number, ###,###,###,###.00}" id="myNumberDisplay11" label="test">
+                        <apex:param value="{!accountDetails.invoices__r[0].Balance_Due__c}"/>
+                    </apex:outputText></b>
+                <hr style="border-top: 1px;"/>
+            </div>
+            <br/> 
+            <!--div style="font-family: Noto Sans,Helvetica,sans-serif;">
+                <h4>
+                    <b style="font-size:14px;">NOTES</b> 
+                    <p style="text-align:left; margin-top:-10px;">
+                        Thanks for your Payment.
+                    </p>
+                </h4>
+            </div-->
+            <div style="font-family: Noto Sans,Helvetica,sans-serif;">
+                <h3>
+                    <strong class='header-text' style="font-size:14px;">Transfer Details<hr style="border-top: 1px;"/> </strong>  
+                </h3>
+                <span style="font-size: x-small;">Please Include the invoice number.</span>
+                <strong style="font-size:12px;">WIRE / ACH TRANSFER</strong>
+            </div>
+            <br/>
+            <div style="display: inline-block;width: 100%;margin: 1rem;padding: 2rem 2rem;padding-top:10px;font-family: Noto Sans,Helvetica,sans-serif;">
+                <div style="display: inline-block;padding: 1rem 1rem;vertical-align: middle;float:left;width:33.3%">
+                    <span> BANK NAME </span><br/>
+                    <span><b>{!invDetails.Bank_Name__c}</b></span>
+                </div>
+                <div style="display: inline-block;padding: 1rem 1rem;vertical-align: middle;float:left;width:33.3%">
+                    <span>ACCOUNT NUMBER</span><br/>
+                    <span><b>{!invDetails.Account_Number__c}</b></span>
+                </div>
+                <div style="display: inline-block;padding: 1rem 1rem;vertical-align: middle;float:left;width:33.3%">
+                    <span>IFSC CODE</span><br/>
+                    <span><b>{!invDetails.Bank_IFSC_Code__c}</b></span>
+                </div>
+            </div>
+            <div style="display: inline-block;width: 100%;margin: 1rem;padding: 2rem 2rem;padding-top:10px;font-family: Noto Sans,Helvetica,sans-serif;">
+                <div style="display: inline-block;padding: 1rem 1rem;vertical-align: middle;float:left;width:33.3%">
+                    <span> SWIFT CODE </span><br/>
+                    <span><b>{!invDetails.Bank_Swift_Code__c}</b></span>
+                </div>
+                <div style="display: inline-block;padding: 1rem 1rem;vertical-align: middle;float:left;width:33.3%">
+                    <span>SAC Code</span><br/>
+                    <span><b>{!invDetails.SAC_Code__c}</b></span>
+                </div>
+                <div style="display: inline-block;padding: 1rem 1rem;vertical-align: middle;float:left;width:33.3%">
+                    <span>GST NO.</span><br/>
+                    <span><b>{!invDetails.GST_Reg_No__c}</b></span>
+                </div>
+            </div>
+            <div style="display: inline-block;width: 100%;margin: 1rem;padding: 2rem 2rem;padding-top:10px;font-family: Noto Sans,Helvetica,sans-serif;">
+                <div style="display: inline-block;padding: 1rem 1rem;vertical-align: middle;float:left;width:33.3%">
+                    <span> COMPANY PAN </span><br/>
+                    <span><b>{!invDetails.Company_PAN__c}</b></span>
+                </div>
+                <div style="display: inline-block;padding: 1rem 1rem;vertical-align: middle;float:left;width:33.3%">
+                    <span>COMPANY TAN</span><br/>
+                    <span><b>{!invDetails.Company_TAN__c}</b></span>
+                </div>
+            </div>
+            <div style="font-family: Noto Sans,Helvetica,sans-serif;">
+                <strong class='header-text' style="font-size:12px;">SEND CHECKS PAYABLE TO</strong><br/>  
+                <span style="font-size:14px;">UTILITARIAN LABS PVT LTD,JP Nagar 5th Phase,BANGALORE 560078</span>
+            </div>
+        </body>
+    </html>
+    
+</apex:page>

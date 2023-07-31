@@ -1,0 +1,189 @@
+<apex:page sidebar="false" showHeader="false" standardStylesheets="false" controller="ReimbursementConfigController">
+    <html>
+        <head>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js" integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js" integrity="sha512-sH8JPhKJUeA9PWk3eOcOl8U+lfZTgtBXD41q6cO/slwxGHCxKcW45K4oPCUhHG7NMB4mbKEddVmPuTXtpbCbFA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet" crossorigin="anonymous"/>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>    
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        </head>
+        <body ng-app="ReimbApp" ng-controller="Reimb_Ctrl">
+            <div class="container">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h4>
+                            Reimbursement Configuration
+                        </h4>
+                     </div>
+  			<div class="card-body">
+      <!--<div class="row mt-5">
+                    <div class="col-md-12">
+                        <h3>
+                            Reimbursement Configuration
+                        </h3>
+                    </div>
+      </div>-->
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Head Name</label>
+                        <input class="form-control" maxlength="250" ng-model="currObjReimb.Name" placeholder="Enter head name"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Description</label>
+                        <input class="form-control" maxlength="250" ng-model="currObjReimb.Description__c" placeholder="Enter description"/>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-3">
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" ng-model="currObjReimb.Expense_Limit_Status__c" class="form-check-input"/>
+                            <label class="form-check-label">Limit expense amount to</label>                                                       
+                      	</div> 
+                        </div>                    
+                        <div class="col-md-2">
+                            <input class="form-control" ng-model="currObjReimb.Expense_Limit__c" type="number"/>
+                        </div>
+                    <div class="col-md-1">
+                        per
+                    </div>
+                        <div class="col-md-2">
+                             <select class="form-control" ng-model="currObjReimb.Limit_Cycle__c">
+                                <option>Month</option>
+                                <option>Year</option>
+                            </select>
+                        </div>                    
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-3">
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" ng-model="currObjReimb.Request_Limit_Status__c" class="form-check-input"/>
+                            <label class="form-check-label">Limit number of claim</label>                                                       
+                      	</div> 
+                        </div>                    
+                        <div class="col-md-2">
+                            <input class="form-control" ng-model="currObjReimb.Request_Limit__c" type="number"/>
+                        </div>
+                    <div class="col-md-1">
+                        per
+                    </div>
+                        <div class="col-md-2">
+                             <select class="form-control" ng-model="currObjReimb.Request_Cycle__c">
+                                <option>Month</option>
+                                <option>Year</option>
+                            </select>
+                        </div>                    
+                </div>
+            <!--<div class="row mt-3">
+                    <div class="col-md-3">
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input"/>
+                            <label class="form-check-label">Receipt required when amount exceeds</label>                                                       
+                      	</div> 
+                        </div>                    
+                        <div class="col-md-2">
+                            <input class="form-control" type="number"/>
+                        </div>                              
+                </div>-->
+                <div class="row mt-3">
+                    <div class="col-md-3">
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" ng-model="currObjReimb.Comment_Required_Status__c" class="form-check-input"/>
+                            <label class="form-check-label">Comment required when amount exceeds</label>                                                       
+                      	</div> 
+                        </div>                    
+                        <div class="col-md-2">
+                            <input class="form-control" ng-model="currObjReimb.Comment_Required__c" type="number"/>
+                        </div>  
+                    <div class="col-md-7">
+                        <button type="button" class="btn btn-primary" ng-click="SaveHeadDetail()">
+                            <i class="fa-solid fa-circle-check pe-2"></i>Save
+                        </button>
+                    </div>
+                </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-12">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            	<tr>
+                                    <th>Head</th>
+                                    <th>Description</th>
+                                    <th>Expense Limit</th>
+                                    <th>
+                                        Action                                        
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in objRemb">
+                                    <td>{{x.Name}}</td>
+                                    <td>{{x.Description__c}}</td>
+                                    <td>{{x.Expense_Limit__c}}</td>
+                                    <td>
+                                       <button class="btn btn-primary" ng-click="ViewDetails($index)">View</button>
+                                        <button class="btn btn-primary" ng-click="DeleteExpenseHead(x.Id)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </body>
+        <script>
+        var app = angular.module('ReimbApp', []);
+        app.controller('Reimb_Ctrl', function ($scope) {
+            $scope.objRemb={};
+            $scope.currObjReimb={
+                Name:"",Description__c:"",Comment_Required__c:0,Comment_Required_Status__c:false,Expense_Limit__c:0,Expense_Limit_Status__c:false,
+                    Limit_Cycle__c:"",Request_Cycle__c:"",Request_Limit__c:0,Request_Limit_Status__c:false
+            };
+            $scope.getReimbDet = function () {
+                ReimbursementConfigController.getReimbDet(function (result, event) {
+                    //debugger;
+                    console.log(result);
+                    console.log(event);
+                    if (event.status) {
+                        $scope.objRemb = result;                        
+                        debugger;
+                        $scope.$apply();
+                    }
+                })
+            }
+            $scope.getReimbDet();
+            $scope.ViewDetails=function(index){
+                debugger
+                $scope.currObjReimb=$scope.objRemb[index];                
+            }
+            $scope.DeleteExpenseHead=function(Id){
+                 ReimbursementConfigController.DeleteExpenseHead(Id,function (result, event) {
+                     if(result=='success'){
+                        swal('success','Record deleted successfully!','success');
+                       $scope.getReimbDet(); 
+                    }else{
+                        swal('error','Unable to delete record!','error');
+                    }
+                 });
+            }
+            $scope.SaveHeadDetail=function(){
+                debugger
+                delete $scope.currObjReimb['$$hashKey'];
+                ReimbursementConfigController.SaveHeadDetail($scope.currObjReimb,function (result, event) {
+                    debugger
+                    console.log(result);
+                    console.log(event);
+                    if(result=='success'){
+                        swal('success','Record updated successfully!','success');
+                       $scope.getReimbDet(); 
+                    }else{
+                        swal('error','Unable to save record!','error');
+                    }
+                });
+            }
+        });
+        </script>
+    </html>
+</apex:page>

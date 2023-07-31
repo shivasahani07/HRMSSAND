@@ -1,0 +1,95 @@
+.THIS .tdCss {
+     /*border-radius: 52%;
+    border: 8px solid #ff0000;
+    width: 30px;
+    height: 26px;
+    padding: 7% 9% 7% 10%;
+    color: #333;
+    text-align: center;
+    margin-left: 5%;
+    font-size: xx-large;*/
+      width: 150px;
+    line-height: 130px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 32px;
+    border: 12px solid #36a0fe;
+    display:inline-block;
+    margin-left : 10px;
+      vertical-align: middle;
+    text-align: center;
+}
+.THIS .tdCss1 {
+    
+      width: 150px;
+    line-height: 130px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 32px;
+    border: 12px solid orange;
+    display:inline-block;
+    margin-left : 10px;
+      vertical-align: middle;
+    text-align: center;
+}
+.THIS .tdCss2 {
+    
+      width: 150px;
+    line-height: 130px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 32px;
+    border: 12px solid green;
+    display:inline-block;
+    margin-left : 10px;
+      vertical-align: middle;
+    text-align: center;
+}
+
+.THIS .dataCss{
+   
+  vertical-align: middle;
+    text-align: center;
+    font-size: x-large;
+  font-weight:bolder;
+}
+.THIS .paddingCss{
+        padding: 44px;
+        font: 21px Cambria;
+}
+
+.THIS .thheader {
+  text-align:center;
+  height: 26px;
+  font-size: x-large;
+  font-weight:bolder;
+ /* font-family: cambria;*/
+}
+
+.THIS .intervalcss{
+    margin-left: 43%;
+    margin-bottom: 5%;
+    font: 16px Cambria;
+    font-size: xx-large;
+}
+.THIS .slds-spinner_container {  
+  z-index: 10000;
+  position: sticky;   
+}
+.THIS .dataCss1{
+ margin-top: 50px;
+ margin-left: 90px;
+ font: 21px Cambria;
+ 
+}
+.THIS .dataCss2{
+  margin-top: -27px;
+  margin-left: 256px;
+ font: 21px Cambria;
+
+}
+.THIS .dataCss3{
+    margin-top: -27px;
+    margin-left: 411px;
+  font: 21px Cambria;
+}

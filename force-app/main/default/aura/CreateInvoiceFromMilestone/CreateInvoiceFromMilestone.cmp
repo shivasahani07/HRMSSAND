@@ -1,0 +1,45 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" controller="CreateInvoiceFromMilestoneHelper" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="invoiceRec" type="Invoice__c" default="{'Due_Date__c':'','Genration_Date__c':''}"/>
+    
+    <div class="slds-align_absolute-center" style="">
+        <b>Create Invoice</b>
+    </div>
+    <div class="slds-grid slds-gutters" style="padding:2%">
+        
+        <div class="slds-col">
+            <span>
+                <lightning:input type="date" name="input1" label="Due date" value="{!v.invoiceRec.Due_Date__c}"/>
+                <lightning:input type="date" name="input1" label="Generation date" value="{!v.invoiceRec.Genration_Date__c}"/>
+                <lightning:input type="number" name="input1" label="Hours" value="{!v.invoiceRec.Hours__c}"/>
+                <lightning:input type="date" name="input1" label="Start date" value="{!v.invoiceRec.Start_Date__c}"/>
+                <lightning:input type="date" name="input1" label="End date" value="{!v.invoiceRec.End_Date__c}"/>
+                
+                <lightning:select aura:id="select" name="select" label="Status" onchange="{! c.onStatusChange }">
+                    <option value="">choose one...</option>
+                    <option value="Initiated">Initiated</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Realized">Realized</option>
+                </lightning:select>
+                <br/>
+                <lightning:input type="checkbox" label="Is Hour Applicable" name="input1" value="{!v.invoiceRec.is_Hours_Applicable__c}" onchange="{! c.onCheckBoxChange }"/>
+                
+            </span>
+        </div>
+        <div class="slds-col">
+            <span>
+                <lightning:input type="number" name="input7" label="Project Cost" value="{!v.invoiceRec.Project_Cost__c}" formatter="currency" step="0.01"/>
+                <lightning:input type="number" name="input6" label="Discount" value="{!v.invoiceRec.Discount__c}" min="0" max="100"/>
+                <lightning:input type="number" name="input7" label="Other Charges" value="{!v.invoiceRec.Other_Charges__c}" formatter="currency" step="0.01"/>
+                <lightning:input type="number" name="input6" label="GST" value="{!v.invoiceRec.GST__c}" formatter="percent" step="0.01"/>
+                <lightning:input name="Resource Name" label="Resource Name" value="{!v.invoiceRec.Resource_Name__c}"/>
+                <lightning:textarea name="Description" label="Description" value="{!v.invoiceRec.Description__c}" />
+                
+            </span>
+        </div>
+    </div>
+    <div class="slds-align_absolute-center" style="height:5rem">
+        <lightning:button variant="brand" label="Save" title="Brand action" onclick="{! c.handleSave }" />
+        <lightning:button variant="brand" label="Cancel" title="Brand action" onclick="{! c.handleCancel }" />
+    </div>
+</aura:component>

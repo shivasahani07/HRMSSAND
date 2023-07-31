@@ -1,0 +1,33 @@
+<aura:component controller="NeedAmendmentHelper" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global" > 
+    
+    <aura:attribute name="Internal_Subject" type="Boolean" default="false" />
+    <aura:attribute name="Dry_Run_Subject" type="Boolean" default="false" />
+    <aura:attribute name="Client_Demo_Subject" type="Boolean" default="false" />
+    <aura:attribute type="Datetime" name="Client_Date"/>
+    <aura:attribute type="Datetime" name="Internal_Date"/>
+    <aura:attribute type="Datetime" name="Dry_Date"/>
+    <aura:attribute name="DemoTaskWrapperRecord" type="Object"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div style=" font-size:15px; text-align:center">  <b>Need Amendment</b> <br/><br/> </div>
+    <aura:if isTrue="{!v.Internal_Subject}">
+        <lightning:input type="datetime" name="input2" label="Internal Demo Date Time" value="{!v.DemoTaskWrapperRecord.dmo.Internal_Demo_Date_Time__c}"/><br/>
+        <lightning:inputRichText label="Internal Demo Feedback" labelVisible="true" value="{!v.DemoTaskWrapperRecord.dmo.Internal_Demo_Feedback__c}"/>
+        
+    </aura:if> 
+    <aura:if isTrue="{!v.Dry_Run_Subject}">
+        <lightning:input type="datetime" name="input2" label="Dry Run Date Time" value="{!v.DemoTaskWrapperRecord.dmo.Dry_Run_Date_Time__c}"/><br/>
+        <lightning:inputRichText label="Dry Run Demo Feedback" labelVisible="true" value="{!v.DemoTaskWrapperRecord.dmo.Dry_run_feedback__c}"/>
+        
+    </aura:if>
+    <aura:if isTrue="{!v.Client_Demo_Subject}">
+        <lightning:input type="datetime" name="input2" label="Client Demo Date Time" value="{!v.DemoTaskWrapperRecord.dmo.Demo_Date_Time__c}"/><br/><br/>        
+        <lightning:inputRichText label="Client Demo Feedback" labelVisible="true" value="{!v.DemoTaskWrapperRecord.dmo.Client_Demo_Feedback__c}"/>
+    </aura:if>
+    <br/>
+    <div style="text-align:center">
+        <lightning:button iconPosition="left" variant="brand" onclick="{!c.doSave}" name="save" label="Save" />
+        <lightning:button iconPosition="right" variant="destructive" onclick="{!c.doCancel}" name="cancel" label="Cancel" />
+    </div>
+    
+</aura:component>

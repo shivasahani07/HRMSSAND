@@ -1,0 +1,185 @@
+<apex:page controller="CommunitiesLoginController" showHeader="false">
+    <apex:slds />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-ZhB2EoHovDXTb75oqtY4sZ0BKQakzxnyEtjDZ+7Izvz04tW+ZtSeF3CnBTZAB+6f5P8VY0b8+UyAyCDkszIfg==" crossorigin="anonymous" />
+    
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        
+        }
+        
+        .login-details{
+        background-color:#73C2FB;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        }
+        
+        .login-container {
+        height:50%;
+        max-width: 600px;
+        background-color: #73C2FB;
+        margin-top:-7%;
+        margin-left:10%;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color:black;
+        
+        }
+        
+        .login-container:hover{
+        
+        }
+        
+        .login-container h2 {
+        text-align: center;
+        font-size:30px;
+        margin-bottom: 20px;
+
+        }
+        
+        .form-field {
+        margin-bottom: 20px;
+        }
+        
+        form{
+        width:80%;
+        
+        }
+        
+        .form-field label {
+        display: block;
+        font-weight: bold;
+        }
+        
+        .form-field input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid red;
+        border-radius: 5px;
+        }
+        
+        .form-field input:hover {
+       	box-shadow:0 0 0 2px #f4aab9,0 0 0 5px #66ccff;
+        }
+        
+        .error-message {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 10px;
+        }
+        
+        .login-button {
+        width: 100%;
+        padding: 10px;
+        background-color:#FFC72C;
+        color: #FFC72C;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+           margin-bottom:1rem !important;
+        }
+        
+        .login-button:hover {
+        background-color: #45a049;
+        }
+        
+        .Singup-button {
+        width: 100%;
+        padding: 10px;
+        background-color: #f44336;
+        color:black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        margin-top:1rem;
+        }
+        
+        .Singup-button:hover {
+        background-color: #d32f2f;
+        }
+        
+        .logged-in-message {
+        text-align: center;
+        font-size: 14px;
+        margin-top: 20px;
+        color: #888;
+        }
+        
+        .login-form {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        }
+        
+        .login-form .login-details {
+        flex: 1;
+        padding: 20px;
+        }
+        
+        .login-form .login-image {
+        flex: 1;
+        background: url('https://c4.wallpaperflare.com/wallpaper/611/838/413/spiderman-hd-4k-superheroes-wallpaper-preview.jpg') center center no-repeat;
+        background-size: cover;
+        min-height: 100vh;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        }
+        
+        @media (max-width: 768px) {
+        .login-form {
+        flex-direction: column;
+        }
+        
+        .login-form .login-image {
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 5px;
+        }
+        }
+    </style>
+    <div class="container login-form">
+        <div class="login-details">
+            <div class="login-container">
+                <h2>Login</h2>
+                <apex:form >
+                    <apex:pageMessages />
+                    <div class="form-field">
+                        <label>Username</label>
+                        <apex:inputText value="{!username}" />
+                    </div>
+                    <div class="form-field">
+                        <label>Password</label>
+                        <apex:inputSecret value="{!password}" />
+                    </div>
+                    <div class="form-field">
+                        <apex:commandButton value="Login" action="{!performLogin}" styleClass="login-button" />
+                    </div>
+                </apex:form>
+                <apex:outputPanel rendered="{!isLoggedIn}" layout="block">
+                    <div class="logged-in-message">You are logged in!</div>
+                </apex:outputPanel>
+                
+                <!-- Social media login options -->
+                <div class="social-media-login">
+                    <a href="#" class="social-icon facebook-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon twitter-icon">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon google-icon">
+                        <i class="fab fa-google"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="login-image"></div>
+    </div>
+</apex:page>

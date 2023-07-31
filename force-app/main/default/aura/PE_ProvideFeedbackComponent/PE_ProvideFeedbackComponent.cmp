@@ -1,0 +1,67 @@
+<aura:component controller="PE_UserDashboardController">
+   <ltng:require styles="{! $Resource.select2 + '/select2-4.0.3/dist/css/select2.min.css'}" 
+                  scripts="{!join(',', 
+                           $Resource.PE_Jquery ,  
+                           $Resource.select2 + '/select2-4.0.3/dist/js/select2.js')
+                           }" afterScriptsLoaded="{!c.scriptsLoaded1}"/>
+    
+    <!-- Attributes Declaration -->
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="users" type="String[]" default="[]" /> 
+    <aura:attribute name="allDetails" type="List" default="[]" />  
+    <aura:attribute name="errorMessage" type="String" default=""/>    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.fethUsers}"/>
+    
+    
+    <div  style="width:50%;"> 
+        <br/><br/>
+       <div style="float:left;width:100%;">             
+            <label style="width:100%">Select User </label>
+            <select style="width:100%" id="picklist"  class="select2ClassNew" >
+                <aura:iteration items="{!v.users}" var="ur">
+                    <option value="{!ur.Id}" text="{!ur.Name}"></option>
+                </aura:iteration>     
+            </select>                     
+        </div> 
+        <div style="float:left;width:100%;">  
+            <br/><br/>
+            <label style="width:100%">FORM Type</label>
+        	<lightning:select name="formType" label="" aura:id="formType">		       
+		        <option value="Mini Form">Mini Form</option>
+		        <option value="Full Form">Full Form</option>
+		    </lightning:select>
+        </div>
+        
+        <div style="float:left;"> 
+            <br/><br/>  
+             <button class="slds-button slds-button--brand" onclick="{!c.giveFeedback}">GIVE Feedback</button>        
+        </div>  
+    </div>
+
+    <div>
+        <aura:if isTrue="{!v.isOpen}"> 
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                        <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close">
+                           
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 class="slds-text-heading--medium" id="prompt-heading-id">Alert Message</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <ui:outputText value="{!v.errorMessage}" />
+                        </div>
+                    </div>
+                    <div class="slds-modal__footer slds-theme--default">
+                        <button class="slds-button slds-button--neutral" onclick="{!c.closeModel}">Ok</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </aura:if>       
+    </div>
+    
+</aura:component>
