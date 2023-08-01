@@ -12,13 +12,14 @@ export default class CandidateOnboardingHome extends LightningElement {
     @track picklistValues;
 
     @api recordId;
-    @api hashCodeId;
+    @api hashCodeId='3307686946443866457';
     isShowMyProfile=false;
     isShowDocUploader=false;
     // fullurlforDocPage=`https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?Id=`+recordId;
     @track error;
     @track wireResponse;
     @track logOutSuccess;
+    candidateName;
 
 
     @wire(CurrentPageReference)
@@ -31,6 +32,7 @@ export default class CandidateOnboardingHome extends LightningElement {
         
         if(result.data){
             this.recordId=result.data.conrecord.Id;
+            this.candidateName=result.data.conrecord.Name;
             this.conRecord = result.data.conrecord;
             this.picklistValues =result.data.piclistValues;
             // this.picklistValues =result.data.piclistValues;

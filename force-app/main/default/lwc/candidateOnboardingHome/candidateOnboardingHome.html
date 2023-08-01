@@ -8,7 +8,7 @@
         <article aria-hidden="false" id="split-view-id" class="slds-split-view slds-grid slds-grid_vertical slds-grow"
             style="padding-right: 7px">
             <lightning-vertical-navigation selected-item={selectedNav} onselect={handleSelect}>
-                <lightning-vertical-navigation-section label="Candidate Name">
+                <lightning-vertical-navigation-section label={candidateName}>
                     <!-- <lightning-vertical-navigation-item-icon label="Recent" name="Recent"
                         icon-name="utility:clock">
                     </lightning-vertical-navigation-item-icon> -->
@@ -55,7 +55,7 @@
                 <template lwc:if={isShowMyProfile}>
                     <!-- <c-candidate-detail recordid={recordId}></c-candidate-detail> -->
                     <!-- <c-candidate-onboarding-home></c-candidate-onboarding-home> -->
-                    <c-new-employee-enrolment></c-new-employee-enrolment>
+                    <c-new-employee-enrolment  record-id={recordId}  con-id={recordId}></c-new-employee-enrolment>
                 </template>
 
                 <template lwc:if={isShowDocUploader}>

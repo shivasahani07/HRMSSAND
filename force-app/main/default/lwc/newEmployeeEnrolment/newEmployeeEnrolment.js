@@ -1,6 +1,7 @@
 import { LightningElement,api,track,wire } from 'lwc';
 import { loadScript } from "lightning/platformResourceLoader";
-import updateContact from '@salesforce/apex/CommunitiesLoginControllerLwc.updateContact';
+import updaateEducation from '@salesforce/apex/CommunitiesLoginControllerLwc.updaateEducation';
+import updateStatutoeyDetails from '@salesforce/apex/CommunitiesLoginControllerLwc.updateStatutoeyDetails';
 import { NavigationMixin } from 'lightning/navigation'; 
 import getAssignmentList from '@salesforce/apex/AssSelectionLwcHelper.getAssignmentList';
 import harvestInternational	 from "@salesforce/resourceUrl/harvestInternational";
@@ -63,6 +64,7 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     showSecondPage = false;
     isModalOpen = false;
     isModalDocsOpen = false;
+    isEducationdetails=false
     workExperienceReq = false;
     isModalDocsViewOpen = false;
     isSelfAssOpen =false;
@@ -73,6 +75,7 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     showProgress = true;
     showreg = false;
     showAss = false;
+    showStatutorySection=false;
     showMainPage = true;
     areDetailsVisible = true;
     JobDescId ;
@@ -183,6 +186,8 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
 
 
     @track itemList = [{ id: 0 ,Company__c :"",Start_Year__c : "",End_Year__c : "",Title__c : ""  }];
+    @track educationList=[{School_Institute__c:"",Start_Date__c:"",End_Date__c:"",Percentage__c:""}];
+    @track statutoryList=[{Type__c:"",Document_Number__c:""}];
 
     
     handleInputChange(event) {
@@ -195,6 +200,42 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
                 this.itemList[i][fieldName] = value;
             }
         }
+    }
+
+    educaionHandleChange(event){
+        let index = event.target.dataset.id;
+        let fieldName = event.target.name;
+        let value = event.target.value;
+        for(let i = 0; i < this.educationList.length; i++) {
+            if(this.educationList[i].id === parseInt(index)) {
+                delete this.educationList[i].id; 
+                this.educationList[i][fieldName] = value;
+            }
+        }
+    }
+
+    eduaddNewRow(){
+        debugger;
+        ++this.keyIndex;
+        var newItem = [{ id: this.keyIndex }];
+        this.educationList = this.educationList.concat(newItem);
+        console.log(this.educationList);
+    }
+
+    eduremoveRow(event){
+        debugger;
+        let toBeDeletedRowIndex = event.target.name;
+        let educationList = [];
+        for(let i = 0; i < this.educationList.length; i++) {
+            let tempRecord = Object.assign({}, this.educationList[i]); //cloning object
+            if(tempRecord.index !== toBeDeletedRowIndex) {
+                educationList.push(tempRecord);
+            }
+        }
+        for(let i = 0; i < educationList.length; i++) {
+            educationList[i].index = i + 1;
+        }
+        this.educationList = educationList;
     }
 
 
@@ -227,6 +268,71 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
         this.addNewRow();
         this.itemList = itemList;
     }
+
+    handleChangeStatutory(event){
+        debugger;
+        let index = event.target.dataset.id;
+        let fieldName = event.target.name;
+        let value = event.target.value;
+        for(let i = 0; i < this.statutoryList.length; i++) {
+            if(this.statutoryList[i].id === parseInt(index)) {
+                delete this.statutoryList[i].id; 
+                this.statutoryList[i][fieldName] = value;
+            }
+        }
+
+    }
+
+    removeRowStatutory(event){
+        debugger;
+        let toBeDeletedRowIndex = event.target.name;
+        let statutoryList = [];
+        for(let i = 0; i < this.statutoryList.length; i++) {
+            let tempRecord = Object.assign({}, this.statutoryList[i]); //cloning object
+            if(tempRecord.index !== toBeDeletedRowIndex) {
+                statutoryList.push(tempRecord);
+            }
+        }
+        for(let i = 0; i < statutoryList.length; i++) {
+            statutoryList[i].index = i + 1;
+        }
+        this.statutoryList = statutoryList;
+    }
+
+    addNewRowStatutory(){
+        debugger;
+        ++this.keyIndex;
+        var newItem = [{ id: this.keyIndex }];
+        this.statutoryList = this.statutoryList.concat(newItem);
+        console.log(this.statutoryList);
+    }
+
+    //its being called from child component in success messsage on save of personal details 
+    showEducationSection(event){
+        debugger;
+        this.areDetailsVisible = false;
+        let eveValue=event.detail;
+        this.workExperienceReq = false;
+        this.isEducationdetails=true;
+    }
+
+    savdEducationDetails(){
+        debugger;
+        let educations=this.educationList;
+        var recId=this.conId;
+        updaateEducation({updateEducationdetailslist:educations,conId:this.conId})
+        .then(result =>{
+            alert('Education Details Update');
+            this.workExperienceReq = true;
+            this.isEducationdetails=false;
+
+        })
+        .catch(error =>{
+            alert('Error...');
+            console.log(error);
+        })
+
+    }
     
     handleWorkExperience(){
         debugger;
@@ -240,8 +346,29 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
           
          });
       this.workExperienceReq = false;
-      this.frameURLSelf = 'https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?id='+this.conId;
-      this.showDocCategories = true;
+      this.showStatutorySection=true;
+    //   this.frameURLSelf = 'https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?id='+this.conId;
+    //   this.showDocCategories = true;
+    }
+
+
+    handleStatutoryDetails(){
+        debugger;
+        let statutList= this.statutoryList;
+        var recId = this.conId;
+
+        updateStatutoeyDetails({statutories:statutList,conId:this.conId})
+        .then(result =>{
+            alert('statutories Details Update');
+            this.showStatutorySection = false;
+             this.showDocCategories=true;
+             this.frameURLSelf = 'https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?id='+this.conId;
+        })
+        .catch(error =>{
+            alert('Error...');
+            console.log(error);
+        })
+
     }
  
     
@@ -697,15 +824,6 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
          //this.appView = true;
     }
 
-    pernanentAddresChange(event){
-        debugger;
-        var pernanentAddress=event.target.value;
-    }
-
-    tempraryAddresChange(event){
-        debugger;
-        var tempraryAddress=event.target.value;
-    }
 
     
 }
