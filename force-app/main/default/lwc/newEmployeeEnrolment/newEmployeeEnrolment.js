@@ -67,6 +67,7 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     isEducationdetails=false
     workExperienceReq = false;
     isModalDocsViewOpen = false;
+    isShowFileUploaderLWC=false;
     isSelfAssOpen =false;
     assView = false;
     selfAss = false;
@@ -334,6 +335,17 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
         })
 
     }
+
+    uploadFilelwc(){
+        debugger;
+       let checkIsOpen =this.isShowFileUploaderLWC;
+       if(!checkIsOpen){
+        this.isShowFileUploaderLWC =!checkIsOpen;
+       }
+       else{
+        this.isShowFileUploaderLWC =!checkIsOpen;
+       }
+    }
     
     handleWorkExperience(){
         debugger;
@@ -371,23 +383,6 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
                 }
             }
 
-            if( value != 'PAN'){
-                alert('Please Enter PAN details');
-                return;
-            }
-
-            if( value != 'FATHER'){
-                alert('Please Enter Father  Name');
-                return;
-            }
-
-
-        }
-
-        if(!['PAN'].includes(listOFvalue)){
-            // Perform validation for Aadhar, PAN, and Father types
-            alert('Aadhar, PAN, and Father are mandatory.');
-            return; // Stop further processing if validation fails
         }
 
         updateStatutoeyDetails({statutories:statutoryList,conId:this.conId})
