@@ -123,6 +123,10 @@ export default class CandidateDetail extends LightningElement {
         updateContact({updatConact:this.candidateObject})
         .then(response=>{
             alert('updated successfully');
+            const selectEvent = new CustomEvent('mycustomevent', {
+                detail:"SUCCESS"
+                });
+                this.dispatchEvent(selectEvent);
         })
         .catch(error=>{
             alert('updated error');

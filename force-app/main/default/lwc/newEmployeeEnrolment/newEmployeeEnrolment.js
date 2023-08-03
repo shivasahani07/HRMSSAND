@@ -310,8 +310,8 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     //its being called from child component in success messsage on save of personal details 
     showEducationSection(event){
         debugger;
-        this.areDetailsVisible = false;
         let eveValue=event.detail;
+        this.areDetailsVisible = false;
         this.workExperienceReq = false;
         this.isEducationdetails=true;
     }
