@@ -7,6 +7,11 @@ export default class CandidateDetail extends LightningElement {
     isDetailsdone=true;
     isWorkExperinceSection=false;
     isDisabledinput=true;
+// for marital status toggle
+    @api label;
+    @api isChecked = false;
+    isMarried=false;
+
      @track tempCandidateObject = {};
      @track  candidateObject={
          FirstName:'',
@@ -42,6 +47,31 @@ export default class CandidateDetail extends LightningElement {
         }
     } 
 
+    handleToggleChange(event) {
+        debugger;
+        this.isChecked = event.target.checked;
+        if(this.isChecked==true){
+            //show marrige anniversey date feild
+            this.isMarried=true;
+        }
+        else{
+            this.isMarried=false;
+        }
+        // this.dispatchEvent(new CustomEvent('change', { detail: this.isChecked }));
+    }
+
+    // gender handelchange
+     handleChange(event) {
+        this.value = event.target.value;
+        // this.dispatchEvent(new CustomEvent('change', { detail: this.value }));
+    }
+
+      genderOptions = [
+        { label: 'Male', value: 'male' },
+        { label: 'Female', value: 'female' },
+        { label: 'Other', value: 'other' },
+    ];
+
     handleChangeValidation(event) {
         debugger;
         let fieldName = event.target.name;
@@ -65,7 +95,10 @@ export default class CandidateDetail extends LightningElement {
             candidateObject.Birthdate=value;  
         } else if(fieldName==="anniVerserydate"){
             candidateObject.Anniversary_Date__c=value;  
+        } else if(fieldName==="gender"){
+            candidateObject.Gender__c=value;
         }
+        
         this.candidateObject = candidateObject;
            
         

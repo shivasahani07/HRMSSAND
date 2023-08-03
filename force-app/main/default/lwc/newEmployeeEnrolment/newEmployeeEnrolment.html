@@ -190,13 +190,15 @@
                             <lightning-formatted-number value={index}></lightning-formatted-number>.
                         </td>
                         <td>
-                            <select class="slds-select" id="select-02" value={item.Type__c} name="Type__c" onchange={handleChangeStatutory}>
-                                <option  value="Aadhar">Aadhar</option>
-                                <option  value="PAN">PAN</option>
-                                <option  value="UAN">UAN</option>
-                                <option  value="Driving Licence">Driving Licence</option>
-                                <option  value="Other">Other</option>
-=                        </select>
+                            <select class="slds-select" id="select-02"  value={item.Type__c} data-id={index} name="Type__c" onchange={handleChangeStatutory}>
+                                <option value=" "> -select-</option>
+                                <option  value="Aadhar">Aadhaar No</option>
+                                <option  value="PAN">PAN No</option>
+                                <option  value="UAN">UAN No</option>
+                                <option  value="ESIC">ESIC No</option>
+                                <option  value="PF">PF No</option>
+                                <option  value="FATHER">Father Name</option>
+                            </select>
                         </td>
                         <td>
                             <lightning-input type="text" variant="label-hidden" label="" data-id={index} name="Document_Number__c" value={item.Document_Number__c} onchange={handleChangeStatutory}></lightning-input>

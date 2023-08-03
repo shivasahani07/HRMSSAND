@@ -187,7 +187,7 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
 
     @track itemList = [{ id: 0 ,Company__c :"",Start_Year__c : "",End_Year__c : "",Title__c : ""  }];
     @track educationList=[{School_Institute__c:"",Start_Date__c:"",End_Date__c:"",Percentage__c:""}];
-    @track statutoryList=[{Type__c:"",Document_Number__c:""}];
+    @track statutoryList=[];
 
     
     handleInputChange(event) {
@@ -197,6 +197,7 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
         let value = event.target.value;
         for(let i = 0; i < this.itemList.length; i++) {
             if(this.itemList[i].id === parseInt(index)) {
+                
                 this.itemList[i][fieldName] = value;
             }
         }
@@ -274,13 +275,12 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
         let index = event.target.dataset.id;
         let fieldName = event.target.name;
         let value = event.target.value;
-        for(let i = 0; i < this.statutoryList.length; i++) {
-            if(this.statutoryList[i].id === parseInt(index)) {
-                delete this.statutoryList[i].id; 
+        for (let i = 0; i < this.statutoryList.length; i++) {
+            if (this.statutoryList[i].id=== parseInt(index)) {
+                //delete this.statutoryList[i].id; 
                 this.statutoryList[i][fieldName] = value;
             }
         }
-
     }
 
     removeRowStatutory(event){
@@ -301,9 +301,10 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
 
     addNewRowStatutory(){
         debugger;
-        ++this.keyIndex;
-        var newItem = [{ id: this.keyIndex }];
+        
+        var newItem = [{ id: this.keyIndex,  Type__c: null, Document_Number__c: null}];
         this.statutoryList = this.statutoryList.concat(newItem);
+        ++this.keyIndex;
         console.log(this.statutoryList);
     }
 
@@ -354,12 +355,44 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
 
     handleStatutoryDetails(){
         debugger;
-        let statutList= this.statutoryList;
-        var recId = this.conId;
+        let statutoryList = this.statutoryList;
+        let recId = this.conId;
+        let listOFvalue=[]
+        for (let i = 0; i < this.statutoryList.length; i++) {
+            let index = i; // The index of the current item in the statutoryList
+            let fieldName = 'Type__c'; // Assuming "Type__c" is the field name for the type selection
+            let value = this.statutoryList[i][fieldName];
+            listOFvalue.push(value)
+            if (value === 'Aadhar') {
+                // If the type is "Aadhar," validate the Document_Number__c field
+                if (!/^\d{12}$/.test(this.statutoryList[i].Document_Number__c)) {
+                    alert('Enter a Complete Aadhar Number');
+                    return; // Stop further processing if validation fails
+                }
+            }
 
-        updateStatutoeyDetails({statutories:statutList,conId:this.conId})
+            if( value != 'PAN'){
+                alert('Please Enter PAN details');
+                return;
+            }
+
+            if( value != 'FATHER'){
+                alert('Please Enter Father  Name');
+                return;
+            }
+
+
+        }
+
+        if(!['PAN'].includes(listOFvalue)){
+            // Perform validation for Aadhar, PAN, and Father types
+            alert('Aadhar, PAN, and Father are mandatory.');
+            return; // Stop further processing if validation fails
+        }
+
+        updateStatutoeyDetails({statutories:statutoryList,conId:this.conId})
         .then(result =>{
-            alert('statutories Details Update');
+            alert('statutories Details Update');    
             this.showStatutorySection = false;
              this.showDocCategories=true;
              this.frameURLSelf = 'https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?id='+this.conId;

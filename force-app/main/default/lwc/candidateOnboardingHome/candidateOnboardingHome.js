@@ -12,7 +12,7 @@ export default class CandidateOnboardingHome extends LightningElement {
     @track picklistValues;
 
     @api recordId;
-    @api hashCodeId='0030k00001QvcJSAAZ';
+    @api hashCodeId='1938463916781488686';
     isShowMyProfile=false;
     isShowDocUploader=false;
     // fullurlforDocPage=`https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?Id=`+recordId;

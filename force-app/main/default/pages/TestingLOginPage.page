@@ -126,7 +126,7 @@
         
         .login-form .login-image {
         flex: 1;
-        background: url('https://c4.wallpaperflare.com/wallpaper/611/838/413/spiderman-hd-4k-superheroes-wallpaper-preview.jpg') center center no-repeat;
+        background: url('https://img.freepik.com/premium-vector/recruitment-job-application-hiring-personnel-selection-candidates-employment-job-hunt-concept-illustration_270158-316.jpg?w=900') center center no-repeat;
         background-size: cover;
         min-height: 100vh;
         border-top-right-radius: 5px;
