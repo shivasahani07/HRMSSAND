@@ -90,6 +90,14 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     isDetailsdone=true;
     isFamilySection=false
     fields = [FirstName,LastName,Email,Birthdate,Office_State__c,LinkedIn_URL__c,job_Area__c,Phone];
+    
+    @track aadharNumber = '';
+    @track panNumber = '';
+    @track uanNumber = '';
+    @track fatherName = '';
+    @track pfNumber = '';
+    @track esiNumber = '';
+
 
     @track columns = [
         {  
@@ -271,18 +279,18 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
         this.itemList = itemList;
     }
 
-    handleChangeStatutory(event){
-        debugger;
-        let index = event.target.dataset.id;
-        let fieldName = event.target.name;
-        let value = event.target.value;
-        for (let i = 0; i < this.statutoryList.length; i++) {
-            if (this.statutoryList[i].id=== parseInt(index)) {
-                //delete this.statutoryList[i].id; 
-                this.statutoryList[i][fieldName] = value;
-            }
-        }
-    }
+    // handleChangeStatutory(event){
+    //     debugger;
+    //     let index = event.target.dataset.id;
+    //     let fieldName = event.target.name;
+    //     let value = event.target.value;
+    //     for (let i = 0; i < this.statutoryList.length; i++) {
+    //         if (this.statutoryList[i].id=== parseInt(index)) {
+    //             //delete this.statutoryList[i].id; 
+    //             this.statutoryList[i][fieldName] = value;
+    //         }
+    //     }
+    // }
 
     removeRowStatutory(event){
         debugger;
@@ -345,6 +353,10 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
        else{
         this.isShowFileUploaderLWC =!checkIsOpen;
        }
+    }
+
+    closefileupoaderModal(){
+        this.isShowFileUploaderLWC =false;
     }
     
     handleWorkExperience(){
@@ -852,6 +864,40 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
          //this.appView = true;
     }
 
+    handleChangeStatutory(event) {
+        debugger
+        const fieldName = event.target.dataset.field;
+        const fieldValue = event.target.value;
+
+        switch (fieldName) {
+            case 'aadharNumber':
+                this.aadharNumber = fieldValue;
+                this.statutoryList.Type__c=fieldValue
+                break;
+            case 'panNumber':
+                this.panNumber = fieldValue;
+                this.statutoryList.Type__c=fieldValue
+                break;
+            case 'uanNumber':
+                this.uanNumber = fieldValue;
+                this.statutoryList.Type__c=fieldValue
+                break;
+            case 'fatherName':
+                this.fatherName = fieldValue;
+                this.statutoryList.Type__c=fieldValue
+                break;
+            case 'pfNumber':
+                this.pfNumber = fieldValue;
+                this.statutoryList.Type__c=fieldValue
+                break;
+            case 'esiNumber':
+                this.esiNumber = fieldValue;
+                this.statutoryList.Type__c=fieldValue
+                break;
+            default:
+                break;
+        }
+    }
 
     
 }

@@ -79,7 +79,7 @@
                                     <div class="slds-modal__container">
                                         <!-- Modal/Popup Box LWC header here -->
                                         <header class="slds-modal__header">
-                                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closefileupoaderModal}>
                                                 <lightning-icon icon-name="utility:close"
                                                     alternative-text="close"
                                                     variant="inverse"
@@ -201,7 +201,36 @@
             </template>
                
             <div style = "border-style: solid;margin :1%;zoom: 115%;" > 
-                <table class="slds-table slds-table_bordered slds-no-row-hover slds-table_cell-buffer" role="grid">
+                <lightning-card title="Details Form">
+                    <div class="slds-p-around_medium slds-grid slds-wrap">
+                        <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                            <lightning-input label="Aadhar Number" type="text"  data-field="aadharNumber" value={aadharNumber}  onchange={handleChangeStatutory} pattern="[0-9]{12}" message-when-pattern-mismatch="Please enter a valid 12-digit Aadhaar number"></lightning-input>
+                        </div>
+
+                        <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                            <lightning-input label="PAN Number" type="text"  data-field="panNumber" value={panNumber}  onchange={handleChangeStatutory} pattern="[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}" message-when-pattern-mismatch="Please enter a valid PAN number"></lightning-input>
+                        </div>
+
+                        <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                            <lightning-input label="UAN Number" type="text" data-field="uanNumber" value={uanNumber}  onchange={handleChangeStatutory}></lightning-input>
+                        </div>
+
+                        <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                            <lightning-input label="Father's Name" type="text" data-field="fatherName" value={fatherName}  onchange={handleChangeStatutory}></lightning-input>
+                        </div>
+
+                        <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                            <lightning-input label="PF Number" type="text" data-field="pfNumber" value={pfNumber}  onchange={handleChangeStatutory}></lightning-input>
+                        </div>
+
+                        <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                            <lightning-input label="ESI Number" type="text"  data-field="esiNumber" value={esiNumber}  onchange={handleChangeStatutory}></lightning-input>
+                        </div>
+
+                    </div>
+                </lightning-card>
+
+                <!-- <table class="slds-table slds-table_bordered slds-no-row-hover slds-table_cell-buffer" role="grid">
                 <thead>
                 <tr>
                     <th scope="col" height="22" >Sr No.</th>
@@ -233,8 +262,8 @@
                     </tr>
                 </template>
                 </tbody>
-            </table>
-    
+            </table> -->
+            
             <div class="slds-p-left_small slds-p-vertical_small" style="margin: 1%;">
                 <lightning-button variant="neutral" label="add additional row" title="add additional row" icon-name="utility:add" onclick={addNewRowStatutory}></lightning-button>
                 <lightning-button variant="brand" label="Next" title="Primary action" onclick={handleStatutoryDetails} class="slds-float--right"></lightning-button>
