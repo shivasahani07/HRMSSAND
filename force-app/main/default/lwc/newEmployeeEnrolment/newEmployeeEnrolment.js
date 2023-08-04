@@ -381,23 +381,8 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
         debugger;
         let statutoryList = this.statutoryList;
         let recId = this.conId;
-        let listOFvalue=[]
-        for (let i = 0; i < this.statutoryList.length; i++) {
-            let index = i; // The index of the current item in the statutoryList
-            let fieldName = 'Type__c'; // Assuming "Type__c" is the field name for the type selection
-            let value = this.statutoryList[i][fieldName];
-            listOFvalue.push(value)
-            if (value === 'Aadhar') {
-                // If the type is "Aadhar," validate the Document_Number__c field
-                if (!/^\d{12}$/.test(this.statutoryList[i].Document_Number__c)) {
-                    alert('Enter a Complete Aadhar Number');
-                    return; // Stop further processing if validation fails
-                }
-            }
-
-        }
-
-        updateStatutoeyDetails({statutories:statutoryList,conId:this.conId})
+       
+        updateStatutoeyDetails({statutories:this.statutoryList,conId:this.conId})
         .then(result =>{
             alert('statutories Details Update');    
             this.showStatutorySection = false;
@@ -872,27 +857,27 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
         switch (fieldName) {
             case 'aadharNumber':
                 this.aadharNumber = fieldValue;
-                this.statutoryList.Type__c=fieldValue
+                this.statutoryList[0].Type__c=fieldValue
                 break;
             case 'panNumber':
                 this.panNumber = fieldValue;
-                this.statutoryList.Type__c=fieldValue
+                this.statutoryList[1].Type__c=fieldValue
                 break;
             case 'uanNumber':
                 this.uanNumber = fieldValue;
-                this.statutoryList.Type__c=fieldValue
+                this.statutoryList[2].Type__c=fieldValue
                 break;
             case 'fatherName':
                 this.fatherName = fieldValue;
-                this.statutoryList.Type__c=fieldValue
+                this.statutoryList[3].Type__c=fieldValue
                 break;
             case 'pfNumber':
                 this.pfNumber = fieldValue;
-                this.statutoryList.Type__c=fieldValue
+                this.statutoryList[4].Type__c=fieldValue
                 break;
             case 'esiNumber':
                 this.esiNumber = fieldValue;
-                this.statutoryList.Type__c=fieldValue
+                this.statutoryList[5].Type__c=fieldValue
                 break;
             default:
                 break;
