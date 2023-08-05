@@ -16,7 +16,7 @@ let y = 1.5; //weight of line width and dot.
 let canvasElement, ctx; //storing canvas context
 let dataURL,convertedDataURI; //holds image data
 export default class DynamicSignature extends LightningElement {
-    @api recordId='a260k000001HAg4AAG';
+    @api recordId='0030k00001QvcJSAAZ';
     @api ContentVersionData;
     @api contentVersionId;
     @track isSubmitted;

@@ -1,6 +1,8 @@
 import { LightningElement,api,track,wire } from 'lwc';
 import { loadScript } from "lightning/platformResourceLoader";
 import updaateEducation from '@salesforce/apex/CommunitiesLoginControllerLwc.updaateEducation';
+import CompleteCandiateData from '@salesforce/apex/CommunitiesLoginControllerLwc.CompleteCandiateData';
+
 import updateStatutoeyDetails from '@salesforce/apex/CommunitiesLoginControllerLwc.updateStatutoeyDetails';
 import { NavigationMixin } from 'lightning/navigation'; 
 import getAssignmentList from '@salesforce/apex/AssSelectionLwcHelper.getAssignmentList';
@@ -97,7 +99,7 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     @track fatherName = '';
     @track pfNumber = '';
     @track esiNumber = '';
-
+    parentObject={};
 
     @track columns = [
         {  
@@ -199,6 +201,49 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     @track statutoryList=[];
 
     
+    @wire (CompleteCandiateData,{candidateId: '$conId'})
+    wiredResult(result){
+        debugger;
+        if(result.data){
+            this.itemList=
+            this.parentObject = result.data;
+            this.itemList=[...this.parentObject.workExpList];
+            this.educationList=[...this.parentObject.edutionList];
+            // this.statutoryList=[...this.parentObject.statutoryList];
+            let tempStade= [...this.parentObject.statutoryList]
+            for(let i=0;  i < tempStade.length; i++){
+                if(tempStade[i].Type__c=='Aadhar'){
+                    this.aadharNumber=tempStade[i].Document_Number__c;
+                }
+                else if(tempStade[i].Type__c=="PAN"){
+                    this.panNumber=tempStade[i].Document_Number__c;
+                }
+                else if(tempStade[i].Type__c == "UAN") {
+                    this.uanNumber = tempStade[i].Document_Number__c;
+                }
+                else if(tempStade[i].Type__c== 'ESIC') {
+                    this.esiNumber = tempStade[i].Document_Number__c;
+                }
+                else if(tempStade[i].Type__c== 'PF'){
+                    this.pfNumber = tempStade[i].Document_Number__c;
+                } 
+                else if( tempStade[i].Type__c== 'FATHER'){
+                    this.fatherName = tempStade[i].Document_Number__c;
+                }
+            }
+           
+            //this.parentObject = { ...result.data };
+            console.log('result.data------->',result.data);
+
+            
+        }
+        if(result.error){
+            alert('Please check console for error');
+            //  window.location.href = loginPage;
+        }
+    } 
+
+
     handleInputChange(event) {
         debugger;
         let index = event.target.dataset.id;
@@ -213,6 +258,7 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     }
 
     educaionHandleChange(event){
+        debugger;
         let index = event.target.dataset.id;
         let fieldName = event.target.name;
         let value = event.target.value;
@@ -292,30 +338,30 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     //     }
     // }
 
-    removeRowStatutory(event){
-        debugger;
-        let toBeDeletedRowIndex = event.target.name;
-        let statutoryList = [];
-        for(let i = 0; i < this.statutoryList.length; i++) {
-            let tempRecord = Object.assign({}, this.statutoryList[i]); //cloning object
-            if(tempRecord.index !== toBeDeletedRowIndex) {
-                statutoryList.push(tempRecord);
-            }
-        }
-        for(let i = 0; i < statutoryList.length; i++) {
-            statutoryList[i].index = i + 1;
-        }
-        this.statutoryList = statutoryList;
-    }
+    // removeRowStatutory(event){
+    //     debugger;
+    //     let toBeDeletedRowIndex = event.target.name;
+    //     let statutoryList = [];
+    //     for(let i = 0; i < this.statutoryList.length; i++) {
+    //         let tempRecord = Object.assign({}, this.statutoryList[i]); //cloning object
+    //         if(tempRecord.index !== toBeDeletedRowIndex) {
+    //             statutoryList.push(tempRecord);
+    //         }
+    //     }
+    //     for(let i = 0; i < statutoryList.length; i++) {
+    //         statutoryList[i].index = i + 1;
+    //     }
+    //     this.statutoryList = statutoryList;
+    // }
 
-    addNewRowStatutory(){
-        debugger;
+    // addNewRowStatutory(){
+    //     debugger;
         
-        var newItem = [{ id: this.keyIndex,  Type__c: null, Document_Number__c: null}];
-        this.statutoryList = this.statutoryList.concat(newItem);
-        ++this.keyIndex;
-        console.log(this.statutoryList);
-    }
+    //     var newItem = [{ id: this.keyIndex,  Type__c: null, Document_Number__c: null}];
+    //     this.statutoryList = this.statutoryList.concat(newItem);
+    //     ++this.keyIndex;
+    //     console.log(this.statutoryList);
+    // }
 
     //its being called from child component in success messsage on save of personal details 
     showEducationSection(event){
@@ -384,7 +430,8 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
        
         updateStatutoeyDetails({statutories:this.statutoryList,conId:this.conId})
         .then(result =>{
-            alert('statutories Details Update');    
+            swal("🧑‍💻🧑‍💻", " statutories Details Update' ", "success");
+            // alert('statutories Details Update');    
             this.showStatutorySection = false;
              this.showDocCategories=true;
              this.frameURLSelf = 'https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?id='+this.conId;
@@ -829,7 +876,7 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
 			}
 			this.accList = tempOppList;
 			this.showDocCategories = false;
-			this.assView = true;
+			this.confirmation = true;
 		});
 	}
 	 
@@ -850,39 +897,58 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     }
 
     handleChangeStatutory(event) {
-        debugger
         const fieldName = event.target.dataset.field;
         const fieldValue = event.target.value;
-
+        let tempList = [];
+        let isTypeFound = false;
+    
         switch (fieldName) {
             case 'aadharNumber':
                 this.aadharNumber = fieldValue;
-                this.statutoryList[0].Type__c=fieldValue
+                tempList.push({ Type__c: 'Aadhar', Document_Number__c: fieldValue });
                 break;
             case 'panNumber':
                 this.panNumber = fieldValue;
-                this.statutoryList[1].Type__c=fieldValue
+                tempList.push({ Type__c: 'PAN', Document_Number__c: fieldValue });
                 break;
             case 'uanNumber':
                 this.uanNumber = fieldValue;
-                this.statutoryList[2].Type__c=fieldValue
+                tempList.push({ Type__c: 'UAN', Document_Number__c: fieldValue });
                 break;
             case 'fatherName':
                 this.fatherName = fieldValue;
-                this.statutoryList[3].Type__c=fieldValue
+                tempList.push({ Type__c: 'FATHER', Document_Number__c: fieldValue });
                 break;
             case 'pfNumber':
                 this.pfNumber = fieldValue;
-                this.statutoryList[4].Type__c=fieldValue
+                tempList.push({ Type__c: 'PF', Document_Number__c: fieldValue });
                 break;
             case 'esiNumber':
                 this.esiNumber = fieldValue;
-                this.statutoryList[5].Type__c=fieldValue
+                tempList.push({ Type__c: 'ESIC', Document_Number__c: fieldValue });
                 break;
             default:
                 break;
         }
+    
+        // Check if object with the same Type__c already exists
+        for (let i = 0; i < this.statutoryList.length; i++) {
+            if (this.statutoryList[i].Type__c === tempList[0].Type__c) {
+                // Replace the existing object with the new one
+                this.statutoryList[i] = tempList[0];
+                isTypeFound = true;
+                break;
+            }
+        }
+    
+        // If the object with the same Type__c doesn't exist, add the new object to the list
+        if (!isTypeFound) {
+            this.statutoryList = [...this.statutoryList, ...tempList];
+        }
+    
+        console.log('list of statutory list is ', this.statutoryList);
+        console.log(JSON.stringify(this.statutoryList));
     }
-
+    
     
 }

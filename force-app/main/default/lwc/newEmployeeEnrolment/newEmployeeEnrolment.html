@@ -110,7 +110,8 @@
                             <lightning-button-icon icon-name="utility:delete" alternative-text="Remove" title="Remove" name={index} onclick={eduremoveRow}></lightning-button-icon>
                         </td>
                         <td>
-                            <lightning-button-icon icon-name="utility:delete" alternative-text="File" title="File" name={index} onclick={uploadFilelwc}></lightning-button-icon>
+                            <lightning-icon icon-name='action:add_file' alternative-text='add_file' size='small' title='add_file' name={index} onclick={uploadFilelwc}></lightning-icon>
+                            <!-- <lightning-button-icon icon-name="utility:delete" alternative-text="File" title="File" name={index} onclick={uploadFilelwc}></lightning-button-icon> -->
                         </td>
                     </tr>
                 </template>
@@ -147,7 +148,7 @@
                     <th scope="col" height="22">Company</th>
                     <th scope="col" height="22">Start Year</th>
                     <th scope="col" height="22">End Year</th>
-                    <th scope="col" height="22">Title</th>
+                    <th scope="col" height="22">Designation</th>
                     <th scope="col" height="22" style="width: 3rem"></th>
                 </tr>
                 </thead>
@@ -192,6 +193,7 @@
         <template if:true={showStatutorySection}>
             <template if:true={showProgress}>
                 <lightning-progress-indicator current-step="4" type="path" variant="base">
+                    <lightning-progress-step label="Personal Details" value="1" ></lightning-progress-step>
                     <lightning-progress-step label="Education" value="2" ></lightning-progress-step>
                     <lightning-progress-step label="Work Experience" value="3" ></lightning-progress-step>
                     <lightning-progress-step label="Statutory Details" value="4" ></lightning-progress-step>
@@ -277,6 +279,7 @@
         <template if:true={showDocCategories}>
             <template if:true={showProgress}>
                 <lightning-progress-indicator current-step="5" type="path" variant="base">
+                    <lightning-progress-step label="Personal Details" value="1" ></lightning-progress-step>
                     <lightning-progress-step label="Education" value="2" ></lightning-progress-step>
                     <lightning-progress-step label="Work Experience" value="3" ></lightning-progress-step>
                     <lightning-progress-step label="Statutory Details" value="4" ></lightning-progress-step>
@@ -425,7 +428,8 @@
         <!-- Accepting Confirmation consent -->
         <template if:true={confirmation}>
             <template if:true={showProgress}>
-                <lightning-progress-indicator current-step="8" type="path" variant="base">
+                <lightning-progress-indicator current-step="6" type="path" variant="base">
+                    <lightning-progress-step label="Personal Details" value="1" ></lightning-progress-step>
                     <lightning-progress-step label="Education" value="2" ></lightning-progress-step>
                     <lightning-progress-step label="Work Experience" value="3" ></lightning-progress-step>
                     <lightning-progress-step label="Statutory Details" value="4" ></lightning-progress-step>
