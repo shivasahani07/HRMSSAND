@@ -21,7 +21,6 @@ export default class CandidateOnboardingHome extends LightningElement {
     @track logOutSuccess;
     candidateName;
 
-    
 
     @wire(CurrentPageReference)
     currentPageReference;

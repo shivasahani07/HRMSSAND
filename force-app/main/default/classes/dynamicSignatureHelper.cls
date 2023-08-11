@@ -6,10 +6,10 @@ public with sharing class dynamicSignatureHelper {
     @AuraEnabled
     public static String saveSignature(String ContentVersionData, Id recordId,Boolean isSubmitted){
 		system.debug('recordId'+recordId);
-        Application__c submitApplication = new Application__c();
-        submitApplication.Is_Submitted__c=isSubmitted;
-        submitApplication.ID=recordId;
-        update submitApplication;
+        //Application__c submitApplication = new Application__c();
+        //submitApplication.Is_Submitted__c=isSubmitted;
+        //submitApplication.ID=recordId;
+       // update submitApplication;
 
 			system.debug('recordId--------'+recordId);
         /*

@@ -116,4 +116,32 @@ global without sharing class CommunitiesLoginControllerLwc {
         public List<string> piclistValues {get; set;}
         
     }
+    
+    @AuraEnabled(cacheable=true)
+    Public static parentWrapper CompleteCandiateData(string candidateId){
+        List<Education_Details__c> education=[ SELECT id,Name,End_Date__c,Percentage__c,Persuing__c,School_Institute__c,Start_Date__c,Type__c FROM Education_Details__c where Candidate__c =:candidateId];
+        List<Work_Experience__c> works=[SELECT id,Working_Duration__c,Title__c,Start_Year__c,End_Year__c from Work_Experience__c WHERE Contact__c =:candidateId ];
+        List<Statutory_Details__c> stalist=[SELECT id,Candidate__c,Type__c,Is_verified__c,Document_Number__c from Statutory_Details__c where Candidate__c=:candidateId];
+        parentWrapper filldata = new parentWrapper();
+        filldata.edutionList=education;
+        filldata.workExpList=works;
+        filldata.statutoryList=stalist;
+        system.debug('filldata-------------->'+filldata);
+        return filldata;
+        
+    }
+    
+    Public class parentWrapper{
+        @AuraEnabled 
+        Public List<contact> conlist  {get; set;}
+        @AuraEnabled 
+       	Public List<Education_Details__c> edutionList {get; set;}
+        @AuraEnabled 
+        Public List<Work_Experience__c> workExpList {get; set;}
+        @AuraEnabled 
+        Public List<Statutory_Details__c> statutoryList {get; set;}
+
+	
+        
+    }
 }

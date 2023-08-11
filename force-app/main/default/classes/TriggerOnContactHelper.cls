@@ -3,9 +3,9 @@ public class TriggerOnContactHelper {
         
         List<Document_Template__c> TemplatesToBeInserted = new List<Document_Template__c>();
         List<String> DocTemplatesName = new List<String>();
-        DocTemplatesName.add('Resume');
-        DocTemplatesName.add('Cover Letter');
-        DocTemplatesName.add('References');
+        //DocTemplatesName.add('Resume');
+        //DocTemplatesName.add('Cover Letter');
+        //DocTemplatesName.add('References');
         DocTemplatesName.add('Academic');
         DocTemplatesName.add('Certifications and Licenses');
         DocTemplatesName.add('Identification Documents');
