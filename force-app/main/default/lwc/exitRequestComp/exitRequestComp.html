@@ -1,0 +1,43 @@
+<template>
+    <div class="globalmargin">
+            <h2 style="text-align:center;"><b>EMPLOYEE EXIT INTERVIEW</b></h2><br/><br/>
+
+            <div class="slds-grid slds-gutters">
+            <div class="slds-col">
+                <label><b>Resignation Date Date</b></label>
+                <lightning-input type="date" value={startDate} name="startDate" onchange={handleChange}></lightning-input>
+            </div>
+            <div class="slds-col">
+                <label><b>Last Working Date</b></label>
+                <lightning-input type="date" value={seperationDate} name="seperationDate" onchange={handleChange}></lightning-input>
+            </div>
+        </div><br/>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col">
+                <label><b>Email</b></label>
+                <lightning-input type="email" value={email} name="email" onchange={handleChange}></lightning-input>
+            </div>
+            <div class="slds-col">
+                <label><b>Mobile</b></label>
+                <lightning-input type="phone" value={mobile} name="phone" onchange={handleChange}></lightning-input>
+            </div>
+        </div><br/>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col">
+                <label><b>Reason For Leaving</b></label>
+                <lightning-textarea value={reason} name="reason" onchange={handleChange}></lightning-textarea>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+               <div class="slds-col">
+                   <label><b>What prompted you to seek another job?</b></label>
+                   <lightning-textarea value={seekAnotherJob} name="seekAnotherJob" onchange={handleChange}></lightning-textarea>
+                </div> 
+            </div>
+        <button class="slds-button slds-button_success nextButton" onclick={submitDetails}>Submit</button>
+    
+    </div>
+</template>

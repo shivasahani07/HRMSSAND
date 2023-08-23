@@ -26,6 +26,4 @@
         // lwcComponent.handleVFCall(message);
     // }
     </script>
-    
-
 </apex:page>
