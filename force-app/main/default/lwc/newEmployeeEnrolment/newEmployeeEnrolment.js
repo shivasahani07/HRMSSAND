@@ -91,6 +91,8 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     modalWithAssDocs = false;
     isDetailsdone=true;
     isFamilySection=false
+    selectedStep;
+    lastStep=1;
     fields = [FirstName,LastName,Email,Birthdate,Office_State__c,LinkedIn_URL__c,job_Area__c,Phone];
     
     @track aadharNumber = '';
@@ -370,6 +372,10 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
         this.areDetailsVisible = false;
         this.workExperienceReq = false;
         this.isEducationdetails=true;
+        if(!this.lastStep>=2){
+         this.lastStep=2;
+        }
+       
     }
 
     savdEducationDetails(){
@@ -412,7 +418,10 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
 
         insertWorkExperienceData({ WorkExperienceData:workExpData,conid:this.conId})
         .then(result => {
-
+            if(!this.lastStep>=3){
+                this.lastStep=3;
+            }
+           
             //swal("Congrats", "You Work Experience Have Been Updated Succesfully!!", "success");
           
          });
@@ -434,7 +443,12 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
             // alert('statutories Details Update');    
             this.showStatutorySection = false;
              this.showDocCategories=true;
-             this.frameURLSelf = 'https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?id='+this.conId;
+             this.frameURLSelf = 'https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?id=0030k00001R7oqcAAB';
+             console.log( this.frameURLSelf);
+             if(!this.lastStep>=4){
+                this.lastStep=4;
+             }
+            
         })
         .catch(error =>{
             alert('Error...');
@@ -877,6 +891,10 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
 			this.accList = tempOppList;
 			this.showDocCategories = false;
 			this.confirmation = true;
+            if(!this.lastStep>=5){
+                this.lastStep=5;
+            }
+           
 		});
 	}
 	 
@@ -897,6 +915,7 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     }
 
     handleChangeStatutory(event) {
+        debugger;
         const fieldName = event.target.dataset.field;
         const fieldValue = event.target.value;
         let tempList = [];
@@ -948,6 +967,61 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     
         console.log('list of statutory list is ', this.statutoryList);
         console.log(JSON.stringify(this.statutoryList));
+    }
+
+    selectStep(event){
+        debugger
+       this.selectedStep=event.target.value;
+       let choosenPath=this.selectedStep;
+        if(choosenPath==1){
+            this.areDetailsVisible=true;
+            this.isEducationdetails=false;
+            this.workExperienceReq=false;
+            this.showStatutorySection=false;
+            this.showDocCategories=false;
+            this.confirmation=false;
+
+        }else if (choosenPath==2 &&choosenPath<=3){
+            this.isEducationdetails=true;
+            this.areDetailsVisible=false;
+            this.workExperienceReq=false;
+            this.showStatutorySection=false;
+            this.showDocCategories=false;
+            this.confirmation=false;
+        } 
+        else if (choosenPath==3 &&choosenPath<=3){
+            this.workExperienceReq=true;
+            this.isEducationdetails=false;
+            this.areDetailsVisible=false;
+            this.showStatutorySection=false;
+            this.showDocCategories=false;
+            this.confirmation=false;
+        }
+        else if (choosenPath==4 &&choosenPath<=4){
+            this.showStatutorySection=true;
+            this.workExperienceReq=false;
+            this.isEducationdetails=false;
+            this.areDetailsVisible=false;
+            this.showDocCategories=false;
+            this.confirmation=false;
+        }
+        else if (choosenPath==5 && choosenPath<=5){
+            this.showDocCategories=true;
+            this.showStatutorySection=false;
+            this.workExperienceReq=false;
+            this.isEducationdetails=false;
+            this.areDetailsVisible=false;
+            this.confirmation=false;
+        }
+        else if (choosenPath==6 ){
+            this.confirmation=true;
+            this.showDocCategories=false;
+            this.showStatutorySection=false;
+            this.workExperienceReq=false;
+            this.isEducationdetails=false;
+            this.areDetailsVisible=false;
+        }
+        
     }
     
     
