@@ -45,6 +45,9 @@
                         <apex:outputPanel id="showstate">
                             
                             <button type="button" class="slds-button slds-button_success" onclick="loadComponents()">Upload File</button>
+                            <button type="button" class="slds-button slds-button_destructive" onclick="deleteDocs()">Delete</button>
+                            <button class="slds-button slds-button_neutral" onclick="refresh()">Refresh</button>
+
                             <br/><br/>
                             <iframe src="data:{!docWrapperInstance.contentType};base64,{!blobData}" style="width:85%;height:150%"></iframe>
                         </apex:outputPanel>
@@ -58,6 +61,7 @@
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
             <script>
             var parentid;
+            var selectedAttId;
             $(function () {
                 //Prinz custom
                 var oppId = '{!$CurrentPage.parameters.Id}';
@@ -109,6 +113,7 @@
                                 if(data.node.data.attachment == true) {
                                     debugger;
                                     updatePreview(data.selected);
+                                    selectedAttId=data.selected[0];
                                 }
                                 if(data.node.data.attachment == false) {
                                     debugger;
@@ -135,6 +140,7 @@
                 }
             });
             
+            
             </script>
             
             <apex:includeLightning />
@@ -150,6 +156,23 @@
                     },"compContainer",function(cmp) {});
                 });
             }
+            
+            function deleteDocs(){
+                debugger;
+                  alert('lol');
+                 DocumentTemplatesCandidateHelper.deleteDoc(selectedAttId, function(result,event){
+                    if(event.status){
+                        alert('Deleted..');
+                        location.reload();
+
+                    }
+                })
+                
+            }
+            
+            function refresh(){
+               window.location.reload();
+                }
             
             </script>
             

@@ -127,7 +127,7 @@ public without sharing class SelfAssForAppHelper {
                     WorkExperienceListToBeUpdated.add(work);
                 }
                 system.debug('WorkExperienceListToBeUpdated'+WorkExperienceListToBeUpdated); 
-                insert WorkExperienceListToBeUpdated;
+                upsert WorkExperienceListToBeUpdated;
                 system.debug('WorkExperienceListToBeUpdated'+WorkExperienceListToBeUpdated[0].Id); 
             }catch(exception e){
                 system.debug('error'+e.getMessage());    

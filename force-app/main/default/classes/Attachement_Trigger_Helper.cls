@@ -1,5 +1,5 @@
 public class Attachement_Trigger_Helper {
-    
+    /*
     public static void HandleAttachements(List<Attachment> AttList){
         Id parentID = AttList[0].parentId;
         map<String,String> docTempIdByJobReqId = new map<String,String>();
@@ -65,5 +65,5 @@ public class Attachement_Trigger_Helper {
         if(DocAttList.size() > 0){
             insert DocAttList;    
         }
-    }
+    }*/
 }

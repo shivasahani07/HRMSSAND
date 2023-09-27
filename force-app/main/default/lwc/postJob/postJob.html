@@ -1,0 +1,91 @@
+<template>
+    <lightning-card variant="Narrow" title="Select Partners" icon-name="standard:account">
+        <lightning-button label="Post Job" onclick={getAllSelectedRecord} variant="brand" slot="actions">
+        </lightning-button>
+        <div class="slds-p-horizontal_small">
+            <!-- loader -->
+            <div if:true={showSpinner}>
+                <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                </lightning-spinner>
+            </div>
+            <!-----/loader------>
+
+            <!-- datatable with checkbox -->
+            <div class="tableHeight slds-scrollable_y">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-no-row-hover">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate">
+                                    <lightning-input onchange={handleAllSelected} type="checkbox"
+                                        data-key="allCheckbox">
+                                    </lightning-input>
+                                </div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">Name</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">Type</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">Phone</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">Ratings</div>
+                            </th>
+                            <!-- <th class="" scope="col">
+                                <div class="slds-truncate" title="Preferred Channel">Single Select Checkbox</div>
+                            </th> -->
+                            <!-- <th class="" scope="col">
+                                <div class="slds-truncate" title="Radio Select">Radio
+                                    Select</div>
+                            </th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={data} for:item="obj">
+                            <tr key={obj.Id}>
+                                <th scope="col">
+                                    <div>
+                                        <lightning-input type="checkbox" value={obj.Name} data-id={obj.Id}
+                                            data-key="firstColumnCheckbox" onchange={handleCheckboxSelect}
+                                            name={obj.Id}>
+                                        </lightning-input>
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div>{obj.Name}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{obj.Type__c}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{obj.Number__c}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{obj.Ratings__c}</div>
+                                </th>
+                                <!-- <th scope="col">
+                                    <div>
+                                        <lightning-input type="checkbox" value={obj.Id} name={obj.Id}
+                                            data-check={obj.Id} data-key="singleSelectColumnCheckbox"
+                                            onchange={handleSingleCheckboxSelect}>
+                                        </lightning-input>
+                                    </div>
+                                </th> -->
+                                <!-- <th scope="col">
+                                    <div>
+                                        <lightning-input type="radio" value={obj.Id} data-id={obj.Id} name="radio"
+                                            data-name="radio" data-check={obj.Id}>
+                                        </lightning-input>
+                                    </div>
+                                </th> -->
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </lightning-card>
+</template>

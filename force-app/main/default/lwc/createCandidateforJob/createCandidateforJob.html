@@ -1,0 +1,652 @@
+<template>
+    <lightning-card variant="Narrow" title="Tag Candidates" icon-name="standard:work_type_group">
+        <!-- <lightning-button label="Post Job" onclick={getAllSelectedRecord} variant="brand" slot="actions">
+        </lightning-button> -->
+        <lightning-button label="List Candidate" onclick={showCreateContactForm} variant="brand" slot="actions">
+        </lightning-button>
+        <div class="slds-p-horizontal_small">
+            <!-- loader -->
+            <div if:true={showSpinner}>
+                <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                </lightning-spinner>
+            </div>
+            <!-----/loader------>
+
+            <!-- datatable with checkbox -->
+            <div class="tableHeight slds-scrollable_y">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-no-row-hover">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <!-- <th class="" scope="col">
+                                <div class="slds-truncate">
+                                    <lightning-input onchange={handleAllSelected} type="checkbox"
+                                        data-key="allCheckbox">
+                                    </lightning-input>
+                                </div>
+                            </th> -->
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">Name</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">End Date</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">Vaccancy</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">Designatin</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">CTC</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">Location</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">Details</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">Add Candidate</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">View Candidate</div>
+                            </th>
+                            <!-- <th class="" scope="col">
+                                <div class="slds-truncate" title="Preferred Channel">Single Select Checkbox</div>
+                            </th> -->
+                            <!-- <th class="" scope="col">
+                                <div class="slds-truncate" title="Radio Select">Radio
+                                    Select</div>
+                            </th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={data} for:item="obj">
+                            <tr key={obj.Id}>
+                                <!-- <th scope="col">
+                                    <div>
+                                        <lightning-input type="checkbox" value={obj.Name} data-id={obj.Id}
+                                            data-key="firstColumnCheckbox" onchange={handleCheckboxSelect}
+                                            name={obj.Id}>
+                                        </lightning-input>
+                                    </div>
+                                </th> -->
+                                <th scope="col">
+                                    <div>{obj.Name}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{obj.Mandate_End_Date__c}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{obj.Total_Candidates_Required__c}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{obj.Designation_Master__r}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{obj.Annual_CTC__c}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{obj.Location_Master__c}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>
+                                        <lightning-button-icon icon-name='utility:preview' value={obj.Id}
+                                            alternative-text='description' variant='inverse' size='large'
+                                            title='description' onclick={showJD}></lightning-button-icon>
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div>
+                                        <lightning-button-icon icon-name="utility:adduser" value={obj.Id}
+                                            alternative-text="Add user" class="slds-m-left_xx-small" title="Add user"
+                                            onclick={tagCandidate}></lightning-button-icon>
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div>
+                                        <lightning-button-icon icon-name="standard:contact_list" value={obj.Id}
+                                            alternative-text="Add user" class="slds-m-left_xx-small" title="Add user"
+                                            onclick={showCandidate}></lightning-button-icon>
+                                    </div>
+                                </th>
+                                <!-- <th scope="col">
+                                    <div>
+                                        <lightning-input type="checkbox" value={obj.Id} name={obj.Id}
+                                            data-check={obj.Id} data-key="singleSelectColumnCheckbox"
+                                            onchange={handleSingleCheckboxSelect}>
+                                        </lightning-input>
+                                    </div>
+                                </th> -->
+                                <!-- <th scope="col">
+                                    <div>
+                                        <lightning-input type="radio" value={obj.Id} data-id={obj.Id} name="radio"
+                                            data-name="radio" data-check={obj.Id}>
+                                        </lightning-input>
+                                    </div>
+                                </th> -->
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </lightning-card>
+    <template lwc:if={showJobDetails}>
+        <div class="slds-modal slds-fade-in-open slds-backdrop slds-modal_medium">  
+        <div class="slds-modal__container">  
+            <!------HEADER Section-->  
+            <div class="slds-modal__header">  
+            <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"  
+                variant="bare-inverse" onclick={closeshowJobDetails} class="slds-modal__close">  
+            </lightning-button-icon>  
+            <h2>Job Details</h2>  
+            </div>  
+            <!------Body Section-->  
+            <div class="slds-modal__content slds-p-around_medium">  
+            <center>  
+              <lightning-card variant="Narrow" title="Hello" icon-name="standard:account">
+            <div slot="footer">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="First Name" value={sigleJobRecord.Name} name="firstName"
+                            class="firstName" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Last Name" value={sigleJobRecord.Mandate_Start_Date__c}
+                            name="lastName" class="lastName" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Education" value={sigleJobRecord.Qualification__c}
+                            name="education" class="education" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Salary" value={sigleJobRecord.Salary__c} name="salary"
+                            class="salary" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="skillSet" value={sigleJobRecord.Skill_Set__c}
+                            name="skillSet" class="skillSet" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Status" value={sigleJobRecord.Status__c} name="Status__c"
+                            class="Status__c" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Total_Candidates Required"
+                            value={sigleJobRecord.Total_Candidates_Required__c} name="Total_Candidates_Required__c"
+                            class="Total_Candidates_Required__c" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Work Mode" value={sigleJobRecord.Work_Mode__c}
+                            name="Work_Mode__c" class="Work_Mode__c" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Location Master" value={sigleJobRecord.Location_Master__c}
+                            name="Location_Master__c" class="Location_Master__c" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Job Type" value={sigleJobRecord.Job_Type__c}
+                            name="Job_Type__c" class="Job_Type__c" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Experiance" value={sigleJobRecord.Experiance__c}
+                            name="Experiance__c" class="Experiance__c" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Employment Type" value={sigleJobRecord.Employment_Type__}
+                            name="Employment_Type__" class="Employment_Type__" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Designation Master"
+                            value={sigleJobRecord.Designation_Master__c} name="Designation_Master__c"
+                            class="Designation_Master__c" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Annual CTC" value={sigleJobRecord.Annual_CTC__c}
+                            name="Annual_CTC__c" class="Annual_CTC__c" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="Mandate End_Date" value={sigleJobRecord.Mandate_End_Date__c}
+                            name="Mandate_End_Date__c" class="Mandate_End_Date__c" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="First Name" value={sigleJobRecord.Mandate_End_Date__c}
+                            name="firstName" class="firstName" onchange={handleChangeValidation}
+                            disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-button-icon icon-name="action:description" alternative-text="View" title="Details"
+                            data-id={sigleJobRecord.Job_Desccription_Template__c}
+                            onclick={handle_Green_Text_Click}></lightning-button-icon>
+                    </div>
+                    <div class="slds-col slds-size_10   -of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <template if:true={showJobDESTemp}>
+                            <!-- Modal/Popup Box LWC starts here -->
+                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+                                <div class="slds-modal__container">
+                                    <!-- Modal/Popup Box LWC header here -->
+                                    <header class="slds-modal__header">
+                                        <button
+                                            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                            title="Close" onclick={closeModal}>
+                                            <lightning-icon icon-name="utility:close" alternative-text="close"
+                                                variant="inverse" size="small"></lightning-icon>
+                                            <span class="slds-assistive-text">Close</span>
+                                        </button>
+                                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                                            {currentJobTitle}</h2>
+                                    </header>
+                                    <!-- Modal/Popup Box LWC body starts here -->
+                                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                        <lightning-formatted-rich-text value={cureentJobDes}
+                                            format="align"></lightning-formatted-rich-text>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="slds-backdrop slds-backdrop_open"></div>
+                        </template>
+                    </div>
+
+                    <!-- this div will show tagged candidate related selectedJobReq -->
+
+
+                    <!-- <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="First Name" value={sigleJobRecord.Mandate_End_Date__c} name="firstName" class="firstName" onchange={handleChangeValidation}   disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="First Name" value={sigleJobRecord.Mandate_End_Date__c} name="firstName" class="firstName" onchange={handleChangeValidation}   disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="First Name" value={sigleJobRecord.Mandate_End_Date__c} name="firstName" class="firstName" onchange={handleChangeValidation}   disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="First Name" value={sigleJobRecord.Mandate_End_Date__c} name="firstName" class="firstName" onchange={handleChangeValidation}   disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="First Name" value={sigleJobRecord.Mandate_End_Date__c} name="firstName" class="firstName" onchange={handleChangeValidation}   disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="First Name" value={sigleJobRecord.Mandate_End_Date__c} name="firstName" class="firstName" onchange={handleChangeValidation}   disabled={isDisabledinput}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-horizontal--medium slds-m-bottom--medium">
+                        <lightning-Input type="text" label="First Name" value={sigleJobRecord.Mandate_End_Date__c} name="firstName" class="firstName" onchange={handleChangeValidation}   disabled={isDisabledinput}></lightning-input>
+                    </div> -->
+                </div>
+            </div>
+        </lightning-card>
+            </center>  
+            </div>  
+        </div>  
+        </div>  
+    </template>
+
+    <template if:true={showTagedcandidate}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header classgoo="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Tagged Candidate</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content">
+                    <lightning-card>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                            aria-labelledby="element-with-table-label other-element-with-table-label">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="First Name">First Name</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Last Name">Last Name</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Email">Email</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Email">Phone</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Email">Aadhar Number</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Stage">Delete</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={records} for:item="obj">
+                                    <tr class="inputRows" key={obj.Id}>
+                                        <th data-label="Opportunity Name" scope="row">
+                                            <lightning-input type="text" class="fields" variant="label-hidden"
+                                                label="First Name" name="FirstName" value={obj.FirstName}
+                                                data-id={obj.Id} onchange={updateValues}></lightning-input>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <lightning-input type="text" class="fields" variant="label-hidden"
+                                                label="Last Name" name="LastName" value={obj.LastName} data-id={obj.Id}
+                                                onchange={updateValues}></lightning-input>
+                                        </td>
+                                        <td data-label="Close Date">
+                                            <lightning-input type="text" class="fields" variant="label-hidden"
+                                                label="Email" name="Email" value={obj.Email} data-id={obj.Id}
+                                                onchange={updateValues}></lightning-input>
+                                        </td>
+                                        <td data-label="Close Date">
+                                            <lightning-input type="text" class="fields" variant="label-hidden"
+                                                label="Email" name="Phone" value={obj.Phone} data-id={obj.Id}
+                                                onchange={updateValues}></lightning-input>
+                                        </td>
+                                        <td data-label="Close Date">
+                                            <lightning-input type="text" class="fields" variant="label-hidden"
+                                                label="Email" name="Aadhar Number" value={obj.Aadhar__c}
+                                                data-id={obj.Id} onchange={updateValues}></lightning-input>
+                                        </td>
+                                        <td data-label="Prospecting">
+                                            <lightning-button-icon icon-name="action:delete" alternative-text="Delete"
+                                                title="Delete" data-id={obj.Id}
+                                                onclick={handleDeleteContact}></lightning-button-icon>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+
+                    </lightning-card>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={isShowCreateContactForm}>
+        <div class="slds-modal slds-fade-in-open slds-backdrop slds-modal_medium">
+            <div class="slds-modal__container">
+                <!------HEADER Section-->
+                <div class="slds-modal__header">
+                    <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"
+                        variant="bare-inverse" onclick={closeModal} class="slds-modal__close">
+                    </lightning-button-icon>
+                    <h2>Listed Candidates 🚹</h2>
+                </div>
+                <!------Body Section-->
+                <div class="slds-modal__content slds-p-around_medium">
+                    <center>
+                        <div>
+                            <!-- <template lwc:if={createCandidateSection}> -->
+                            <lightning-card>
+                                <lightning-button label="Add Row" slot="actions" icon-name="utility:add"
+                                    onclick={addRow}></lightning-button>
+                                <div class="slds-m-around_medium">
+                                    <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                                        <thead>
+                                            <tr class="slds-line-height_reset">
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="First Name">First Name</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Last Name">Last Name</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Email">Email</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Email">Phone</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Email">Aadhar Number</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Stage">Delete</div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <div class="slds-truncate" title="Stage">Resume</div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={partnerRelatedCandidate} for:item="obj" for:index="index">
+                                                <tr class="inputRows" key={obj.index}>
+                                                    <th data-label="Opportunity Name" scope="row">
+                                                        <lightning-input type="text" class="fields"
+                                                            variant="label-hidden" label="First Name" name="FirstName"
+                                                            value={obj.FirstName} data-id={obj.Id}
+                                                            onchange={updateValues}></lightning-input>
+                                                    </th>
+                                                    <td data-label="Account Name">
+                                                        <lightning-input type="text" class="fields"
+                                                            variant="label-hidden" label="Last Name" name="LastName"
+                                                            value={obj.LastName} data-id={obj.Id}
+                                                            onchange={updateValues}></lightning-input>
+                                                    </td>
+                                                    <td data-label="Close Date">
+                                                        <lightning-input type="text" class="fields"
+                                                            variant="label-hidden" label="Email" name="Email"
+                                                            value={obj.Email} data-id={obj.Id}
+                                                            onchange={updateValues}></lightning-input>
+                                                    </td>
+                                                    <td data-label="Close Date">
+                                                        <lightning-input type="text" class="fields"
+                                                            variant="label-hidden" label="Phone" name="Phone"
+                                                            value={obj.Phone} data-id={obj.Id}
+                                                            onchange={updateValues}></lightning-input>
+                                                    </td>
+                                                    <td data-label="Close Date">
+                                                        <lightning-input type="text" class="fields"
+                                                            variant="label-hidden" label="Aadhaar" name="AadharNumber"
+                                                            value={obj.Aadhar__c} data-id={obj.Id}
+                                                            onchange={updateValues}></lightning-input>
+                                                    </td>
+                                                    <td data-label="Prospecting">
+                                                        <lightning-button-icon icon-name="action:delete"
+                                                            alternative-text="Delete" title="Delete" data-id={obj.Id} data-ind={index}
+                                                            onclick={handleDeleteAction}></lightning-button-icon>
+                                                    </td>
+                                                    <template lwc:if={obj.Id}>
+                                                        <td data-label="Prospecting">
+                                                            <lightning-button-icon icon-name="doctype:gpres"
+                                                                alternative-text="Add Resume" title="Add Resume "
+                                                                data-id={obj.Id}
+                                                                onclick={uploadResume}></lightning-button-icon>
+                                                        </td>
+                                                    </template>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </lightning-card>
+                            <div slot="footer">
+                                <lightning-button variant="neutral" label="Cancel"
+                                    onclick={closeAction}></lightning-button> &nbsp;
+                                <lightning-button variant="brand" label="Save" onclick={handleSaveAction}
+                                    disabled={isDisable}></lightning-button>
+                            </div>
+                            <!-- </template> -->
+                        </div>
+                    </center>
+                </div>
+                <!------Footer Section-->
+                <!-- <div class="slds-modal__footer">
+                    <lightning-button icon-name="utility:close" label="close" variant="brand" onclick={closeModal}>
+                    </lightning-button>
+                </div> -->
+            </div>
+        </div>
+    </template>
+    
+    <!-- Upload Resume Under selected Candidate -->
+    <template lwc:if={isShowResumeUploaderComp}>
+        <div class="slds-modal slds-fade-in-open slds-backdrop">  
+       <div class="slds-modal__container">  
+         <!------HEADER Section-->  
+         <div class="slds-modal__header">  
+           <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"  
+             variant="bare-inverse" onclick={closeResumeUploader} class="slds-modal__close">  
+           </lightning-button-icon>  
+           <h2>Welcome To SalesforcePoint.com</h2>  
+         </div>  
+         <!------Body Section-->  
+         <div class="slds-modal__content">  
+           <center>  
+            <c-file-uploader-comp-lwc record-id={selectedCanidateId}></c-file-uploader-comp-lwc>
+           </center>  
+         </div>  
+       </div>  
+     </div>  
+    </template>
+
+    <!-- Tagging Candidate with req(create Application record) -->
+    <template lwc:if={isShowTaggingCandidateComp}>
+        <div class="slds-modal slds-fade-in-open slds-backdrop slds-modal_medium">  
+       <div class="slds-modal__container">  
+         <!------HEADER Section-->  
+         <div class="slds-modal__header">  
+           <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"  
+             variant="bare-inverse" onclick={closeShowTaggingCandidateComp} class="slds-modal__close">  
+           </lightning-button-icon>  
+           <h2>SELECT CANDIDATE TO TAG</h2>  
+         </div>  
+         <!------Body Section-->  
+         <div class="slds-modal__content">  
+           <center>  
+              <lightning-card>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <!-- <th class="" scope="col">
+                                <div class="slds-truncate">
+                                    <lightning-input onchange={handleAllSelected} type="checkbox"
+                                        data-key="allCheckbox">
+                                    </lightning-input>
+                                </div>
+                               </th> -->
+                               <th class="" scope="col">
+                                    <div class="slds-truncate" title="Select Candidate">Select </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="First Name">First Name</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Last Name">Last Name</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Email">Email</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Email">Phone</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Email">Aadhar Number</div>
+                                </th>
+                                <!-- <th class="" scope="col">
+                                    <div class="slds-truncate" title="Stage">Delete</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Stage">Resume</div>
+                                </th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={partnerRelatedCandidate} for:item="obj" for:index="index">
+                                <tr class="inputRows" key={obj.index}>
+                                    <th scope="col">
+                                    <div>
+                                        <lightning-input type="checkbox" value={obj.Name} data-id={obj.Id}
+                                            data-key="firstColumnCheckbox" onchange={selectCandidateCheckbox}
+                                            name={obj.Id}>
+                                        </lightning-input>
+                                    </div>
+                                    </th>
+                                    <th data-label="Opportunity Name" scope="row">
+                                        <lightning-input type="text" class="fields"
+                                            variant="label-hidden" label="First Name" name="FirstName"
+                                            value={obj.FirstName} data-id={obj.Id}
+                                            onchange={updateValues}></lightning-input>
+                                    </th>
+                                    <td data-label="Account Name">
+                                        <lightning-input type="text" class="fields"
+                                            variant="label-hidden" label="Last Name" name="LastName"
+                                            value={obj.LastName} data-id={obj.Id}
+                                            onchange={updateValues}></lightning-input>
+                                    </td>
+                                    <td data-label="Close Date">
+                                        <lightning-input type="text" class="fields"
+                                            variant="label-hidden" label="Email" name="Email"
+                                            value={obj.Email} data-id={obj.Id}
+                                            onchange={updateValues}></lightning-input>
+                                    </td>
+                                    <td data-label="Close Date">
+                                        <lightning-input type="text" class="fields"
+                                            variant="label-hidden" label="Email" name="Phone"
+                                            value={obj.Phone} data-id={obj.Id}
+                                            onchange={updateValues}></lightning-input>
+                                    </td>
+                                    <td data-label="Close Date">
+                                        <lightning-input type="text" class="fields"
+                                            variant="label-hidden" label="Email" name="Aadhar Number"
+                                            value={obj.Aadhar__c} data-id={obj.Id}
+                                            onchange={updateValues}></lightning-input>
+                                    </td>
+                                    <!-- <td data-label="Prospecting">
+                                        <lightning-button-icon icon-name="action:delete"
+                                            alternative-text="Delete" title="Delete" data-id={obj.Id} data-ind={index}
+                                            onclick={handleDeleteAction}></lightning-button-icon>
+                                    </td>
+                                    <template lwc:if={obj.Id}>
+                                        <td data-label="Prospecting">
+                                            <lightning-button-icon icon-name="doctype:gpres"
+                                                alternative-text="Add Resume" title="Add Resume "
+                                                data-id={obj.Id}
+                                                onclick={uploadResume}></lightning-button-icon>
+                                        </td>
+                                    </template> -->
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+            </lightning-card>
+            <!-- <div slot="footer">
+                <lightning-button variant="neutral" label="Cancel"
+                    onclick={closeAction}></lightning-button> &nbsp;
+                <lightning-button variant="brand" label="Save" onclick={handleSaveAction}
+                    disabled={isDisable}></lightning-button>
+            </div> -->
+           </center>  
+         </div>  
+         <!------Footer Section-->  
+         <div class="slds-modal__footer">  
+           <lightning-button icon-name="utility:" label="Save" variant="brand" onclick={createApplications}>  
+           </lightning-button>  
+         </div>  
+       </div>  
+     </div>  
+    </template>
+</template>

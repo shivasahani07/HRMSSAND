@@ -7,6 +7,7 @@
         <template if:true={areDetailsVisible}>
             <br/><br/>
                 record{recordId},
+                {frameURLSelf}
                 <template if:true={showProgress}>
                     <template if:true={showProgress}>
                         <lightning-progress-indicator current-step="1" type="path" variant="base">
@@ -14,7 +15,7 @@
                                 <lightning-progress-step label="Education" value="2"  onclick={selectStep}></lightning-progress-step>
                                 <lightning-progress-step label="Work Experience" value="3"  onclick={selectStep}></lightning-progress-step>
                                 <lightning-progress-step label="Statutory Details" value="4"  onclick={selectStep}></lightning-progress-step>
-                                <!-- <lightning-progress-step label="Upload Documents" value="5"  onclick={selectStep}></lightning-progress-step> -->
+                                <lightning-progress-step label="Upload Documents" value="5"  onclick={selectStep}></lightning-progress-step>
                                 <lightning-progress-step label="Terms & Conditions" value="6"  onclick={selectStep}></lightning-progress-step>
                         </lightning-progress-indicator>
                     </template>
@@ -136,7 +137,7 @@
                     <lightning-progress-step label="Education" value="2" onclick={selectStep}></lightning-progress-step>
                     <lightning-progress-step label="Work Experience" value="3" onclick={selectStep}></lightning-progress-step>
                     <lightning-progress-step label="Statutory Details" value="4" onclick={selectStep}></lightning-progress-step>
-                    <!-- <lightning-progress-step label="Upload Documents" value="5" onclick={selectStep}></lightning-progress-step> -->
+                    <lightning-progress-step label="Upload Documents" value="5" onclick={selectStep}></lightning-progress-step>
                     <lightning-progress-step label="Terms & Conditions" value="6" onclick={selectStep}></lightning-progress-step>
                 </lightning-progress-indicator>
             </template>
@@ -176,6 +177,43 @@
                         </td>
                     </tr>
                 </template>
+
+                <!-- <template for:each={itemList} for:item="item" for:index="index">
+                    <tr key={item.id} class="slds-hint-parent">
+                       
+                        <td>
+                            <lightning-input type="text" variant="label-hidden" label="" data-id={index} name="Company__c" value={item.Company__c} onchange={handleInputChange}></lightning-input>
+                            <span if:true={errormessages[item.id] && errormessages[item.id].companyerror} class="slds-text-color_error">
+                                {errorMessages[item.id].companyerror}
+                            </span>
+                        </td>
+                
+                        
+                        <td>
+                            <lightning-input type="date" variant="label-hidden" label="" data-id={index} name="Start_Year__c" value={item.Start_Year__c} onchange={handleInputChange}></lightning-input>
+                            <span if:true={errorMessages[item.id] && errorMessages[item.id].startyearerror} class="slds-text-color_error">
+                                {errorMessages[item.id].startyearerror}
+                            </span>
+                        </td>
+                
+                        <td>
+                            <lightning-input type="date" variant="label-hidden" label="" data-id={index} name="End_Year__c" value={item.End_Year__c} onchange={handleInputChange}></lightning-input>
+                            <span if:true={errorMessages[item.id] && errorMessages[item.id].endyearerror} class="slds-text-color_error">
+                                {errorMessages[item.id].endyearerror}
+                            </span>
+                        </td>
+                
+                     
+                        <td>
+                            <lightning-input type="text" variant="label-hidden" label="" data-id={index} name="Title__c" value={item.Title__c} onchange={handleInputChange}></lightning-input>
+                            <span if:true={errorMessages[item.id] && errorMessages[item.id].titleerror} class="slds-text-color_error">
+                                {errorMessages[item.id].titleerror}
+                            </span>
+                        </td>
+                
+                       
+                    </tr>
+                </template> -->
                 </tbody>
             </table>
     
@@ -198,7 +236,7 @@
                     <lightning-progress-step label="Education" value="2" onclick={selectStep}></lightning-progress-step>
                     <lightning-progress-step label="Work Experience" value="3" onclick={selectStep}></lightning-progress-step>
                     <lightning-progress-step label="Statutory Details" value="4" onclick={selectStep}></lightning-progress-step>
-                    <!-- <lightning-progress-step label="Upload Documents" value="5" onclick={selectStep}></lightning-progress-step> -->
+                    <lightning-progress-step label="Upload Documents" value="5" onclick={selectStep}></lightning-progress-step>
                     <lightning-progress-step label="Terms & Conditions" value="6" onclick={selectStep}></lightning-progress-step>
                 </lightning-progress-indicator>
             </template>
@@ -277,7 +315,7 @@
         </template>
 
         <!--Updating Documents-->
-        <!-- <template if:true={showDocCategories}>
+        <template if:true={showDocCategories}>
             <template if:true={showProgress}>
                 <lightning-progress-indicator current-step="5" type="path" variant="base">
                     <lightning-progress-step label="Personal Details" value="1" onclick={selectStep}></lightning-progress-step>
@@ -291,7 +329,7 @@
             
             <div style="margin-left: 6%;border-style: solid;margin :2%;">   
                <div style="border-style: solid;margin :1%"> 
-                <p>{frameURLSelf}</p>  
+                 
                 <iframe src={frameURLSelf} width="100%" height="700px;"> </iframe>
                 </div>
                 <div class="slds-p-left_small slds-p-vertical_small" style="margin: 2%;">
@@ -299,7 +337,7 @@
                 </div>
             </div>
         </template>
-     -->
+    
     
         <!--showing Spinner-->
         <template if:true={showSpinner}>
@@ -435,7 +473,7 @@
                     <lightning-progress-step label="Education" value="2" onclick={selectStep}></lightning-progress-step>
                     <lightning-progress-step label="Work Experience" value="3" onclick={selectStep}></lightning-progress-step>
                     <lightning-progress-step label="Statutory Details" value="4" onclick={selectStep}></lightning-progress-step>
-                    <!-- <lightning-progress-step label="Upload Documents" value="5" onclick={selectStep}></lightning-progress-step> -->
+                    <lightning-progress-step label="Upload Documents" value="5" onclick={selectStep}></lightning-progress-step>
                     <lightning-progress-step label="Terms & Conditions" value="6" onclick={selectStep}></lightning-progress-step>
                 </lightning-progress-indicator>
             </template>

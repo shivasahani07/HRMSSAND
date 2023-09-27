@@ -1,0 +1,108 @@
+<!--
+    Author : Esha Raaz
+    Description : product configuration page
+-->
+<apex:page controller="HRMSConfigurationController" standardStylesheets="false" lightningStylesheets="true" sidebar="false" applyBodyTag="false" docType="html-5.0">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <apex:slds />
+        <apex:form >
+            <apex:actionFunction name="redirectAF" action="{!redirectTo}" reRender="out">
+                <apex:param name="keyPrefix" assignTo="{!keyPrefix}" value="" />
+            </apex:actionFunction>
+        </apex:form>
+        <div class="slds-scope">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <div class="slds-card">
+                        <div class="slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title">
+                                        <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                            <span>USER CONFIGURATION</span>
+                                        </a>
+                                    </h2>
+                                </div>
+                            </header>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <ul class="slds-has-dividers_around slds-has-block-links_space">
+                                <apex:repeat value="{!creditConfigs}" var="config">
+                                    <li class="slds-item">
+                                        <!-- <span class="slds-icon_container slds-icon-standard-account" title="List Item">
+                                            <svg aria-hidden="true" class="slds-icon">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                            </svg>
+                                            <span class="slds-assistive-text">List Item</span>
+                                        </span> -->
+                                        
+                                        <a href="javascript:void(0);" onclick="redirectAF('{!config.Navigation_API__c}');">{!config.MasterLabel}</a>
+                                    </li>
+                                </apex:repeat>
+                            </ul>
+                            
+                        </div>
+                    </div>
+
+                </div>
+                <div class="slds-col">
+                    <div class="slds-card">
+                        <div class="slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title">
+                                        <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                            <span>PRODUCT CONFIGURATION</span>
+                                        </a>
+                                    </h2>
+                                </div>
+                            </header>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <ul class="slds-has-dividers_around slds-has-block-links_space">
+                                <apex:repeat value="{!productConfigs}" var="config">
+                                    <li class="slds-item">
+                                        <!-- <span class="slds-icon_container slds-icon-standard-account" title="List Item">
+                                            <svg aria-hidden="true" class="slds-icon">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                            </svg>
+                                            <span class="slds-assistive-text">List Item</span>
+                                        </span> -->
+                                        
+                                        <a href="javascript:void(0);" onclick="redirectAF('{!config.Navigation_API__c}');">{!config.MasterLabel}</a>
+                                    </li>
+                                </apex:repeat>
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-card">
+                        <div class="slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title">
+                                        <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                            <span>MISC</span>
+                                        </a>
+                                    </h2>
+                                </div>
+                            </header>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <ul class="slds-has-dividers_around slds-has-block-links_space">
+                                <apex:repeat value="{!miscConfigs}" var="config">
+                                    <li class="slds-item">
+                                        <a href="javascript:void(0);" onclick="redirectAF('{!config.Navigation_API__c}');">{!config.MasterLabel}</a>
+                                    </li>
+                                </apex:repeat>
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </html>
+</apex:page>

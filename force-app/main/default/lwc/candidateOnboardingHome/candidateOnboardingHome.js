@@ -15,16 +15,15 @@ export default class CandidateOnboardingHome extends LightningElement {
     @api hashCodeId='1938463916781488686';
     isShowMyProfile=false;
     isShowDocUploader=false;
-    // fullurlforDocPage=`https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?Id=`+recordId;
+    fullurlforDocPage;
     @track error;
     @track wireResponse;
     @track logOutSuccess;
     candidateName;
-
+    docUploaderPageUrl;
 
     @wire(CurrentPageReference)
     currentPageReference;
-
 
     @wire (getUserdata,{recordId: '$hashCodeId'})
     wiredResult(result){
@@ -39,6 +38,7 @@ export default class CandidateOnboardingHome extends LightningElement {
             console.log('this.recordId',this.recordId);
             console.log('this.conRecord',this.conRecord);
             console.log(' this.picklistValues',this.picklistValues);
+          this.fullurlforDocPage=`https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?Id=`+this.recordId;
         }
         if(result.error){
             alert('Please check console for error');

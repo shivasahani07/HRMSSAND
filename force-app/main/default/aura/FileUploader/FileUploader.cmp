@@ -2,7 +2,7 @@
     <!-- 'parentId' Aura Attribute for store the Id for Parent Record where we are attach our file -->  
     <aura:attribute name="parentId" type="String" />
     
-    <aura:attribute name="recordId" type="String" default="a00N000000QXVAZIA5"/>
+    <aura:attribute name="recordId" type="String" default=""/>
     <aura:attribute name="isPDF" type="Boolean" default="true"/>
     <aura:attribute name="operationType" type="String" />
     <aura:attribute name="optionList" type="String[]" />
@@ -29,9 +29,9 @@
                         
                         <div class="slds-modal__header">
                             <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModel}">
-                                
                                 <span class="slds-assistive-text">Close</span>
                             </button>
+                                <lightning:button variant="destructive-text" label="Close" title="Close" onclick="{! c.closeModel }" class="slds-float_right"/>
                             <h2 id="header99" class="slds-text-heading--medium">Add Files</h2>
                         </div>
                         <div class="slds-modal__content slds-p-around--medium">
@@ -61,9 +61,7 @@
                     </div>
                 </div>
                 <div class="slds-backdrop slds-backdrop--open"></div> 
-                
             </div>
-        
     </aura:if>
     
 </aura:component>

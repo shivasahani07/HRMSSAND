@@ -1,6 +1,4 @@
-global class DocumentTemplatesCandidateHelper {
-    
-    
+global without sharing class DocumentTemplatesCandidateHelper {
     public String blobData {
         get {
             try{
@@ -22,10 +20,10 @@ global class DocumentTemplatesCandidateHelper {
         if(String.isBlank(oppId))
             return null;
         Map<Id,DocumentTreeWrapper> uiWrapper = new Map<Id,DocumentTreeWrapper>();
-        List<Document_Template__c> docList=  [Select id,Name from Document_Template__c where Candidate__c =:oppId];
+        List<Document_Template__c> docList=  [Select id,Name from Document_Template__c where Lead__c =:oppId];
         String Obj = '';
         if(docList.size() > 0){
-            for(Document_Template__c appDoc : [SELECT Id, Name,(SELECT Id, Name FROM Documents_Attachments__r) FROM Document_Template__c WHERE Candidate__c =:oppId ORDER BY CreatedDate]) {
+            for(Document_Template__c appDoc : [SELECT Id, Name,(SELECT Id, Name FROM Documents_Attachments__r) FROM Document_Template__c WHERE Lead__c =:oppId ORDER BY CreatedDate]) {
                 //Handle First level cat Here
                 DocumentTreeWrapper appDocWrapper;
                 
@@ -69,6 +67,20 @@ global class DocumentTemplatesCandidateHelper {
         }
     }
     
+    @RemoteAction
+    global static void deleteDoc(string selectedAttId){
+        system.debug('attachId---'+selectedAttId);
+        //String appDocId = Apexpages.currentPage().getParameters().get('attachId');
+        system.debug('attachId---'+selectedAttId);
+        Documents_Attachment__c appDocAttach = new Documents_Attachment__c();
+        if(selectedAttId != null){
+            appDocAttach = [SELECT id,Name,Attachement_Id__c FROM Documents_Attachment__c WHERE id =: selectedAttId];
+            
+        }
+        delete appDocAttach;
+    }
+    
+    
     global class DocumentTreeWrapper {
         public String documentID;
         public String documentName;
@@ -84,4 +96,24 @@ global class DocumentTemplatesCandidateHelper {
         public String contentType{get;set;}
         public blob blobFile{get;set;}
     }
+    
+    
+    //THIS METHOD WILL BE USED TO CREATE DOCS CATEGORY UNDER LEADS
+    Public Static void createDocscategoryforLlead(List<lead> newLeads){
+        List<Document_Template__c> TemplatesToBeInserted = new List<Document_Template__c>();
+        List<LeadsDocCategory__mdt> LeadsDocCategoryList =[SELECT id,DocsLabel__c	FROM LeadsDocCategory__mdt];
+        for(lead ld:newLeads){
+            for(LeadsDocCategory__mdt  docName:LeadsDocCategoryList){
+                Document_Template__c dtRec = new Document_Template__c();
+                dtRec.Name = docName.DocsLabel__c;
+                dtRec.Lead__c = ld.Id;
+                TemplatesToBeInserted.add(dtRec); 
+            }
+        }
+        if(TemplatesToBeInserted.size() > 0){
+            insert TemplatesToBeInserted;
+        }
+    }
+    
+    
 }

@@ -1,0 +1,2 @@
+<apex:page standardStylesheets="false" showHeader="false" controller="testCTRL">
+</apex:page>

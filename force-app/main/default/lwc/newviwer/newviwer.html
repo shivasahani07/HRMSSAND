@@ -1,0 +1,26 @@
+<template>
+    <lightning-card title="Document Templates with Attachments">
+        <template if:true={documentTemplates}>
+            <lightning-datatable
+                key-field="Id"
+                data={documentTemplates}
+                columns={columns}
+                onrowaction={handleRowAction}>
+            </lightning-datatable>
+        </template>
+    </lightning-card>
+
+    <lightning-modal if:true={showModal} hide-close-button="true" onclose={closeModal}>
+        <div class="slds-p-around_medium">
+            <h2 class="slds-text-heading_medium">Attachments for {selectedTemplateName}</h2>
+            <template if:true={attachments}>
+                <template for:each={attachments} for:item="attachment">
+                    <p key={attachment.Id}>{attachment.Title}</p>
+                </template>
+            </template>
+            <template if:false={attachments}>
+                <p>No attachments found.</p>
+            </template>
+        </div>
+    </lightning-modal>
+</template>

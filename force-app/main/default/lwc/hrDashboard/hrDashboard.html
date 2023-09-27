@@ -1,0 +1,292 @@
+<template>
+    <template lwc:if={isShowJobsReqs}>
+    <lightning-card variant="Narrow" title="All Jobs" icon-name="standard:work_type_group">
+            <!-- <lightning-button label="Post Job" onclick={getAllSelectedRecord} variant="brand" slot="actions">
+            </lightning-button> -->
+            <!-- <lightning-button label="List Candidate" onclick={showCreateContactForm} variant="brand" slot="actions">
+            </lightning-button> -->
+            <div class="slds-p-horizontal_small">
+                <!-- loader -->
+                <div if:true={showSpinner}>
+                    <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                    </lightning-spinner>
+                </div>
+                <!-----/loader------>
+
+                <!-- datatable with checkbox -->
+                <div class="tableHeight slds-scrollable_y">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-no-row-hover">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <!-- <th class="" scope="col">
+                                    <div class="slds-truncate">
+                                        <lightning-input onchange={handleAllSelected} type="checkbox"
+                                            data-key="allCheckbox">
+                                        </lightning-input>
+                                    </div>
+                                </th> -->
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">Name</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">End Date</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">Designatin</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">CTC</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">Location</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">Vaccancy</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">Applications Recevied</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Name">View Application</div>
+                                </th>
+                                
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={data} for:item="obj">
+                                <tr key={obj.Id}>
+                                    <!-- <th scope="col">
+                                        <div>
+                                            <lightning-input type="checkbox" value={obj.Name} data-id={obj.Id}
+                                                data-key="firstColumnCheckbox" onchange={handleCheckboxSelect}
+                                                name={obj.Id}>
+                                            </lightning-input>
+                                        </div>
+                                    </th> -->
+                                    <th scope="col">
+                                        <div>{obj.Name}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div>{obj.Mandate_End_Date__c}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div>{obj.Designation_Master__r}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div>{obj.Annual_CTC__c}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div>{obj.Location_Master__c}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div>{obj.Total_Candidates_Required__c}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div>{obj.Total_Application_Recevied__c}</div>
+                                    </th>
+
+                                    <th scope="col">
+                                        <div>
+                                            <lightning-button-icon icon-name='utility:preview' value={obj.Id}
+                                                alternative-text='description' variant='inverse' size='large'
+                                                title='description' onclick={showCandidateDetails}></lightning-button-icon>
+                                        </div>
+                                    </th>
+                                    <!-- <th scope="col">
+                                        <div>
+                                            <lightning-button-icon icon-name='utility:preview' value={obj.Id}
+                                                alternative-text='description' variant='inverse' size='large'
+                                                title='description' onclick={showCandidateDetails}></lightning-button-icon>
+                                        </div>
+                                    </th>
+                                    <th scope="col">
+                                        <div>
+                                            <lightning-button-icon icon-name='utility:preview' value={obj.Id}
+                                                alternative-text='description' variant='inverse' size='large'
+                                                title='description' onclick={showCandidateDetails}></lightning-button-icon>
+                                        </div>
+                                    </th> -->
+                                    <!-- <th scope="col">
+                                        <div>
+                                            <lightning-button-icon icon-name='utility:preview' value={obj.Id}
+                                                alternative-text='description' variant='inverse' size='large'
+                                                title='description' onclick={showRelatedApplications}></lightning-button-icon>
+                                        </div>
+                                    </th> -->
+                                    <!-- <th scope="col">
+                                        <div>
+                                            <lightning-button-icon icon-name="utility:adduser" value={obj.Id}
+                                                alternative-text="Add user" class="slds-m-left_xx-small" title="Add user"
+                                                onclick={tagCandidate}></lightning-button-icon>
+                                        </div>
+                                    </th>
+                                    <th scope="col">
+                                        <div>
+                                            <lightning-button-icon icon-name="standard:contact_list" value={obj.Id}
+                                                alternative-text="Add user" class="slds-m-left_xx-small" title="Add user"
+                                                onclick={showCandidate}></lightning-button-icon>
+                                        </div>
+                                    </th> -->
+                                    <!-- <th scope="col">
+                                        <div>
+                                            <lightning-input type="checkbox" value={obj.Id} name={obj.Id}
+                                                data-check={obj.Id} data-key="singleSelectColumnCheckbox"
+                                                onchange={handleSingleCheckboxSelect}>
+                                            </lightning-input>
+                                        </div>
+                                    </th> -->
+                                    <!-- <th scope="col">
+                                        <div>
+                                            <lightning-input type="radio" value={obj.Id} data-id={obj.Id} name="radio"
+                                                data-name="radio" data-check={obj.Id}>
+                                            </lightning-input>
+                                        </div>
+                                    </th> -->
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </lightning-card>
+    </template>
+
+    <template lwc:if={isShowCandidateDetails}>
+        <lightning-card>
+            <lightning-icon icon-name='utility:back' alternative-text='back' size='small' title='back' onclick={backToJbReq} class="slds-m-bottom-small"></lightning-icon>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                                aria-labelledby="element-with-table-label other-element-with-table-label">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="First Name">First Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Last Name">Last Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Email">Email</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Email">Phone</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Email">Aadhar Number</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Stage">Resume</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Stage">Action</div>
+                                        </th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={candidates} for:item="obj">
+                                        <tr class="inputRows" key={obj.Id}>
+                                            <th data-label="Opportunity Name" scope="row">
+                                                <lightning-input type="text" class="fields" variant="label-hidden"
+                                                    label="First Name" name="FirstName" value={obj.FirstName}
+                                                    data-id={obj.Id} onchange={updateValues} disabled></lightning-input>
+                                            </th>
+                                            <td data-label="Account Name">
+                                                <lightning-input type="text" class="fields" variant="label-hidden"
+                                                    label="Last Name" name="LastName" value={obj.LastName} data-id={obj.Id}
+                                                    onchange={updateValues} disabled></lightning-input>
+                                            </td>
+                                            <td data-label="Close Date">
+                                                <lightning-input type="text" class="fields" variant="label-hidden"
+                                                    label="Email" name="Email" value={obj.Email} data-id={obj.Id}
+                                                    onchange={updateValues} disabled></lightning-input>
+                                            </td>
+                                            <td data-label="Close Date">
+                                                <lightning-input type="text" class="fields" variant="label-hidden"
+                                                    label="Email" name="Phone" value={obj.Phone} data-id={obj.Id}
+                                                    onchange={updateValues} disabled></lightning-input>
+                                            </td>
+                                            <td data-label="Close Date">
+                                                <lightning-input type="text" class="fields" variant="label-hidden"
+                                                    label="Email" name="Aadhar Number" value={obj.Aadhar__c}
+                                                    data-id={obj.Id} onchange={updateValues} disabled></lightning-input>
+                                            </td>
+                                            <td data-label="Prospecting">
+                                                <lightning-button-icon  alternative-text="View" icon-name='doctype:gdoc'
+                                                    title="View Resume" data-id={obj.Id}
+                                                    onclick={viewResume}></lightning-button-icon>
+                                            </td>
+                                            <td data-label="Prospecting">
+                                                <lightning-button variant="success" label="Accept" title="Accept" onclick={acceptCandidate} class="slds-m-left_x-small" data-id={obj.Id} name="accept"></lightning-button>
+                                            </td>
+                                            <td data-label="Prospecting">
+                                                <lightning-button variant="destructive" label="Reject" title="Reject" onclick={rejectCandidate} class="slds-m-left_x-small" data-id={obj.Id}  name="reject"></lightning-button>
+                                            </td>
+                                            <template lwc:if={obj.showHideInterviewbutton}>
+                                                <td data-label="Prospecting">
+                                                    <lightning-button variant="brand" label="schedule interview" title="Schedule interview" onclick={showisShowInterView} class="slds-m-left_x-small" data-id={obj.Id} name="book"></lightning-button>
+                                                </td>
+                                            </template>
+
+                                            <template lwc:else>
+                                                <td data-label="Prospecting">
+                                                    Rejeted
+                                                </td>
+                                            </template>
+                                        </tr>
+                                    </template>
+                                </tbody>
+            </table>       
+        </lightning-card>
+    </template>
+
+    <template lwc:if={isShowResume}>
+        <div class="slds-p-horizontal_small">
+                <div class="slds-modal slds-fade-in-open slds-backdrop">  
+                <div class="slds-modal__container">  
+                    <!------HEADER Section-->  
+                    <div class="slds-modal__header">  
+                    <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"  
+                        variant="bare-inverse" onclick={closeisShowResume} class="slds-modal__close">  
+                    </lightning-button-icon>  
+                    <h2>Submitted Applications</h2>  
+                    </div>  
+                    <!------Body Section-->  
+                    <div class="slds-modal__content slds-p-around_medium">  
+                    <center>  
+                        <c-file-viewer record-id={selectedContatcId}></c-file-viewer>
+                    </center>  
+                    </div>  
+                    
+                    </div>  
+                </div>  
+                </div>  
+        </div>
+    </template>
+
+    <template lwc:if={isShowInterView}>
+        <div>
+            <div class="slds-modal slds-fade-in-open slds-backdrop">  
+                <div class="slds-modal__container">  
+                    <!------HEADER Section-->  
+                    <div class="slds-modal__header">  
+                    <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"  
+                        variant="bare-inverse" onclick={closeisShowInterView} class="slds-modal__close">  
+                    </lightning-button-icon>
+                    <!-- <lightning-button variant="brand" label="Next Round" title="Next Round" onclick={handleClick} class="slds-m-left_x-small slds-float_right"></lightning-button> -->
+
+                    <h2>Schedule interview</h2>  
+                    </div>  
+                    <!------Body Section-->  
+                    <div class="slds-modal__content">  
+                    <center>  
+                        <c-schedule-interview con-id={selectedContatcId}></c-schedule-interview>
+                    </center>  
+                    </div>  
+                    
+                    </div>  
+                </div>  
+            </div>  
+        </div>
+    </template>
+</template>

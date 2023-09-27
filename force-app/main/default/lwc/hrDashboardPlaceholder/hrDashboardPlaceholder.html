@@ -1,0 +1,133 @@
+<template>
+    <header class="header">
+    </header>
+
+    <div style="width:15%;float:left">
+        <lightning-vertical-navigation selected-item={selectedItem} onselect={handleSelect} class="navigation">
+            <lightning-vertical-navigation-section label="Welome Hr Dashboard">
+                <lightning-vertical-navigation-item label="All Jons" name="AllJons">           
+                </lightning-vertical-navigation-item>
+                <lightning-vertical-navigation-item label="Screening" name="Screening"></lightning-vertical-navigation-item>
+                
+            </lightning-vertical-navigation-section>
+        </lightning-vertical-navigation>
+    </div>
+
+    <div style="width:85%;float:right">
+        <template lwc:if={isShowAlljobs}>
+            <lightning-card variant="Narrow" title="Post">
+                    <div class="slds-p-horizontal_small">
+                        <!-- loader -->
+                        <div if:true={showSpinner}>
+                            <lightning-spinner alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+                            </lightning-spinner>
+                        </div>
+                        <!-----/loader------>
+
+                        <!-- datatable with checkbox -->
+                        <div class="tableHeight slds-scrollable_y">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-no-row-hover">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <!-- <th class="" scope="col">
+                                            <div class="slds-truncate">
+                                                <lightning-input onchange={handleAllSelected} type="checkbox"
+                                                    data-key="allCheckbox">
+                                                </lightning-input>
+                                            </div>
+                                        </th> -->
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Name">Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Name">End Date</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Name">Designatin</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Name">CTC</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Name">Location</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Name">Vaccancy</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Name">Post Job</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={data} for:item="obj">
+                                        <tr key={obj.Id}>
+                                            <!-- <th scope="col">
+                                                <div>
+                                                    <lightning-input type="checkbox" value={obj.Name} data-id={obj.Id}
+                                                        data-key="firstColumnCheckbox" onchange={handleCheckboxSelect}
+                                                        name={obj.Id}>
+                                                    </lightning-input>
+                                                </div>
+                                            </th> -->
+                                            <th scope="col">
+                                                <div>{obj.Name}</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div>{obj.Mandate_End_Date__c}</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div>{obj.Designation_Master__r}</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div>{obj.Annual_CTC__c}</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div>{obj.Location_Master__c}</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div>{obj.Total_Candidates_Required__c}</div>
+                                            </th>
+
+                                            <th scope="col">
+                                                <div>
+                                                    <lightning-button-icon icon-name='utility:share_post' value={obj.Id}
+                                                        alternative-text='Post Job' size='large'
+                                                        title='description' onclick={postJob}></lightning-button-icon>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </lightning-card>
+        </template>
+
+        <template lwc:if={isShowHrDB}>
+            <c-hr-dashboard></c-hr-dashboard>
+        </template>
+        <template lwc:if={isPostJob}>
+            <div class="slds-p-horizontal_small slds-grid_align-center" >
+                <div class="slds-modal slds-fade-in-open slds-backdrop">  
+                <div class="slds-modal__container">  
+                    <!------HEADER Section-->  
+                    <div class="slds-modal__header">  
+                    <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"  
+                        variant="bare-inverse" onclick={closeisShowResume} class="slds-modal__close">  
+                    </lightning-button-icon>  
+                    </div>  
+                    <!------Body Section-->  
+                    <div class="slds-modal__content slds-p-around_medium">  
+                    <center>  
+                        <c-post-job record-id={selectedJobReq}></c-post-job>
+                    </center>  
+                    </div>  
+                    </div>  
+                </div>  
+                </div>  
+            </div>
+        </template>
+    </div>
+</template>

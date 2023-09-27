@@ -1,6 +1,6 @@
 public class JobRequestion_Trigger_Helper {
 
-    
+    /*
     public static void DocCategoriesMgt(List<Mandate__c> mandateList){
         
         List<Document_Template__c> TemplatesToBeInserted = new List<Document_Template__c>();
@@ -25,6 +25,6 @@ public class JobRequestion_Trigger_Helper {
         if(TemplatesToBeInserted.size() > 0){
             insert TemplatesToBeInserted;
         }
-    }
+    }*/
     
 }

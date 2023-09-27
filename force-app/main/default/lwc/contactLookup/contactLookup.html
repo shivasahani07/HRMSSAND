@@ -1,0 +1,46 @@
+<template>
+    <lightning-card title="Contact Lookup">
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="contactInput">Select a Contact</label>
+            <div class="slds-form-element__control">
+                <div class="slds-input-has-icon slds-input-has-icon_left-right">
+                    <input
+                        type="text"
+                        id="contactInput"
+                        class="slds-input"
+                        placeholder="Search for a Contact"
+                        value={selectedContactName}
+                        oninput={handleSearch}
+                    />
+                    <lightning-icon
+                        icon-name="utility:search"
+                        class="slds-input__icon slds-input__icon_right"
+                    ></lightning-icon>
+                </div>
+                <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                    <div class="slds-listbox slds-listbox_vertical">
+                        <ul class="slds-listbox__options" role="listbox">
+                            <template for:each={contacts} for:item="contact">
+                                <li
+                                    key={contact.Id}
+                                    class="slds-listbox__item"
+                                    role="presentation"
+                                    onclick={selectContact}
+                                >
+                                    <span class="slds-media slds-listbox__option slds-listbox__option_entity">
+                                        <span class="slds-media__figure">
+                                            <lightning-icon icon-name="standard:contact" size="small"></lightning-icon>
+                                        </span>
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text">{contact.Name}</span>
+                                        </span>
+                                    </span>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+</template>

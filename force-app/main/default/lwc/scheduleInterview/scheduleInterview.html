@@ -1,0 +1,143 @@
+<template>
+    <template lwc:if={isShowCurrentInterview}>
+    <lightning-card>
+         <h3 slot="title">
+            <lightning-button variant="brand" label="Add Round" title="Next Round" onclick={nextroundInterView} class="slds-m-left_x-small slds-float_right"></lightning-button>
+        </h3>
+        <template for:each={data} for:item="obj">
+         <div class="slds-p-horizontal_small" key={obj.Id} value={obj.Name}>
+            <lightning-badge label={obj.Round__c}  key={obj.Id} value={obj.Round__c}> </lightning-badge>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_8-of-12">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-input type="datetime" label="interview time" value={obj.Start_Date_Time__c}></lightning-input>
+                    </div>
+                 </div>
+                 <div class="slds-col slds-size_4-of-12">
+                    <div class="slds-p-around_medium lgc-bg"  style="margin-top:1.1rem;">
+                        <lightning-input type="time" label="End time" value={obj.End_Date_Time__c}></lightning-input>
+                    </div>
+                 </div>
+                 <div class="slds-col slds-size_4-of-12" style="margin-top">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <span>Type</span>
+                       <select class="slds-select" lable="Type" value={obj.Type__c}>
+                           <option value={obj.Type__c}>{obj.Type__c}</option>
+                            <option value="HR">	HR</option>
+                            <option value="Technical">Technical</option>
+                            <option value="Introductions">Introductions</option>
+                        </select>
+                    </div>
+                 </div>
+                 <div class="slds-col slds-size_4-of-12">
+                    <div class="slds-p-around_medium lgc-bg">
+                          <span>Round</span>
+                        <select class="slds-select" lable="Round" value={obj.Round__c}>
+                            <option value={obj.Round__c}>{obj.Round__c}</option>
+                            <option value="First">First</option>
+                            <option value="Second">Second</option>
+                            <option value="Final">Final</option>
+                        </select>
+                    </div>
+                 </div>
+                 <div class="slds-col slds-size_4-of-12">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <span>interviewer</span>
+                        <select class="slds-select" lable="Interviewer">
+                            <option value="First">Dinesh</option>
+                            <option value="Second">Sandeep</option>
+                            <option value="Final">Mukesh</option>
+                        </select>
+                    </div>
+                 </div>
+                 <div class="slds-col slds-size_2-of-12">
+                    <div class="slds-p-around_medium lgc-bg slds-m-top_x-large">
+                        <lightning-input type="checkbox" label="Online" name="input1" checked={checkboxVal}  onchange={handleTodoChange}></lightning-input>
+                    </div>
+                 </div>
+                 <template lwc:if={isShowMeeting}>
+                 <div class="slds-col slds-size_8-of-12">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-input type="text" label="Meeting_Link" value={obj.Meeting_Link__c}></lightning-input>
+                    </div>
+                 </div>
+                 </template>
+            </div>
+        </div>
+        </template>
+        <div slot="footer">
+            <lightning-button variant="brand" label="Save" title="Save" onclick={saveIntRecord} class="slds-m-left_x-small"></lightning-button>
+        </div>
+        <!-- <div class=">
+            <lightning-button variant="brand" label="Save" title="Save" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+        </div> -->
+    </lightning-card>
+    </template>
+
+    <template lwc:if={isShowNextInterview}>
+        <lightning-card >
+            <h3 slot="title">
+                <lightning-button variant="brand" label="Back" title="Back" onclick={backroundInterView} class="slds-m-left_x-small slds-float_left"></lightning-button>
+            </h3>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_8-of-12">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-input type="datetime" label="interview time"></lightning-input>
+                    </div>
+                 </div>
+                 <div class="slds-col slds-size_4-of-12">
+                    <div class="slds-p-around_medium lgc-bg" style="margin-top:1.1rem;">
+                        <lightning-input type="time" label="End time"></lightning-input>
+                    </div>
+                 </div>
+                 <div class="slds-col slds-size_4-of-12" style="margin-top">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <span>Type</span>
+                       <select class="slds-select" lable="Type">
+                            <option value="HR">	HR</option>
+                            <option value="Technical">Technical</option>
+                            <option value="Introductions">Introductions</option>
+                        </select>
+                    </div>
+                 </div>
+                 <div class="slds-col slds-size_4-of-12">
+                    <div class="slds-p-around_medium lgc-bg">
+                          <span>Round</span>
+                        <select class="slds-select" lable="Round">
+                            <option value="First">	First</option>
+                            <option value="Second">Second</option>
+                            <option value="Final">Final</option>
+                        </select>
+                    </div>
+                 </div>
+                 <div class="slds-col slds-size_4-of-12">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <span>interviewer</span>
+                        <select class="slds-select" lable="Interviewer">
+                            <option value="First">Dinesh</option>
+                            <option value="Second">Sandeep</option>
+                            <option value="Final">Mukesh</option>
+                        </select>
+                    </div>
+                 </div>
+                 <div class="slds-col slds-size_2-of-12">
+                    <div class="slds-p-around_medium lgc-bg slds-m-top_x-large">
+                        <lightning-input type="checkbox" label="Online" name="input1" checked={checkboxVal}  onchange={handleTodoChange}></lightning-input>
+                    </div>
+                 </div>
+                 <template lwc:if={isShowMeeting}>
+                 <div class="slds-col slds-size_8-of-12">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-input type="text" label="Meeting_Link"></lightning-input>
+                    </div>
+                 </div>
+                 </template>
+                
+            </div>
+
+             <div slot="footer">
+                <lightning-button variant="brand" label="Save" title="Save" onclick={saveIntRecord} class="slds-m-left_x-small"></lightning-button>
+            </div>
+        </lightning-card>
+    </template>
+</template>

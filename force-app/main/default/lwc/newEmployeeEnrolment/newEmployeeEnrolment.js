@@ -93,6 +93,7 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
     isFamilySection=false
     selectedStep;
     lastStep=1;
+    @track errorMessages = {};
     fields = [FirstName,LastName,Email,Birthdate,Office_State__c,LinkedIn_URL__c,job_Area__c,Phone];
     
     @track aadharNumber = '';
@@ -253,11 +254,46 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
         let value = event.target.value;
         for(let i = 0; i < this.itemList.length; i++) {
             if(this.itemList[i].id === parseInt(index)) {
-                
+                if(this.itemList[i].Start_Year__c>this.itemList[i].End_Year__c){
+                   alert('Please check years',i);
+                }
                 this.itemList[i][fieldName] = value;
             }
         }
     }
+
+    // handleInputChange(event) {
+    //     let index = event.target.dataset.id;
+    //     let fieldName = event.target.name;
+    //     let value = event.target.value;
+
+    //     // Ensure that errorMessages is initialized as an object
+    //     this.errorMessages = this.errorMessages || {};
+
+    //     for (let i = 0; i < this.itemList.length; i++) {
+    //         if (this.itemList[i].id === parseInt(index)) {
+    //             // Validation logic based on fieldName
+    //             let fieldError = '';
+
+    //             if (fieldName === 'Start_Year__c' && this.itemList[i].End_Year__c && value > this.itemList[i].End_Year__c) {
+    //                 fieldError = "Start year cannot be greater than end year";
+    //             }
+    //             if (fieldName === 'End_Year__c' && this.itemList[i].Start_Year__c && value < this.itemList[i].Start_Year__c) {
+    //                 fieldError = "End year cannot be less than start year";
+    //             }
+    //             // Add more validation logic for other fields
+
+    //             // Update the errorMessages track variable
+    //             this.errorMessages = {
+    //                 ...this.errorMessages,
+    //                 [index]: { ...this.errorMessages[index], [`${fieldName}Error`]: fieldError }
+    //             };
+
+    //             // Update the field value
+    //             this.itemList[i][fieldName] = value;
+    //         }
+    //     }
+    // }
 
     educaionHandleChange(event){
         debugger;
@@ -382,6 +418,8 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
         debugger;
         let educations=this.educationList;
         var recId=this.conId;
+        for(let i=0; i=educations.length; i++ ){
+        }
         updaateEducation({updateEducationdetailslist:educations,conId:this.conId})
         .then(result =>{
             alert('Education Details Update');
@@ -442,8 +480,9 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
             swal("🧑‍💻🧑‍💻", " statutories Details Update' ", "success");
             // alert('statutories Details Update');    
             this.showStatutorySection = false;
-             this.showDocCategories=true;
-             this.frameURLSelf = 'https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?id=0030k00001R7oqcAAB';
+            this.showDocCategories=true;
+            this.frameURLSelf = 'https://sales-production--hrmsdemo--c.sandbox.vf.force.com/apex/DocumentTemplatesCandidate?id='+this.recordId;
+
              console.log( this.frameURLSelf);
              if(!this.lastStep>=4){
                 this.lastStep=4;
@@ -594,7 +633,7 @@ export default class NewEmployeeEnrolment extends NavigationMixin(LightningEleme
         this.isModalDocsViewOpen = true;
     }
 
-    
+ 
     
   openfileUploadApp(event){
     debugger;

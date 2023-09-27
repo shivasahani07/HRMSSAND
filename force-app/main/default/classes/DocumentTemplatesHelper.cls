@@ -1,5 +1,5 @@
 global class DocumentTemplatesHelper {
-    
+    /*
     public String blobData {
         get {
             try{
@@ -84,6 +84,6 @@ global class DocumentTemplatesHelper {
         public String contentType{get;set;}
         public blob blobFile{get;set;}
     }
-    
+  */  
     
 }
